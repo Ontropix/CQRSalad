@@ -1,8 +1,5 @@
 ﻿using Kutcha.Core;
 using Kutcha.InMemory;
-using Platform.Configuration;
-using Platform.Domain;
-using Platform.MongoDb;
 using StructureMap;
 
 namespace Samples.Configuration.Configurators

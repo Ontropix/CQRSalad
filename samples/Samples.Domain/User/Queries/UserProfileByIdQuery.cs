@@ -1,7 +1,6 @@
-﻿using Platform.Domain;
-using Samples.Domain.User.Data;
+﻿using Samples.Domain.User.Data;
 
-namespace Samples.Domain.User.Queries
+namespace Samples.Domain.Interface.User
 {
     public class UserProfileByIdQuery : IQuery<UserProfile>
     {

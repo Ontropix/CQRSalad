@@ -1,7 +1,4 @@
 using System.Reflection;
-using Platform.Dispatching;
-using Platform.Dispatching.Async;
-using Platform.EventSourcing;
 using Samples.Configuration.Structuremap;
 using Samples.Domain.Events;
 using Samples.Domain.Events.User;

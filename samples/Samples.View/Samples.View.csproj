@@ -53,26 +53,6 @@
       <Project>{166F6EB2-5143-43DE-B578-1F0E31A596D5}</Project>
       <Name>Kutcha.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Platform.Configuration\Platform.Configuration.csproj">
-      <Project>{5E4B99FE-A292-4C91-A5DC-C278A3AEFFCE}</Project>
-      <Name>Platform.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.Dispatching\Platform.Dispatching.csproj">
-      <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
-      <Name>Platform.Dispatching</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.Domain.Extended\Platform.Domain.Extended.csproj">
-      <Project>{ECD7E856-DB79-4409-A7FE-C16A1D447C65}</Project>
-      <Name>Platform.Domain.Extended</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>Platform.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.EventStore.Core\Platform.EventStore.Core.csproj">
-      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
-      <Name>Platform.EventStore.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Events.csproj">
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
       <Name>Samples.Domain.Events</Name>

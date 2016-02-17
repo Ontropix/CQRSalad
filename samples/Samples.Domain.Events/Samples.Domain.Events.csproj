@@ -51,18 +51,6 @@
     <Compile Include="WorkflowServices\UserWorkflowService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>Platform.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.EventSourcing\Platform.EventSourcing.csproj">
-      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
-      <Name>Platform.EventSourcing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.EventStore.Core\Platform.EventStore.Core.csproj">
-      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
-      <Name>Platform.EventStore.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
       <Project>{CC173585-7515-40BA-B6C1-142EA635E864}</Project>
       <Name>Samples.Domain.Interface</Name>

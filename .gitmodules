@@ -1,3 +1,9 @@
 [submodule "src/mongodb-driver"]
 	path = src/mongodb-driver
 	url = git@github.com:mongodb/mongo-csharp-driver.git
+[submodule "samples/Kutcha/kutcha"]
+	path = samples/Kutcha/kutcha
+	url = git@github.com:Ontropix/Kutcha.git
+[submodule "submodules/kutcha"]
+	path = submodules/kutcha
+	url = git@github.com:Ontropix/Kutcha.git

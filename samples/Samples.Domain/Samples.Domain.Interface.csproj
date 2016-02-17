@@ -52,16 +52,6 @@
     <Compile Include="User\Queries\UserProfileByIdQuery.cs" />
     <Compile Include="_namespace.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>Platform.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.EventSourcing\Platform.EventSourcing.csproj">
-      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
-      <Name>Platform.EventSourcing</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

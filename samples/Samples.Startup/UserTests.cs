@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
-using Platform.Domain;
 using Samples.Domain.Interface.User;
-using Samples.Domain.User.Commands;
 using Samples.Domain.User.Data;
 using Samples.Domain.User.Queries;
 using StructureMap;

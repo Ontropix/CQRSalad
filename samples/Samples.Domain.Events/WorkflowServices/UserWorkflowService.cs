@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Platform.Domain;
-using Platform.EventSourcing;
 using Samples.Domain.Events.User.Events;
-using Samples.Domain.User.Commands;
+using Samples.Domain.Interface.User;
 
 namespace Samples.Domain.Events.WorkflowServices
 {

@@ -36,16 +36,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap.Net4, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap.Net4, Version=4.0.1.318, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.4.0.1.318\lib\net40\StructureMap.Net4.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -67,26 +67,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Platform.Configuration\Platform.Configuration.csproj">
-      <Project>{5E4B99FE-A292-4C91-A5DC-C278A3AEFFCE}</Project>
-      <Name>Platform.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.Dispatching\Platform.Dispatching.csproj">
-      <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
-      <Name>Platform.Dispatching</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>Platform.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.EventSourcing\Platform.EventSourcing.csproj">
-      <Project>{099a8dea-f66f-4584-978d-6c1c0ce78360}</Project>
-      <Name>Platform.EventSourcing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Platform.EventStore.Core\Platform.EventStore.Core.csproj">
-      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
-      <Name>Platform.EventStore.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samples.Configuration\Samples.Configuration.csproj">
       <Project>{C0FF84F8-8267-49BE-A3CF-76F9F0FE20E8}</Project>
       <Name>Samples.Configuration</Name>

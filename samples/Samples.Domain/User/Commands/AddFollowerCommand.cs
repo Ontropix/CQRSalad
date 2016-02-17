@@ -1,6 +1,4 @@
-﻿using Platform.EventSourcing;
-
-namespace Samples.Domain.User.Commands
+﻿namespace Samples.Domain.Interface.User
 {
     public sealed class AddFollowerCommand
     {

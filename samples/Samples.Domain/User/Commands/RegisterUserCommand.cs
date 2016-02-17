@@ -1,6 +1,4 @@
-﻿using Platform.EventSourcing;
-
-namespace Samples.Domain.Interface.User
+﻿namespace Samples.Domain.Interface.User
 {
     public class RegisterUserCommand
     {

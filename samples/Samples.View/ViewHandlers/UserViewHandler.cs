@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Kutcha.Core;
-using Platform.Domain.Extended.Handlers;
 using Samples.Domain.Events.User.Events;
 using Samples.View.Views;
 

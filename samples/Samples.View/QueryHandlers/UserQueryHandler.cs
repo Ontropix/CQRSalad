@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Kutcha.Core;
 using Kutcha.Core.Extensions;
-using Platform.Domain.Extended.Handlers;
+using Samples.Domain.Interface.User;
 using Samples.Domain.User.Data;
 using Samples.Domain.User.Queries;
 using Samples.View.Views;

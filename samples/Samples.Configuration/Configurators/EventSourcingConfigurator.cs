@@ -1,9 +1,4 @@
-﻿using Platform.Configuration;
-using Platform.EventSourcing;
-using Platform.EventStore.Core;
-using Platform.EventStore.MongoDB;
-using Platform.MongoDb;
-using StructureMap;
+﻿using StructureMap;
 
 namespace Samples.Configuration.Configurators
 {

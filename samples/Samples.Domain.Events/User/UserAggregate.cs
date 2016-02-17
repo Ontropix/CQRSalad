@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Platform.EventSourcing;
-using Platform.EventStore.Core;
 using Samples.Domain.Events.User.Events;
 using Samples.Domain.Interface.User;
-using Samples.Domain.User.Commands;
 
 namespace Samples.Domain.Events.User
 {
