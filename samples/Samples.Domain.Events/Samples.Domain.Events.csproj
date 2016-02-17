@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samples.Domain.Events</RootNamespace>
+    <AssemblyName>Samples.Domain.Events</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Event.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\Events\FollowerAddedEvent.cs" />
+    <Compile Include="User\Events\UserFollowedEvent.cs" />
+    <Compile Include="User\Events\UserRegisteredEvent.cs" />
+    <Compile Include="User\UserAggregate.cs" />
+    <Compile Include="User\UserState.cs" />
+    <Compile Include="WorkflowServices\UserWorkflowService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj">
+      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
+      <Name>Platform.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.EventSourcing\Platform.EventSourcing.csproj">
+      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
+      <Name>Platform.EventSourcing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.EventStore.Core\Platform.EventStore.Core.csproj">
+      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
+      <Name>Platform.EventStore.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
+      <Project>{CC173585-7515-40BA-B6C1-142EA635E864}</Project>
+      <Name>Samples.Domain.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

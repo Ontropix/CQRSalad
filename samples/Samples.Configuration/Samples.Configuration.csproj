@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0FF84F8-8267-49BE-A3CF-76F9F0FE20E8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samples.Configuration</RootNamespace>
+    <AssemblyName>Samples.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MongoDB.Bson, Version=2.0.1.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.0.1\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.0.1.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.0.1\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.0.1.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.0.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurators\DispatcherConfigurator.cs" />
+    <Compile Include="Configurators\EventSourcingConfigurator.cs" />
+    <Compile Include="Configurators\TransportConfigurator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structuremap\StructureMapServiceProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kutcha\Kutcha.Core\Kutcha.Core.csproj">
+      <Project>{166F6EB2-5143-43DE-B578-1F0E31A596D5}</Project>
+      <Name>Kutcha.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kutcha\Kutcha.InMemory\Kutcha.InMemory.csproj">
+      <Project>{95E9561C-EC23-4E45-9DC2-786C7BD6C5F7}</Project>
+      <Name>Kutcha.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kutcha\Kutcha.MongoDb\Kutcha.MongoDb.csproj">
+      <Project>{F5720451-37E3-45B7-80B0-CA876707943A}</Project>
+      <Name>Kutcha.MongoDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Configuration\Platform.Configuration.csproj">
+      <Project>{5E4B99FE-A292-4C91-A5DC-C278A3AEFFCE}</Project>
+      <Name>Platform.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Dispatching\Platform.Dispatching.csproj">
+      <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
+      <Name>Platform.Dispatching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Domain.Extended\Platform.Domain.Extended.csproj">
+      <Project>{ECD7E856-DB79-4409-A7FE-C16A1D447C65}</Project>
+      <Name>Platform.Domain.Extended</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj">
+      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
+      <Name>Platform.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.EventSourcing\Platform.EventSourcing.csproj">
+      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
+      <Name>Platform.EventSourcing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.EventStore.Core\Platform.EventStore.Core.csproj">
+      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
+      <Name>Platform.EventStore.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.EventStore.MongoDB\Platform.EventStore.MongoDB.csproj">
+      <Project>{F24D5BAB-A017-45A1-BE36-DE182689AD24}</Project>
+      <Name>Platform.EventStore.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform.MongoDb\Platform.MongoDb.csproj">
+      <Project>{32C46722-F8DD-483E-9EE9-85721F058294}</Project>
+      <Name>Platform.MongoDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Events.csproj">
+      <Project>{e340ae40-b7b1-4de4-8341-b318abba6c97}</Project>
+      <Name>Samples.Domain.Events</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
+      <Project>{cc173585-7515-40ba-b6c1-142ea635e864}</Project>
+      <Name>Samples.Domain.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.View\Samples.View.csproj">
+      <Project>{C3D87860-A5A5-44B8-BFBF-4D43CC515A5A}</Project>
+      <Name>Samples.View</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

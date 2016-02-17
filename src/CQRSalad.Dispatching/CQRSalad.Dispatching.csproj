@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CQRSalad.Dispatching</RootNamespace>
+    <AssemblyName>CQRSalad.Dispatching</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\LinkedFiles\Argument.cs">
+      <Link>LinkedFiles\Argument.cs</Link>
+    </Compile>
+    <Compile Include="..\LinkedFiles\AsyncHelper.cs">
+      <Link>LinkedFiles\AsyncHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\LinkedFiles\Maybe.cs">
+      <Link>LinkedFiles\Maybe.cs</Link>
+    </Compile>
+    <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
+      <Link>LinkedFiles\SyntaxSugar.cs</Link>
+    </Compile>
+    <Compile Include="Async\AsyncHandlersRegistry.cs" />
+    <Compile Include="Async\AsyncDispatcherContext.cs" />
+    <Compile Include="Async\AsyncMessageDispatcher.cs" />
+    <Compile Include="Async\DomainMessage.cs" />
+    <Compile Include="Async\MessageMetadata.cs" />
+    <Compile Include="DispatcherConfiguration.cs" />
+    <Compile Include="DispatcherContext.cs" />
+    <Compile Include="DispatcherFactory.cs" />
+    <Compile Include="Extensions\ScanningRuleExtensions.cs" />
+    <Compile Include="Extensions\ServiceProviderExtensions.cs" />
+    <Compile Include="HandlersRegistry.cs" />
+    <Compile Include="Exceptions\AmbiguousHandlingException.cs" />
+    <Compile Include="Exceptions\DispatcherConfigurationException.cs" />
+    <Compile Include="Exceptions\DispatchingException.cs" />
+    <Compile Include="Exceptions\HandlerNotFoundException.cs" />
+    <Compile Include="Exceptions\ServiceProviderException.cs" />
+    <Compile Include="Extensions\DispatcherConfigurationExtenstion.cs" />
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Interfaces\IDispatcherContext.cs" />
+    <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
+    <Compile Include="Interfaces\IContextInterceptor.cs" />
+    <Compile Include="Interfaces\IDispatcherHandler.cs" />
+    <Compile Include="Interfaces\IDispatcherLogsManager.cs" />
+    <Compile Include="MessageDispatcher.cs" />
+    <Compile Include="Payload\MessageSubscription.cs" />
+    <Compile Include="Payload\PropertyInfoCache.cs" />
+    <Compile Include="Payload\ScanningRule.cs" />
+    <Compile Include="Priority\ExecutionPriority.cs" />
+    <Compile Include="Priority\ExecutionPriorityAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

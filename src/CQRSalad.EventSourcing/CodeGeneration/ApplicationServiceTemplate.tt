@@ -1,0 +1,41 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ parameter name="AggregateType" type="System.Type" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.EventStore.Core.dll" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.Domain.dll" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.EventSourcing.dll" #>
+<#@ import namespace="System.Reflection" #><#@ import namespace="System.Collections.Generic" #><#@ import namespace="System.Linq" #><#@ output extension=".cs" #><#@ import namespace="CQRSalad.EventSourcing" #><#@ import namespace="CQRSalad.Domain" #>
+<#
+List<Type> messageTypes = AggregateType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+									   .Where(method => method.IsPublic && method.GetParameters().Length == 1 &&
+														!method.IsAbstract && !method.ContainsGenericParameters &&
+				                                        !method.IsConstructor && !method.IsGenericMethod &&
+														!method.IsStatic)
+									   .Select(method => method.GetParameters()[0].ParameterType)
+									  // .Where(parameter => typeof(ICommand).IsAssignableFrom(parameter))
+									   .ToList();
+
+string aggregateName = AggregateType.FullName;
+string serviceName = AggregateType.Name.Replace("Aggregate", "") + "ApplicationService";
+string serviceNamespace = AggregateType.Namespace;
+#>
+using System.Threading.Tasks;
+using CQRSalad.EventSourcing;
+using CQRSalad.EventStore.Core;
+
+namespace <#= serviceNamespace #>
+{
+	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>, CQRSalad.Dispatching.IDispatcherHandler
+	{
+		public <#= serviceName #>(IAggregateRepository<<#= aggregateName #>> aggregateRepository, IEventBus eventBus)
+				: base(aggregateRepository, eventBus)
+		{
+		}
+		<#foreach(Type messageType in messageTypes) { #>
+	
+		public async Task Handle(DomainCommand<<#= messageType.FullName #>> command)
+		{
+			await Execute(command);
+		}<# } #>
+	}
+}
