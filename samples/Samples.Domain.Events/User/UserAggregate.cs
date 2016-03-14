@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Samples.Domain.Events.User.Events;
+﻿using CQRSalad.EventSourcing;
 using Samples.Domain.Interface.User;
 
 namespace Samples.Domain.Events.User
@@ -8,9 +6,8 @@ namespace Samples.Domain.Events.User
     public class UserAggregate : AggregateRoot<UserState>
     {
         [AggregateCtor]
-        public void When(RegisterUserCommand command)
+        public void When(CreateUserCommand command)
         {
-            ProduceEvent(command.MapTo<UserRegisteredEvent>());
         }
         
         public void When(FollowUserCommand command)

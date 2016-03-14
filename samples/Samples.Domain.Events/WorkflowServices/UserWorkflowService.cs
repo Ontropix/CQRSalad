@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 using Samples.Domain.Events.User.Events;
 using Samples.Domain.Interface.User;
 

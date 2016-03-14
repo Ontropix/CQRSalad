@@ -1,6 +1,4 @@
-﻿using Samples.Domain.User.Data;
-
-namespace Samples.Domain.Events.User.Events
+﻿namespace Samples.Domain.Events.User.Events
 {
     public class UserRegisteredEvent : Event
     {

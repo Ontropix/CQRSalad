@@ -1,4 +1,7 @@
 using System.Reflection;
+using CQRSalad.Dispatching;
+using CQRSalad.Dispatching.Async;
+using CQRSalad.EventSourcing;
 using Samples.Configuration.Structuremap;
 using Samples.Domain.Events;
 using Samples.Domain.Events.User;

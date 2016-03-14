@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Samples.Domain.User.Data;
 
 namespace Samples.View.Views
 {

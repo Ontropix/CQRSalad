@@ -2,10 +2,11 @@
 
 namespace Samples.Domain.Interface.User
 {
-    public sealed class AddFollowerCommand
+    public class CreateUserCommand
     {
         [AggregateId]
         public string UserId { get; set; }
-        public string FollowerUserId { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
     }
 }

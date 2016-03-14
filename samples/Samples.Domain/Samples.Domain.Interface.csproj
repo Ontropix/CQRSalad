@@ -44,15 +44,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\Commands\AddFollowerCommand.cs" />
     <Compile Include="User\Commands\FollowUserCommand.cs" />
-    <Compile Include="User\Commands\RegisterUserCommand.cs" />
+    <Compile Include="User\Commands\CreateUserCommand.cs" />
     <Compile Include="User\Data\UserProfile.cs" />
-    <Compile Include="User\Data\UserSummary.cs" />
-    <Compile Include="User\Queries\UserFollowersQuery.cs" />
-    <Compile Include="User\Queries\UserFollowingsQuery.cs" />
+    <Compile Include="User\Queries\UserFollowersCountQuery.cs" />
+    <Compile Include="User\Queries\UserFollowingsCountQuery.cs" />
     <Compile Include="User\Queries\UserProfileByIdQuery.cs" />
     <Compile Include="_namespace.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CQRSalad.Domain\CQRSalad.Domain.csproj">
+      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
+      <Name>CQRSalad.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
+      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
+      <Name>CQRSalad.EventSourcing</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
