@@ -9,26 +9,30 @@ namespace CQRSalad.EventSourcing
     {
         internal string Id { get; set; }
         internal int Version { get; set; }
-        internal List<IEvent> Changes { get; }
+        internal List<object> Changes { get; }
         internal virtual bool HasState => false;
 
         protected AggregateRoot()
         {
-            Changes = new List<IEvent>();
+            Changes = new List<object>();
         }
 
-        internal virtual void Reel(List<IEvent> events)
+        internal virtual void Reel(List<object> events)
         {
             Argument.ElementsNotNull(events);
             Version += events.Count;
         }
 
-        protected virtual void ProduceEvent(IEvent evnt)
+        protected virtual void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
             Changes.Add(evnt);
             Version++;
+        }
+
+        internal void ProcessCommand<TCommand>(TCommand command)
+        {
         }
     }
 
@@ -43,7 +47,7 @@ namespace CQRSalad.EventSourcing
             State = new TState();
         }
 
-        internal sealed override void Reel(List<IEvent> events)
+        internal sealed override void Reel(List<object> events)
         {
             base.Reel(events);
             foreach (var @event in events)
@@ -52,7 +56,7 @@ namespace CQRSalad.EventSourcing
             }
         }
 
-        protected sealed override void ProduceEvent(IEvent evnt)
+        protected sealed override void ProduceEvent<TEvent>(TEvent evnt)
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
@@ -64,19 +68,11 @@ namespace CQRSalad.EventSourcing
         {
             throw new InvalidAggregateStateException(errorMessage);
         }
-
-        protected void ProduceError(string errorMessage, Func<TState, bool> condition)
-        {
-            if (condition.Invoke(State))
-            {
-                ProduceError(errorMessage);
-            }
-        }
-
-        private void ApplyEventOnState(IEvent evnt)
+        
+        private void ApplyEventOnState(object evnt)
         {
             MethodInfo action = FindStateMethod(evnt);
-            action?.Invoke(State, new object[] { evnt });
+            action?.Invoke(State, new [] { evnt });
         }
 
         private MethodInfo FindStateMethod(object evnt)

@@ -8,11 +8,17 @@ namespace CQRSalad.EventSourcing
 {
     public static class EventExtensions
     {
-        public static IEvent InjectFromCommand<TCommand>(this IEvent evnt, TCommand command)
+        public static TEvent InjectFromCommand<TEvent, TCommand>(this TEvent evnt, TCommand command)
         {
             ValueInjecter.Inject<CommandToEventConvention>(target: evnt, source: command);
             return evnt;
         }
+
+        //public static IEvent InjectFromCommand<TCommand>(this IEvent evnt, TCommand command)
+        //{
+        //    ValueInjecter.Inject<CommandToEventConvention>(target: evnt, source: command);
+        //    return evnt;
+        //}
 
         //public static void Validate(this IEvent evnt)
         //{
@@ -37,7 +43,7 @@ namespace CQRSalad.EventSourcing
 
     public static class EventStreamExtensions
     {
-        public static List<IEvent> GetBodies(this List<DomainEvent> stream)
+        public static List<object> GetBodies(this List<DomainEvent> stream)
         {
             return stream.Select(x => x.Body).ToList();
         }

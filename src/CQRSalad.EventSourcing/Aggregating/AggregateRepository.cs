@@ -50,7 +50,7 @@ namespace CQRSalad.EventSourcing
                 AggregateRoot = GetType().AssemblyQualifiedName,
                 Meta = new MessageMetadata
                 {
-                    //SenderId = Command.Meta.SenderId,
+                   // SenderId = Command.Meta.SenderId,
                     Timestamp = currentTime
                 }
             }).ToList();

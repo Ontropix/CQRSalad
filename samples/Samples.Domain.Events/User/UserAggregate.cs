@@ -8,18 +8,27 @@ namespace Samples.Domain.Events.User
         [AggregateCtor]
         public void When(CreateUserCommand command)
         {
+            ProduceEvent(command.MapTo<UserCreatedEvent>());
         }
         
         public void When(FollowUserCommand command)
         {
-            //ProduceError("User is already in following list.", state => state.Following.Contains(command.UserId));
-            //ProduceEvent(command.MapTo<UserFollowedEvent>());
+            if (State.Following.Contains(command.FollowingUserId))
+            {
+                ProduceError("User is already followed.");
+            }
+
+            ProduceEvent(command.MapTo<UserFollowedEvent>());
         }
 
         public void When(AddFollowerCommand command)
         {
-           // ProduceError("User is already in followers list.", state => state.Followers.Contains(command.UserId));
-            //ProduceEvent(command.MapTo<FollowerAddedEvent>());
+            if (State.Followers.Contains(command.FollowerUserId))
+            {
+                ProduceError("User is already in followers list.");
+            }
+
+            ProduceEvent(command.MapTo<FollowerAddedEvent>());
         }
     }
 }

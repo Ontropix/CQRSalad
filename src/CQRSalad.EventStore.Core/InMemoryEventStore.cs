@@ -10,19 +10,19 @@ namespace CQRSalad.EventStore.Core
         private readonly Dictionary<string, List<DomainEvent>> _streams = new Dictionary<string, List<DomainEvent>>();
         private static readonly List<DomainEvent> EmptyList = new List<DomainEvent>();
 
-        public async Task<List<DomainEvent>> GetStreamAsync(string streamId)
+        public async Task<List<DomainEvent>> GetStreamAsync(string aggregateId)
         {
-            Argument.IsNotNull(streamId, nameof(streamId));
-            return await Task.FromResult(SafePick(streamId)); //todo everywhere
+            Argument.IsNotNull(aggregateId, nameof(aggregateId));
+            return await Task.FromResult(SafePick(aggregateId)); //todo everywhere
         }
 
-        public async Task<List<DomainEvent>> GetStreamPartAsync(string streamId, int fromVersion, int toVersion = -1)
+        public async Task<List<DomainEvent>> GetStreamPartAsync(string aggregateId, int fromVersion, int toVersion = -1)
         {
-            Argument.IsNotNull(streamId, nameof(streamId));
+            Argument.IsNotNull(aggregateId, nameof(aggregateId));
             Argument.NotNegative(fromVersion, nameof(fromVersion));
 
-            int takeCount = toVersion > 0 ? toVersion : _streams[streamId].Count;
-            List<DomainEvent> streamPart = _streams[streamId].Skip(fromVersion - 1).Take(takeCount).ToList();
+            int takeCount = toVersion > 0 ? toVersion : _streams[aggregateId].Count;
+            List<DomainEvent> streamPart = _streams[aggregateId].Skip(fromVersion - 1).Take(takeCount).ToList();
             return await Task.FromResult(streamPart);
         }
 
@@ -49,9 +49,9 @@ namespace CQRSalad.EventStore.Core
             await MockAsync();
         }
 
-        public async Task<int> CountStreamAsync(string streamId)
+        public async Task<int> CountStreamAsync(string aggregateId)
         {
-            return await Task.FromResult(_streams[streamId].Count);
+            return await Task.FromResult(_streams[aggregateId].Count);
         }
 
         private async Task MockAsync()

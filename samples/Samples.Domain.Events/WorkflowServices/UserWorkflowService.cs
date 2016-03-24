@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Domain;
 using CQRSalad.EventSourcing;
-using Samples.Domain.Events.User.Events;
+using Samples.Domain.Events.User;
 using Samples.Domain.Interface.User;
 
 namespace Samples.Domain.Events.WorkflowServices
@@ -14,10 +14,13 @@ namespace Samples.Domain.Events.WorkflowServices
 
         public async Task On(UserFollowedEvent evnt)
         {
-            await ProduceCommandAsync(new AddFollowerCommand
-            {
-                UserId = evnt.AggregateId
-            }, evnt.AggregateId); //todo
+            await ProduceCommandAsync(
+                command: new AddFollowerCommand
+                {
+                    UserId = evnt.FollowingUserId,
+                    FollowerUserId = evnt.UserId
+                },
+                sender: evnt.UserId);
         }
     }
 }

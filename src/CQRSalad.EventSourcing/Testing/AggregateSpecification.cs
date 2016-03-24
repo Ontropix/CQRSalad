@@ -39,7 +39,7 @@ namespace CQRSalad.EventSourcing.Testing
             string aggregateId = givenEvents[0].AggregateId;
             TAggregate aggregate = await _aggregateRepository.LoadById(aggregateId);
 
-            //aggregate.Reel(givenEvents); //todo
+           // aggregate.Reel(givenEvents); //todo
 
             await _aggregateRepository.Save(aggregate);
         }

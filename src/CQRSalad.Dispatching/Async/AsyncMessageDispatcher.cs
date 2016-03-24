@@ -11,12 +11,6 @@ namespace CQRSalad.Dispatching.Async
 
     }
 
-    public interface IMessageDispatcher
-    {
-        Task<object> DispatchAsync<TBody>(DomainMessage<TBody> message);
-        Task PublishAsync(object message);
-    }
-
     public sealed class AsyncMessageDispatcher
     {
         private readonly IServiceProvider _serviceProvider;

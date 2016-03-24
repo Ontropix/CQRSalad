@@ -43,17 +43,17 @@ namespace CQRSalad.EventStore.MongoDB
             _updater = Builders<EventStream>.Update;
         }
 
-        public async Task<List<DomainEvent>> GetStreamAsync(string streamId)
+        public async Task<List<DomainEvent>> GetStreamAsync(string aggregateId)
         {
-            List<DomainEvent> events = await Streams.Find(stream => stream.Id == streamId)
+            List<DomainEvent> events = await Streams.Find(stream => stream.Id == aggregateId)
                                                     .Project(stream => _eventSerializer.DeserializeMany(stream.Events, stream.Root))
                                                     .FirstOrDefaultAsync();
             return events ?? EmtpyList;
         }
 
-        public async Task<List<DomainEvent>> GetStreamPartAsync(string streamId, int fromVersion, int toVersion = -1)
+        public async Task<List<DomainEvent>> GetStreamPartAsync(string aggregateId, int fromVersion, int toVersion = -1)
         {
-            List<DomainEvent> events = await Streams.Find(stream => stream.Id == streamId)
+            List<DomainEvent> events = await Streams.Find(stream => stream.Id == aggregateId)
                                                     .Project(stream => _eventSerializer.DeserializeMany(stream.Events.Skip(fromVersion - 1), stream.Root))
                                                     .FirstOrDefaultAsync();
             return events ?? EmtpyList;
@@ -77,9 +77,9 @@ namespace CQRSalad.EventStore.MongoDB
             await Streams.UpdateOneAsync(x => x.Id == streamId, update, MockUpsert);
         }
 
-        public Task<int> CountStreamAsync(string streamId)
+        public Task<int> CountStreamAsync(string aggregateId)
         {
-            return Streams.Find(stream => stream.Id == streamId).Project(x => x.Version).FirstOrDefaultAsync();
+            return Streams.Find(stream => stream.Id == aggregateId).Project(x => x.Version).FirstOrDefaultAsync();
         }
     }
 }

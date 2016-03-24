@@ -45,7 +45,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\Events\FollowerAddedEvent.cs" />
     <Compile Include="User\Events\UserFollowedEvent.cs" />
-    <Compile Include="User\Events\UserRegisteredEvent.cs" />
+    <Compile Include="User\Events\UserCreatedEvent.cs" />
     <Compile Include="User\UserAggregate.cs" />
     <Compile Include="User\UserState.cs" />
     <Compile Include="WorkflowServices\UserWorkflowService.cs" />

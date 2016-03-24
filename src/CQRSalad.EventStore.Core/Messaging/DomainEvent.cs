@@ -17,7 +17,7 @@ namespace CQRSalad.EventStore.Core
         /// <summary>
         /// Event from an aggregate
         /// </summary>
-        public IEvent Body { get; set; }
+        public object Body { get; set; }
 
         /// <summary>
         /// Metadata of event

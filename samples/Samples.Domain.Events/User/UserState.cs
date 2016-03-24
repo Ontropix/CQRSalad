@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Samples.Domain.Events.User.Events;
 
 namespace Samples.Domain.Events.User
 {
@@ -7,10 +6,7 @@ namespace Samples.Domain.Events.User
     {
         public HashSet<string> Followers { get; }
         public HashSet<string> Following { get; }
-
-        public int Test { get; set; } = 5;
-        public List<int> TestList { get; set; }
-
+        
         public UserState()
         {
             Followers = new HashSet<string>();
@@ -19,12 +15,12 @@ namespace Samples.Domain.Events.User
         
         public void Apply(UserFollowedEvent evnt)
         {
-            Following.Add(evnt.UserId);
+            Following.Add(evnt.FollowingUserId);
         }
 
         public void Apply(FollowerAddedEvent evnt)
         {
-            Followers.Add(evnt.UserId);
+            Followers.Add(evnt.FollowerUserId);
         }
     }
 }
