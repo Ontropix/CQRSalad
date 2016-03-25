@@ -7,6 +7,8 @@ namespace CQRSalad.EventStore.Core
     /// </summary>
     public sealed class DomainEvent
     {
+        public string EventId { get; set; }
+
         public string AggregateId { get; set; }
      
         /// <summary>

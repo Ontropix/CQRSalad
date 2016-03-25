@@ -6,10 +6,26 @@ using CQRSalad.Dispatching.Async;
 using CQRSalad.EventStore.Core;
 using CQRSalad.EventStore.MongoDB.Serializers;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace CQRSalad.EventStore.MongoDB
 {
-    internal class DomainEventSerializer
+    internal partial class DomainEventSerializer : SerializerBase<DomainEvent>
+    {
+        public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, DomainEvent value)
+        {
+            base.Serialize(context, args, value);
+        }
+
+        public override DomainEvent Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+        {
+            return base.Deserialize(context, args);
+        }
+    }
+
+
+    internal partial class DomainEventSerializer
     {
         private readonly MongoDataSerializer _dataSerializer;
 
