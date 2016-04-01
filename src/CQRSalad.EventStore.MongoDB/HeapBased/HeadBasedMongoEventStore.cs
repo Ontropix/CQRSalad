@@ -10,13 +10,13 @@ namespace CQRSalad.EventStore.MongoDB
     {
         public HeadBasedMongoEventStore(IMongoDatabase mongoDatabase, EventStoreSettings settings)
         {
-            _eventSerializer = new DomainEventSerializer();
-            _mongoDatabase = mongoDatabase;
-            _settings = settings;
-            Streams = mongoDatabase.GetCollection<EventStream>(settings.StreamsesCollectionName);
+            //_eventSerializer = new DomainEventSerializer();
+            //_mongoDatabase = mongoDatabase;
+            //_settings = settings;
+            //Streams = mongoDatabase.GetCollection<EventStream>(settings.StreamsesCollectionName);
 
-            _settings = settings;
-            _updater = Builders<EventStream>.Update;
+            //_settings = settings;
+            //_updater = Builders<EventStream>.Update;
         }
 
         public Task<List<DomainEvent>> GetStreamAsync(string streamId)
