@@ -50,7 +50,6 @@
     <Compile Include="Async\AsyncHandlersRegistry.cs" />
     <Compile Include="Async\AsyncDispatcherContext.cs" />
     <Compile Include="Async\AsyncMessageDispatcher.cs" />
-    <Compile Include="Async\MessageMetadata.cs" />
     <Compile Include="DispatcherConfiguration.cs" />
     <Compile Include="DispatcherContext.cs" />
     <Compile Include="DispatcherFactory.cs" />

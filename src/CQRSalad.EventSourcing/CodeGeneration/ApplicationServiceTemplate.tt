@@ -12,7 +12,7 @@ List<Type> messageTypes = AggregateType.GetMethods(BindingFlags.Public | Binding
 				                                        !method.IsConstructor && !method.IsGenericMethod &&
 														!method.IsStatic)
 									   .Select(method => method.GetParameters()[0].ParameterType)
-									  // .Where(parameter => typeof(ICommand).IsAssignableFrom(parameter))
+									   .Where(parameter => typeof(ICommand).IsAssignableFrom(parameter))
 									   .ToList();
 
 string aggregateName = AggregateType.FullName;
@@ -27,15 +27,23 @@ namespace <#= serviceNamespace #>
 {
 	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>, CQRSalad.Dispatching.IDispatcherHandler
 	{
+		private readonly IEventBus _eventBus;
+
 		public <#= serviceName #>(IAggregateRepository<<#= aggregateName #>> aggregateRepository, IEventBus eventBus)
-				: base(aggregateRepository, eventBus)
-		{
+				: base(aggregateRepository)
+		{		
+			Argument.IsNotNull(eventBus, nameof(eventBus));
+            _eventBus = eventBus;
 		}
+		
+
 		<#foreach(Type messageType in messageTypes) { #>
 	
-		public async Task Handle(DomainCommand<<#= messageType.FullName #>> command)
-		{
-			await Execute(command);
-		}<# } #>
+			public async Task Handle(DomainMessage<<#= messageType.FullName #>> command)
+			{
+				await Execute(command);
+				await P
+			}
+	<# } #>
 	}
 }

@@ -2,12 +2,15 @@
 
 namespace CQRSalad.Domain
 {
-    public interface IQuery<TResult>
+    public interface ICommand
     {
     }
 
-
-    public class DomainRequest<TBody>
+    public interface IQuery<TResult>
+    {
+    }
+    
+    public class DomainMessage<TBody>
     {
         public string Id { get; set; }
         public TBody Body { get; set; }

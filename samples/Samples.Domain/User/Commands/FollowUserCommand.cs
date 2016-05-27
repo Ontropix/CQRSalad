@@ -1,8 +1,9 @@
-﻿using CQRSalad.EventSourcing;
+﻿using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 
 namespace Samples.Domain.Interface.User
 {
-    public sealed class FollowUserCommand
+    public sealed class FollowUserCommand : ICommand
     {
         [AggregateId]
         public string UserId { get; set; }

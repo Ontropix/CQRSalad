@@ -2,22 +2,17 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using CQRSalad.EventStore.Core;
 
 namespace CQRSalad.EventSourcing
 {
     public abstract class ApplicationService<TAggregate> where TAggregate : AggregateRoot, new()
     {
         private readonly IAggregateRepository<TAggregate> _aggregateRepository;
-        //private readonly IEventBus _eventBus;
 
-        protected ApplicationService(IAggregateRepository<TAggregate> aggregateRepository, IEventBus eventBus)
+        protected ApplicationService(IAggregateRepository<TAggregate> aggregateRepository)
         {
             Argument.IsNotNull(aggregateRepository, nameof(aggregateRepository));
-            Argument.IsNotNull(eventBus, nameof(eventBus));
-
             _aggregateRepository = aggregateRepository;
-            //_eventBus = eventBus;
         }
 
         public async Task Execute<TCommand>(TCommand command) where TCommand : class
@@ -31,7 +26,6 @@ namespace CQRSalad.EventSourcing
             context.Perform();
             
             await _aggregateRepository.Save(aggregate);
-            //await _eventBus.Publish(aggregate.Changes);
         }
 
         private string GetAggregateId(object command)

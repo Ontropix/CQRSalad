@@ -81,7 +81,7 @@ namespace CQRSalad.EventStore.MongoDB
             {
                 AggregateRoot = root,
                 Body = (IEvent) _dataSerializer.Deserialize(bsonDocument[BodyElement].AsBsonDocument, eventType), //todo
-                Meta = new MessageMetadata
+                Meta = new EventMetadata
                 {
                     Timestamp = bsonDocument[$"{MetaElement}"][$"{TimestampElement}"].ToUniversalTime(),
                     SenderId = bsonDocument[$"{MetaElement}"][$"{SenderElement}"].AsString

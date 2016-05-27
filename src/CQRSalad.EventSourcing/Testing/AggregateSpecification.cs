@@ -21,7 +21,7 @@ namespace CQRSalad.EventSourcing.Testing
 
         public AggregateSpecification(AggregateRepository<TAggregate> aggregateRepository, IIdGenerator idGenerator)
         {
-            JsConfig.ExcludeTypes.Add(typeof(MessageMetadata));
+            JsConfig.ExcludeTypes.Add(typeof(EventMetadata));
             
             _aggregateRepository = aggregateRepository;
             IdGenerator = idGenerator;

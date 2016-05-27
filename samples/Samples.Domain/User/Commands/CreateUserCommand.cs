@@ -1,8 +1,9 @@
-﻿using CQRSalad.EventSourcing;
+﻿using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 
 namespace Samples.Domain.Interface.User
 {
-    public class CreateUserCommand
+    public class CreateUserCommand : ICommand
     {
         [AggregateId]
         public string UserId { get; set; }

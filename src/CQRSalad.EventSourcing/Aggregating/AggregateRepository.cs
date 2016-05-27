@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching.Async;
+using CQRSalad.Domain;
 using CQRSalad.EventStore.Core;
 
 namespace CQRSalad.EventSourcing
@@ -11,11 +12,13 @@ namespace CQRSalad.EventSourcing
         where TAggregate : AggregateRoot, new()
     {
         private readonly IEventStore _eventStore;
+        private readonly IIdGenerator _idGenerator;
 
-        public AggregateRepository(IEventStore eventStore)
+        public AggregateRepository(IEventStore eventStore, IIdGenerator idGenerator)
         {
             Argument.IsNotNull(eventStore, nameof(eventStore));
             _eventStore = eventStore;
+            _idGenerator = idGenerator;
         }
 
         public virtual async Task<TAggregate> LoadById(string aggregateId)
@@ -45,12 +48,12 @@ namespace CQRSalad.EventSourcing
             DateTime currentTime = DateTime.UtcNow;
             var domainEvents = aggregate.Changes.Select(x => new DomainEvent
             {
-                AggregateId = aggregate.Id,
+                EventId = _idGenerator.Generate(),
                 Body = x,
-                AggregateRoot = GetType().AssemblyQualifiedName,
-                Meta = new MessageMetadata
+                Meta = new EventMetadata
                 {
-                   // SenderId = Command.Meta.SenderId,
+                    AggregateId = aggregate.Id,
+                    AggregateRoot = GetType().AssemblyQualifiedName,
                     Timestamp = currentTime
                 }
             }).ToList();

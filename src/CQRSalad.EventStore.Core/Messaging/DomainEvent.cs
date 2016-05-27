@@ -9,13 +9,6 @@ namespace CQRSalad.EventStore.Core
     {
         public string EventId { get; set; }
 
-        public string AggregateId { get; set; }
-     
-        /// <summary>
-        /// Aggregate that produced this event
-        /// </summary>
-        public string AggregateRoot { get; set; }
-
         /// <summary>
         /// Event from an aggregate
         /// </summary>
@@ -24,7 +17,7 @@ namespace CQRSalad.EventStore.Core
         /// <summary>
         /// Metadata of event
         /// </summary>
-        public MessageMetadata Meta { get; set; }
+        public EventMetadata Meta { get; set; }
     }
     
 }
