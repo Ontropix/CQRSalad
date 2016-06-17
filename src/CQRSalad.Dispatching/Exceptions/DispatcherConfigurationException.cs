@@ -1,4 +1,5 @@
 using System;
+using CQRSalad.Dispatching.NEW.Core;
 
 namespace CQRSalad.Dispatching
 {

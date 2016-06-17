@@ -1,21 +1,22 @@
 using System;
+using CQRSalad.Dispatching.NEW.Context;
 using CQRSalad.Infrastructure;
 
 namespace CQRSalad.Dispatching.Interceptors
 {
     public abstract class SpecificMessageInterceptor<TMessage> : IContextInterceptor where TMessage : class
     {
-        void IContextInterceptor.OnInvocationStarted(IDispatcherContext context)
+        void IContextInterceptor.OnInvocationStarted(DispatchingContext context)
         {
             ExecuteOnSpecificMessageType(context, message => OnInvocationStarted(message, context.HandlerInstance));
         }
 
-        void IContextInterceptor.OnInvocationFinished(IDispatcherContext context)
+        void IContextInterceptor.OnInvocationFinished(DispatchingContext context)
         {
             ExecuteOnSpecificMessageType(context, message => OnInvocationFinished(message, context.HandlerInstance, context.Result));
         }
 
-        void IContextInterceptor.OnException(IDispatcherContext context, Exception invocationException)
+        void IContextInterceptor.OnException(DispatchingContext context, Exception invocationException)
         {
             ExecuteOnSpecificMessageType(context, message => OnException(message, context.HandlerInstance, invocationException));
         }
@@ -24,7 +25,7 @@ namespace CQRSalad.Dispatching.Interceptors
         public abstract void OnInvocationFinished(TMessage message, object messageHandler, object invocationResult);
         public abstract void OnException(TMessage message, object messageHandler, Exception invocationException);
 
-        protected static void ExecuteOnSpecificMessageType(IDispatcherContext context, Action<TMessage> action)
+        protected static void ExecuteOnSpecificMessageType(DispatchingContext context, Action<TMessage> action)
         {
             context.With(c => c.MessageInstance)
                    .Cast<TMessage>()

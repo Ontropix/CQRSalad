@@ -47,35 +47,46 @@
     <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
       <Link>LinkedFiles\SyntaxSugar.cs</Link>
     </Compile>
-    <Compile Include="Async\AsyncHandlersRegistry.cs" />
-    <Compile Include="Async\AsyncDispatcherContext.cs" />
-    <Compile Include="Async\AsyncMessageDispatcher.cs" />
-    <Compile Include="DispatcherConfiguration.cs" />
-    <Compile Include="DispatcherContext.cs" />
-    <Compile Include="DispatcherFactory.cs" />
-    <Compile Include="Extensions\ScanningRuleExtensions.cs" />
-    <Compile Include="Extensions\ServiceProviderExtensions.cs" />
-    <Compile Include="HandlersRegistry.cs" />
+    <Compile Include="NEW\Context\DispatcherContextExecutor.cs" />
+    <Compile Include="NEW\Context\DispatcherExecutorsCache.cs" />
+    <Compile Include="NEW\Context\DispatcherExecutorsManager.cs" />
+    <Compile Include="NEW\Context\DispatchingContext.cs" />
+    <Compile Include="NEW\Extensions\TaskExtensions.cs" />
+    <Compile Include="NEW\ServiceProvider\DispatcherServiceProvider.cs" />
+    <Compile Include="NEW\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="NEW\Core\Dispatcher.cs" />
+    <Compile Include="NEW\Core\DispatcherConfiguration.cs" />
+    <Compile Include="NEW\Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Exceptions\AmbiguousHandlingException.cs" />
     <Compile Include="Exceptions\DispatcherConfigurationException.cs" />
     <Compile Include="Exceptions\DispatchingException.cs" />
     <Compile Include="Exceptions\HandlerNotFoundException.cs" />
     <Compile Include="Exceptions\ServiceProviderException.cs" />
-    <Compile Include="Extensions\DispatcherConfigurationExtenstion.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
-    <Compile Include="Interfaces\IDispatcherContext.cs" />
+    <Compile Include="NEW\Extensions\DispatcherConfigurationExtenstion.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
-    <Compile Include="Interfaces\IContextInterceptor.cs" />
-    <Compile Include="Interfaces\IDispatcherHandler.cs" />
-    <Compile Include="Interfaces\IDispatcherLogsManager.cs" />
-    <Compile Include="MessageDispatcher.cs" />
-    <Compile Include="Payload\MessageSubscription.cs" />
-    <Compile Include="Payload\PropertyInfoCache.cs" />
-    <Compile Include="Payload\ScanningRule.cs" />
-    <Compile Include="Priority\ExecutionPriority.cs" />
-    <Compile Include="Priority\ExecutionPriorityAttribute.cs" />
+    <Compile Include="Interceptors\IContextInterceptor.cs" />
+    <Compile Include="NEW\ActionsScanning\DefaultDispatcherHandlersProvider.cs" />
+    <Compile Include="NEW\ActionsScanning\IDispatcherHandlersProvider.cs" />
+    <Compile Include="NEW\Core\IMessageDispatcher.cs" />
+    <Compile Include="NEW\Descriptors\DefaultDispatcherHandlerActionDescriptorsBuilder.cs" />
+    <Compile Include="NEW\Descriptors\DefaultDispatcherHandlerDescriptorsBuilder.cs" />
+    <Compile Include="NEW\Descriptors\HandlerActionDescriptor.cs" />
+    <Compile Include="NEW\Descriptors\IDispatcherHandlerActionDescriptorsBuilder.cs" />
+    <Compile Include="NEW\Descriptors\IDispatcherHandlerDescriptorsBuilder.cs" />
+    <Compile Include="NEW\HandlersScanning\DefaultDispatcherHandlersProvider.cs" />
+    <Compile Include="NEW\Descriptors\HandlerDescriptor.cs" />
+    <Compile Include="NEW\Priority\DispatchingPriority.cs" />
+    <Compile Include="NEW\Priority\DispatchingPriorityAttribute.cs" />
+    <Compile Include="NEW\Subscriptions\DispatcherSubscriptionsStore.cs" />
+    <Compile Include="NEW\TypesScanning\AssemblyScanningRuleExtensions.cs" />
+    <Compile Include="NEW\TypesScanning\AssemblyScanningRule.cs" />
+    <Compile Include="NEW\TypesScanning\AssemblyTypesProvider.cs" />
+    <Compile Include="NEW\DispatcherHandlerAttribute.cs" />
+    <Compile Include="NEW\HandlersScanning\IDispatcherHandlersProvider.cs" />
+    <Compile Include="NEW\TypesScanning\IDispatcherTypesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
