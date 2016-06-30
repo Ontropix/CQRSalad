@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using CQRSalad.Dispatching.NEW.Descriptors;
 
 namespace CQRSalad.Dispatching.NEW.Core
 {
     public interface IDispatcherServiceProvider
     {
-        object GetHandlerInstance(HandlerDescriptor handlerDescriptor);
+        object GetHandlerInstance(TypeInfo handlerType);
         IEnumerable<object> GetInterceptors();
     }
 
@@ -19,9 +20,9 @@ namespace CQRSalad.Dispatching.NEW.Core
             _serviceProvider = serviceProvider;
         }
 
-        public object GetHandlerInstance(HandlerDescriptor handlerDescriptor)
+        public object GetHandlerInstance(TypeInfo handlerType)
         {
-            return _serviceProvider.GetService(handlerDescriptor.HandlerType);
+            return _serviceProvider.GetService(handlerType);
         }
 
         public IEnumerable<object> GetInterceptors()

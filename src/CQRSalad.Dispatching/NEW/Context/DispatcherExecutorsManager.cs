@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using CQRSalad.Dispatching.NEW.Descriptors;
+using CQRSalad.Dispatching.NEW.Subscriptions;
 
 namespace CQRSalad.Dispatching.NEW.Context
 {
@@ -16,20 +16,21 @@ namespace CQRSalad.Dispatching.NEW.Context
             _executorsCache = executorsCache;
         }
 
-        internal DispatcherContextExecutor GetExecutor(HandlerActionDescriptor actionDescriptor)
+        internal ContextExecutor GetExecutor(DispatcherSubscription subscription)
         {
             //todo cache
-            var executor = new DispatcherContextExecutor(
-                actionDescriptor,
-                CreateExecutorDelegate(
-                    actionDescriptor.HandlerDescriptor.HandlerType,
-                    actionDescriptor.MessageType,
-                    actionDescriptor.HandlerAction));
 
+            HandlerExecutor func = CreateExecutorDelegate(
+                    subscription.HandlerType,
+                    subscription.Action,
+                    subscription.MessageType);
+
+            bool isTaskResult = subscription.Action.IsAsync();
+            var executor = new ContextExecutor(func, isTaskResult); //todo
             return executor;
         }
 
-        private static HandlerExecutor CreateExecutorDelegate(Type handlerType, Type messageType, MethodInfo action)
+        private static HandlerExecutor CreateExecutorDelegate(Type handlerType, MethodInfo action, Type messageType)
         {
             Type objectType = typeof(object);
             ParameterExpression handlerParameter = Expression.Parameter(objectType, "handler");

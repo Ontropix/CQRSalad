@@ -16,7 +16,7 @@ namespace CQRSalad.Dispatching.NEW.Priority
         DispatchingPriority GetHandlerPriority(TypeInfo handlerType);
         DispatchingPriority GetActionPriority(MethodInfo actionInfo);
     }
-
+    
     public class DefaultDispatcherPriorityProvider : IDispatcherPriorityProvider
     {
         private const DispatchingPriority DefaultPriorty = DispatchingPriority.Unspecified;

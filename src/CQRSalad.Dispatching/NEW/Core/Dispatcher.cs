@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching.NEW.Context;
-using CQRSalad.Dispatching.NEW.Descriptors;
 using CQRSalad.Dispatching.NEW.Subscriptions;
 
 namespace CQRSalad.Dispatching.NEW.Core
@@ -39,9 +38,8 @@ namespace CQRSalad.Dispatching.NEW.Core
 
         public async Task PublishAsync<TMessage>(TMessage message)
         {
-            List<HandlerActionDescriptor> subscriptions =
-                _subscriptionsStore.GetMessageSubscriptions(message.GetType()).ToList();
-            foreach (HandlerActionDescriptor subscription in subscriptions)
+            List<DispatcherSubscription> subscriptions = _subscriptionsStore[message.GetType()].ToList();
+            foreach (DispatcherSubscription subscription in subscriptions)
             {
                 await DispatchMessageAsync(message, subscription);
             }
@@ -49,10 +47,8 @@ namespace CQRSalad.Dispatching.NEW.Core
 
         public async Task<object> SendAsync(object message)
         {
-            List<HandlerActionDescriptor> subscriptions =
-                _subscriptionsStore.GetMessageSubscriptions(message.GetType()).ToList();
-
-            if (subscriptions.Count() > 1)
+            List<DispatcherSubscription> subscriptions = _subscriptionsStore[message.GetType()].ToList();
+            if (subscriptions.Count > 1)
             {
                 throw new AmbiguousHandlingException(message);
             }
@@ -60,12 +56,12 @@ namespace CQRSalad.Dispatching.NEW.Core
             return await DispatchMessageAsync(message, subscriptions[0]);
         }
 
-        private async Task<object> DispatchMessageAsync(object messageInstance, HandlerActionDescriptor actionDescriptor)
+        private async Task<object> DispatchMessageAsync(object messageInstance, DispatcherSubscription subscription)
         {
-            object handlerInstance = _serviceProvider.GetHandlerInstance(actionDescriptor.HandlerDescriptor);
-            var context = new DispatchingContext(handlerInstance, messageInstance);
-            var executor = _executorsManager.GetExecutor(actionDescriptor);
+            object handlerInstance = _serviceProvider.GetHandlerInstance(subscription.HandlerType);
+            ContextExecutor executor = _executorsManager.GetExecutor(subscription);
 
+            var context = new DispatchingContext(handlerInstance, messageInstance);
             await executor.Execute(context);
             return context.Result;
             //return _interceptorTypes.Count > 0 ? await InterceptAsync(context) : await context.InvokeAsync();

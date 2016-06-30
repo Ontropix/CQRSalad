@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching.NEW.Core;
+using CQRSalad.Dispatching.NEW.Descriptors;
 using CQRSalad.Dispatching.NEW.Subscriptions;
 using CQRSalad.Tests.Dispatcher;
 using CQRSalad.Tests.Dispatcher.Infrastructure;
@@ -28,7 +29,7 @@ namespace CQRSalad.Tests.Dispatcher2
             _dispatcher = CQRSalad.Dispatching.NEW.Core.Dispatcher.Create(configuration =>
             {
                 configuration.ServiceProvider = new DefaultDispatcherServiceProvider(new StructureMapServiceProvider(container));
-                configuration.SubscriptionsStore = new DispatcherSubscriptionsStore();
+                //configuration.SubscriptionsStore = new DispatcherSubscriptionsManager(new DefaultDispatcherHandlerDescriptorsBuilder(), );
             });
         }
 

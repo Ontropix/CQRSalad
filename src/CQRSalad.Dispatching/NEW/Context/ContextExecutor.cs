@@ -1,22 +1,21 @@
 ﻿using System.Threading.Tasks;
-using CQRSalad.Dispatching.NEW.Descriptors;
 
 namespace CQRSalad.Dispatching.NEW.Context
 {
-    internal class DispatcherContextExecutor
+    internal class ContextExecutor
     {
-        private readonly HandlerActionDescriptor _actionDescriptor;
         private readonly HandlerExecutor _executor;
+        private readonly bool _isAsync;
 
-        public DispatcherContextExecutor(HandlerActionDescriptor actionDescriptor, HandlerExecutor executor)
+        public ContextExecutor(HandlerExecutor executor, bool isAsync)
         {
-            _actionDescriptor = actionDescriptor;
             _executor = executor;
+            _isAsync = isAsync;
         }
 
         internal async Task Execute(DispatchingContext context)
         {
-            if (_actionDescriptor.HandlerAction.IsAsync())
+            if (_isAsync)
             {
                 Task taskResult = (Task)_executor(context.HandlerInstance, context.MessageInstance);
                 await taskResult;

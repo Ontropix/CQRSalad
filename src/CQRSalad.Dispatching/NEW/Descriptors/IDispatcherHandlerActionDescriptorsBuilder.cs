@@ -4,6 +4,6 @@ namespace CQRSalad.Dispatching.NEW.Descriptors
 {
     public interface IDispatcherHandlerActionDescriptorsBuilder
     {
-        IEnumerable<HandlerActionDescriptor> CreateHandlerActionDescriptors(HandlerDescriptor handlerDescriptor);
+        IEnumerable<ActionDescriptor> CreateActionDescriptors(HandlerDescriptor handlerDescriptor);
     }
 }

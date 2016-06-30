@@ -17,10 +17,14 @@ namespace CQRSalad.Dispatching.NEW.Descriptors
             _priorityProvider = priorityProvider;
         }
 
-        public IEnumerable<HandlerActionDescriptor> CreateHandlerActionDescriptors(HandlerDescriptor handlerDescriptor)
+        public IEnumerable<ActionDescriptor> CreateActionDescriptors(HandlerDescriptor handlerDescriptor)
         {
             IEnumerable<MethodInfo> handlerActions = _handlerActionsProvider.GetHandlerActions(handlerDescriptor.HandlerType);
-            IEnumerable<HandlerActionDescriptor> actionDescriptors = handlerActions.Select(action => new HandlerActionDescriptor(handlerDescriptor, action, _priorityProvider.GetActionPriority(action)));
+            IEnumerable<ActionDescriptor> actionDescriptors = handlerActions.Select(
+                action => new ActionDescriptor(
+                    action, 
+                    _priorityProvider.GetActionPriority(action)));
+
             return actionDescriptors;
         }
     }
