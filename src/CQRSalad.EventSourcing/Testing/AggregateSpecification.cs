@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CQRSalad.Dispatching.Async;
 using CQRSalad.Domain;
 using CQRSalad.EventSourcing.Testing.Exceptions;
 using CQRSalad.EventSourcing.Testing.Extensions;

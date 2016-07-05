@@ -29,7 +29,7 @@ namespace CQRSalad.Dispatching.NEW.Subscriptions
                 var actionDescriptors = _actionDescriptorsBuilder.CreateActionDescriptors(handlerDescriptor);
                 foreach (ActionDescriptor actionDescriptor in actionDescriptors)
                 {
-                    store.SubscribeAction(
+                    store.Add(
                         new DispatcherSubscription(
                             handlerDescriptor.HandlerType, 
                             actionDescriptor.HandlerAction, 
@@ -40,6 +40,7 @@ namespace CQRSalad.Dispatching.NEW.Subscriptions
 
             return store;
         }
+        
     }
 
     public class DispatcherSubscription
@@ -63,13 +64,9 @@ namespace CQRSalad.Dispatching.NEW.Subscriptions
         // MessageType - List of Actions
         private readonly ConcurrentDictionary<Type, SortedSet<DispatcherSubscription>> _subscriptions = new ConcurrentDictionary<Type, SortedSet<DispatcherSubscription>>();
 
-        public IEnumerable<DispatcherSubscription> this[Type messageType] => GetMessageSubscriptions(messageType);
+        public IEnumerable<DispatcherSubscription> this[Type messageType] => Get(messageType);
 
-        internal DispatcherSubscriptionsStore()
-        {
-        }
-
-        internal void SubscribeAction(DispatcherSubscription subscription)
+        public void Add(DispatcherSubscription subscription)
         {
             if (!_subscriptions.ContainsKey(subscription.MessageType))
             {
@@ -81,13 +78,28 @@ namespace CQRSalad.Dispatching.NEW.Subscriptions
             _subscriptions[subscription.MessageType].Add(subscription);
         }
 
-        internal IEnumerable<DispatcherSubscription> GetMessageSubscriptions(Type messageType)
+        public IEnumerable<DispatcherSubscription> Get(Type messageType)
         {
             if (!_subscriptions.ContainsKey(messageType))
             {
                 throw new HandlerNotFoundException(messageType);
             }
             return _subscriptions[messageType];
+        }
+
+        public bool Remove(DispatcherSubscription subscription)
+        {
+            if (Exists(subscription))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool Exists(DispatcherSubscription subscription)
+        {
+            return false;
         }
     }
 }

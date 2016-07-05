@@ -1,5 +1,3 @@
-using CQRSalad.Dispatching.Async;
-
 namespace CQRSalad.EventStore.Core
 {
     /// <summary>

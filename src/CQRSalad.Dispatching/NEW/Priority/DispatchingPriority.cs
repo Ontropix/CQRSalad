@@ -8,7 +8,7 @@ namespace CQRSalad.Dispatching.NEW.Priority
         Low = 1,
         Normal = 5,
         High = 7,
-        Top = 10,
+        Top = 10
     }
 
     public interface IDispatcherPriorityProvider
