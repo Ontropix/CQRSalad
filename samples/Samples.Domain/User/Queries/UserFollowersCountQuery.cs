@@ -2,7 +2,7 @@
 
 namespace Samples.Domain.Interface.User
 {
-    public class UserFollowersCountQuery : IQuery<int>
+    public class UserFollowersCountQuery : IQueryFor<int>
     {
         public string UserId { get; set; }
     }
