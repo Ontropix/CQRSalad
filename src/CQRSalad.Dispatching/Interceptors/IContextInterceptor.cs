@@ -1,7 +1,7 @@
 using System;
-using CQRSalad.Dispatching.NEW.Context;
+using CQRSalad.Dispatching.Context;
 
-namespace CQRSalad.Dispatching
+namespace CQRSalad.Dispatching.Interceptors
 {
     public interface IContextInterceptor
     {

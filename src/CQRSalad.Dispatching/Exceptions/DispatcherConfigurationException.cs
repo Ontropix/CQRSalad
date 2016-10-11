@@ -1,5 +1,5 @@
 using System;
-using CQRSalad.Dispatching.NEW.Core;
+using CQRSalad.Dispatching.Core;
 
 namespace CQRSalad.Dispatching
 {

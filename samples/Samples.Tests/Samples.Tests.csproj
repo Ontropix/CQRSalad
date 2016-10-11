@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StructureMap, Version=4.3.0.449, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\StructureMap.4.4.0\lib\net45\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.4.1.451, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.1\lib\net45\StructureMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -63,17 +63,45 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\src\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">
+      <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
+      <Name>CQRSalad.Dispatching</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CQRSalad.Domain\CQRSalad.Domain.csproj">
       <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
       <Name>CQRSalad.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
+      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
+      <Name>CQRSalad.EventSourcing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CQRSalad.EventStore.Core\CQRSalad.EventStore.Core.csproj">
+      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
+      <Name>CQRSalad.EventStore.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.Core\Kutcha.Core.csproj">
+      <Project>{166F6EB2-5143-43DE-B578-1F0E31A596D5}</Project>
+      <Name>Kutcha.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.InMemory\Kutcha.InMemory.csproj">
+      <Project>{95E9561C-EC23-4E45-9DC2-786C7BD6C5F7}</Project>
+      <Name>Kutcha.InMemory</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
       <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
       <Name>CQRSalad.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Model.csproj">
+      <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
+      <Name>Samples.Domain.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
+      <Project>{cc173585-7515-40ba-b6c1-142ea635e864}</Project>
+      <Name>Samples.Domain.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

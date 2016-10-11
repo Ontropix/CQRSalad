@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using CQRSalad.Dispatching.Async;
 using CQRSalad.EventStore.Core;
 using CQRSalad.EventStore.MongoDB.Serializers;
 using MongoDB.Bson;
@@ -42,17 +41,18 @@ namespace CQRSalad.EventStore.MongoDB
 
         public BsonDocument Serialize(DomainEvent @event)
         {
-            return new BsonDocument()
+            return new BsonDocument
             {
                 {
                     BodyElement, _dataSerializer.Serialize(@event.Body)
                 },
                 {
-                    MetaElement, new BsonDocument()
+                    MetaElement, new BsonDocument
                     {
+
                         { CLRTypeElement, @event.Body.GetType().AssemblyQualifiedName },
                         { TimestampElement, @event.Meta.Timestamp },
-                        { SenderElement, @event.Meta.SenderId }
+                       // { SenderElement, @event.Meta.SenderId }
                     }
                 }
             };
@@ -79,12 +79,13 @@ namespace CQRSalad.EventStore.MongoDB
 
             return new DomainEvent
             {
-                AggregateRoot = root,
-                Body = (IEvent) _dataSerializer.Deserialize(bsonDocument[BodyElement].AsBsonDocument, eventType), //todo
+                Body = _dataSerializer.Deserialize(bsonDocument[BodyElement].AsBsonDocument, eventType), //todo
                 Meta = new EventMetadata
                 {
+                    AggregateId = "", //todo
+                    AggregateRoot = root,
                     Timestamp = bsonDocument[$"{MetaElement}"][$"{TimestampElement}"].ToUniversalTime(),
-                    SenderId = bsonDocument[$"{MetaElement}"][$"{SenderElement}"].AsString
+                    //SenderId = bsonDocument[$"{MetaElement}"][$"{SenderElement}"].AsString
                 }
             };
         }

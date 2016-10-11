@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using CQRSalad.Domain;
-using CQRSalad.EventStore.Core;
 
 namespace CQRSalad.EventSourcing
 {

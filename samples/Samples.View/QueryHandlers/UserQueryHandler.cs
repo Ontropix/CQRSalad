@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
+using CQRSalad.Dispatching;
 using Kutcha.Core;
 using Samples.Domain.Interface.User;
 using Samples.View.Views;
 
 namespace Samples.View.QueryHandlers
 {
+    [DispatcherHandler]
     public class UserQueryHandler
     {
         private readonly IKutchaReadOnlyStore<UserView> _store;

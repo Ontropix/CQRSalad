@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CQRSalad.EventStore.Core;
 
 namespace CQRSalad.EventSourcing
 {
@@ -39,7 +38,6 @@ namespace CQRSalad.EventSourcing
     public abstract class AggregateRoot<TState> : AggregateRoot where TState : class, new()
     {
         protected internal TState State { get; internal set; }
-
         internal sealed override bool HasState => true;
 
         protected AggregateRoot()

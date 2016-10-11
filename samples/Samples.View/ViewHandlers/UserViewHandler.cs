@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
+using CQRSalad.Dispatching;
 using Kutcha.Core;
 using Samples.Domain.Events.User;
 using Samples.View.Views;
 
 namespace Samples.View.ViewHandlers
 {
+    [DispatcherHandler]
     public sealed class UserViewHandler
     {
         private readonly IKutchaStore<UserView> _store;

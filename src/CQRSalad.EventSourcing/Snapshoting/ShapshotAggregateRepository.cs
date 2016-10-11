@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CQRSalad.Domain;
 using CQRSalad.EventStore.Core;
 
 namespace CQRSalad.EventSourcing
@@ -13,8 +14,8 @@ namespace CQRSalad.EventSourcing
         private readonly ISnapshotStore _snapshotStore;
         private readonly int _makeSnapshotOnVersion;
 
-        public ShapshotAggregateRepository(IEventStore eventStore, ISnapshotStore snapshotStore, int makeSnapshotOnVersion) 
-            : base(eventStore)
+        public ShapshotAggregateRepository(IEventStore eventStore, ISnapshotStore snapshotStore, int makeSnapshotOnVersion, IIdGenerator idGenerator) 
+            : base(eventStore, idGenerator)
         {
             Argument.IsNotNull(eventStore, nameof(eventStore));
             Argument.IsNotNull(snapshotStore, nameof(snapshotStore));

@@ -25,6 +25,7 @@ using CQRSalad.EventStore.Core;
 
 namespace <#= serviceNamespace #>
 {
+	[CQRSalad.Dispatching.DispatcherHandler]
 	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>, CQRSalad.Dispatching.IDispatcherHandler
 	{
 		private readonly IEventBus _eventBus;
@@ -42,7 +43,6 @@ namespace <#= serviceNamespace #>
 			public async Task Handle(DomainMessage<<#= messageType.FullName #>> command)
 			{
 				await Execute(command);
-				await P
 			}
 	<# } #>
 	}

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using CQRSalad.Dispatching.NEW.Core;
+using CQRSalad.Dispatching.Core;
 using CQRSalad.Domain;
 
 namespace CQRSalad.Infrastructure
@@ -15,7 +15,7 @@ namespace CQRSalad.Infrastructure
 
         public async Task<CommandResult> SendAsync<TCommand>(TCommand command, string senderId) where TCommand : class
         {
-            return await _dispatcher.SendAsync(command);
+            return (CommandResult) await _dispatcher.SendAsync(command); //todo mock
         }
     }
 

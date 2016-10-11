@@ -5,6 +5,9 @@ namespace CQRSalad.EventStore.Core
     /// </summary>
     public sealed class DomainEvent
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public string EventId { get; set; }
 
         /// <summary>
@@ -17,5 +20,4 @@ namespace CQRSalad.EventStore.Core
         /// </summary>
         public EventMetadata Meta { get; set; }
     }
-    
 }

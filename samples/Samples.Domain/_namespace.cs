@@ -1,4 +1,4 @@
-﻿namespace Samples.Domain
+﻿namespace Samples.Domain.Interface
 {
     public class _namespace
     {

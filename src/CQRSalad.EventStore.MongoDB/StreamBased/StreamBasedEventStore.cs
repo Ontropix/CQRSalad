@@ -13,9 +13,9 @@ namespace CQRSalad.EventStore.MongoDB
         [BsonId]
         //public ObjectId Id { get; set; }
         public string Id { get; set; }
-
         public string Root { get; set; }
         public int Version { get; set; }
+
         public BsonArray Events { get; set; }
     }
     
@@ -61,7 +61,7 @@ namespace CQRSalad.EventStore.MongoDB
 
         public async Task AppendAsync(string streamId, DomainEvent @event)
         {
-            var update = _updater.SetOnInsert(x => x.Root, @event.AggregateRoot)
+            var update = _updater.SetOnInsert(x => x.Root, @event.Meta.AggregateRoot)
                                  .Inc(x => x.Version, 1)
                                  .Push(x => x.Events, _eventSerializer.Serialize(@event));
 
@@ -70,7 +70,7 @@ namespace CQRSalad.EventStore.MongoDB
 
         public async Task AppendManyAsync(string streamId, List<DomainEvent> events)
         {
-            var update = _updater.SetOnInsert(x => x.Root, events.First().AggregateRoot)
+            var update = _updater.SetOnInsert(x => x.Root, events.First().Meta.AggregateRoot)
                                  .Inc(x => x.Version, events.Count)
                                  .PushEach(x => x.Events, _eventSerializer.SerializeMany(events));
 

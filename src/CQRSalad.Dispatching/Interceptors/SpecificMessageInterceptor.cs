@@ -1,5 +1,5 @@
 using System;
-using CQRSalad.Dispatching.NEW.Context;
+using CQRSalad.Dispatching.Context;
 using CQRSalad.Infrastructure;
 
 namespace CQRSalad.Dispatching.Interceptors
