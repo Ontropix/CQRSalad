@@ -19,6 +19,6 @@ namespace CQRSalad.Domain
         /// <summary>
         /// Sends command.
         /// </summary>
-        Task<CommandResult> SendAsync<TCommand>(TCommand command, string senderId) where TCommand : class;
+        Task SendAsync<TCommand>(TCommand command, string senderId) where TCommand : class;
     }
 }

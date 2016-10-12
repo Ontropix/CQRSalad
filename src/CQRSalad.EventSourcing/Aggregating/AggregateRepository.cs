@@ -44,7 +44,7 @@ namespace CQRSalad.EventSourcing
             }
 
             //add metadata
-            DateTime currentTime = DateTime.UtcNow;
+            DateTime commitmentTime = DateTime.UtcNow;
             var domainEvents = aggregate.Changes.Select(x => new DomainEvent
             {
                 EventId = _idGenerator.Generate(),
@@ -53,7 +53,7 @@ namespace CQRSalad.EventSourcing
                 {
                     AggregateId = aggregate.Id,
                     AggregateRoot = GetType().AssemblyQualifiedName,
-                    Timestamp = currentTime
+                    Timestamp = commitmentTime
                 }
             }).ToList();
 

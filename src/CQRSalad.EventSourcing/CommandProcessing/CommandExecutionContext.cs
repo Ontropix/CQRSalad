@@ -1,8 +1,47 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
+    internal delegate void AggregateExecutor(object aggregate, object command);
+
+    internal class AggregateExecutorsManager
+    {
+        internal AggregateExecutor GetExecutor(Type aggregateType, MethodInfo action, Type commandType)
+        {
+            //todo cache
+
+            AggregateExecutor executor = CreateExecutorDelegate(aggregateType, action, commandType);
+            return executor;
+        }
+
+        private static AggregateExecutor CreateExecutorDelegate(Type aggregateType, MethodInfo action, Type commandType)
+        {
+            Type objectType = typeof(object);
+            ParameterExpression aggregateParameter = Expression.Parameter(objectType, "aggregate");
+            ParameterExpression commandParameter = Expression.Parameter(objectType, "command");
+
+            MethodCallExpression methodCall =
+                Expression.Call(
+                    Expression.Convert(aggregateParameter, aggregateType),
+                    action,
+                    Expression.Convert(commandParameter, commandType));
+
+            if (action.ReturnType != typeof(void))
+            {
+                throw new NotSupportedException("Only void return method allowed."); // todo
+            }
+
+            var lambda = Expression.Lambda<AggregateExecutor>(
+                methodCall,
+                aggregateParameter,
+                commandParameter);
+
+            return lambda.Compile();
+        }
+    }
+
     internal class CommandExecutionContext<TCommand> where TCommand : class
     {
         protected AggregateRoot Aggregate { get; }
@@ -44,7 +83,7 @@ namespace CQRSalad.EventSourcing
                 throw new CommandProducedNoEventsException(Command);
             }
         }
-        
+
         private MethodInfo FindMethodFor(object command)
         {
             return Aggregate.GetType().FindMethodBySinglePameter(command.GetType());

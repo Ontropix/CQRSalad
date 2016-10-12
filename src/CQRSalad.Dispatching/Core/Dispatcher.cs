@@ -14,7 +14,10 @@ namespace CQRSalad.Dispatching.Core
         private readonly DispatcherExecutorsManager _executorsManager;
         private readonly IDispatcherServiceProvider _serviceProvider;
 
-        private Dispatcher(DispatcherSubscriptionsStore subscriptionsStore, IDispatcherServiceProvider serviceProvider, DispatcherExecutorsManager executorsManager)
+        private Dispatcher(
+            DispatcherSubscriptionsStore subscriptionsStore, 
+            IDispatcherServiceProvider serviceProvider, 
+            DispatcherExecutorsManager executorsManager)
         {
             _subscriptionsStore = subscriptionsStore;
             _serviceProvider = serviceProvider;
@@ -26,7 +29,7 @@ namespace CQRSalad.Dispatching.Core
             return new Dispatcher(
                 configuration.SubscriptionsStore,
                 configuration.ServiceProvider,
-                new DispatcherExecutorsManager(new DispatcherExecutorsCache()));
+                configuration.ExecutorManager);
         }
 
         public static Dispatcher Create(Action<DispatcherConfiguration> configurator)

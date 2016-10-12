@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
+using CQRSalad.Dispatching.Priority;
 using CQRSalad.Domain;
 using CQRSalad.EventSourcing;
 using Samples.Domain.Events.User;
@@ -14,6 +15,7 @@ namespace Samples.Domain.Events.WorkflowServices
         {
         }
 
+        [DispatchingPriority(DispatchingPriority.Low)]
         public async Task On(UserFollowedEvent evnt)
         {
             await ProduceCommandAsync(

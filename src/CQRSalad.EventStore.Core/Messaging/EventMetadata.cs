@@ -15,7 +15,7 @@ namespace CQRSalad.EventStore.Core
         public string AggregateRoot { get; set; }
 
         /// <summary>
-        /// Time when command was created
+        /// Time when event commited
         /// </summary>
         public DateTime Timestamp { get; set; }
     }

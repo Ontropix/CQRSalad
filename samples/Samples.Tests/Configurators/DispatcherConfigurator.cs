@@ -26,7 +26,8 @@ namespace Samples.Tests.Configurators
             {
                 new AssemblyScanningRule(applicationServices),                                               //for command handling
                 new AssemblyScanningRule(typeof(Samples.Domain.Interface._namespace).Assembly),              //scan for commands and queries
-                new AssemblyScanningRule(typeof(Samples.Domain.Events._namespace).Assembly)                  //for events
+                new AssemblyScanningRule(typeof(Samples.Domain.Events._namespace).Assembly),                  //for events
+                new AssemblyScanningRule(typeof(Samples.View._namespace).Assembly)                  //for events
             };
             
             var typeProvider = new AssemblyTypesProvider(rules);

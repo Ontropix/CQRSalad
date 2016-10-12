@@ -1,5 +1,7 @@
-﻿using CQRSalad.EventSourcing;
+﻿using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 using CQRSalad.EventStore.Core;
+using CQRSalad.Infrastructure;
 using StructureMap;
 
 namespace Samples.Tests.Configurators
@@ -10,14 +12,13 @@ namespace Samples.Tests.Configurators
         {
             //container.Configure(expression => expression.For(typeof(IAggregateRepository<>)).Use(typeof(ShapshotAggregateRepository<>)).Ctor<int>().Is(2).Singleton());
             container.Configure(expression => expression.For(typeof(IAggregateRepository<>)).Use(typeof(AggregateRepository<>)).Singleton());
-
-            container.Configure(expression => expression.For(typeof(IEventBus)).Use(typeof(InMemoryEventBus)).Singleton());
             return container;
         }
 
         public static IContainer UseInMemoryEventStore(this IContainer container)
         {
             container.Configure(expression => expression.For(typeof(IEventStore)).Use(typeof(InMemoryEventStore)).Singleton());
+            container.Configure(expression => expression.For(typeof(IEventBus)).Use(typeof(InMemoryEventBus)).Singleton());
             return container;
         }
 

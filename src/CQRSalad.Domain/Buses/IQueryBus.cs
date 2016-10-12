@@ -17,6 +17,6 @@ namespace CQRSalad.Domain
 
     public interface IQueryBus
     {
-        Task<QueryResult<TResult>> QueryAsync<TResult>(IQueryFor<TResult> query, string senderId);
+        Task<TResult> QueryAsync<TResult>(IQueryFor<TResult> query, string senderId);
     }
 }

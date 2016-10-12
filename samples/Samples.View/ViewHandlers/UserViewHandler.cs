@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
+using CQRSalad.Dispatching.Priority;
 using Kutcha.Core;
 using Samples.Domain.Events.User;
 using Samples.View.Views;
@@ -7,6 +8,7 @@ using Samples.View.Views;
 namespace Samples.View.ViewHandlers
 {
     [DispatcherHandler]
+    [DispatchingPriority(DispatchingPriority.High)]
     public sealed class UserViewHandler
     {
         private readonly IKutchaStore<UserView> _store;

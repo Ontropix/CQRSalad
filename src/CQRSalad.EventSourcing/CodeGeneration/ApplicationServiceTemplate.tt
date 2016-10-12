@@ -21,28 +21,33 @@ string serviceNamespace = AggregateType.Namespace;
 #>
 using System.Threading.Tasks;
 using CQRSalad.EventSourcing;
-using CQRSalad.EventStore.Core;
+using CQRSalad.Domain;
+using System.Collections.Generic;
 
 namespace <#= serviceNamespace #>
 {
 	[CQRSalad.Dispatching.DispatcherHandler]
-	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>, CQRSalad.Dispatching.IDispatcherHandler
+	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>
 	{
 		private readonly IEventBus _eventBus;
 
 		public <#= serviceName #>(IAggregateRepository<<#= aggregateName #>> aggregateRepository, IEventBus eventBus)
 				: base(aggregateRepository)
 		{		
-			Argument.IsNotNull(eventBus, nameof(eventBus));
+			if (eventBus == null)
+            {
+                throw new System.ArgumentNullException("eventBus");
+            }
+			
             _eventBus = eventBus;
 		}
 		
-
 		<#foreach(Type messageType in messageTypes) { #>
 	
-			public async Task Handle(DomainMessage<<#= messageType.FullName #>> command)
+			public async Task Handle(<#= messageType.FullName #> command)
 			{
-				await Execute(command);
+				List<object> producedEvents = await Execute(command);
+				await _eventBus.PublishAsync(producedEvents);
 			}
 	<# } #>
 	}

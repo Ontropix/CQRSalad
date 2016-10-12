@@ -42,8 +42,6 @@
     <Compile Include="InMemoryEventStore.cs" />
     <Compile Include="Exceptions\InvalidEventException.cs" />
     <Compile Include="Messaging\DomainEvent.cs" />
-    <Compile Include="Messaging\IEvent.cs" />
-    <Compile Include="Messaging\IEventBus.cs" />
     <Compile Include="Messaging\EventMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

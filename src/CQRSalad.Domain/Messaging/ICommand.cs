@@ -1,6 +1,6 @@
 ﻿namespace CQRSalad.Domain
 {
-    public interface IQueryFor<TResult>
+    public interface ICommand
     {
     }
 }

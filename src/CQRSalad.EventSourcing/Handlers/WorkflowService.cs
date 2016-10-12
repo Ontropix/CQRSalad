@@ -21,7 +21,7 @@ namespace CQRSalad.EventSourcing
             await _domainBus.SendAsync(command, sender);
         }
 
-        protected async Task<QueryResult<TResult>> QueryAsync<TResult>(IQueryFor<TResult> query, string sender)
+        protected async Task<TResult> QueryAsync<TResult>(IQueryFor<TResult> query, string sender)
         {
             Argument.IsNotNull(query, nameof(query));
             Argument.StringNotEmpty(sender, nameof(sender));

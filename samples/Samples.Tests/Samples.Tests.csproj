@@ -99,6 +99,10 @@
       <Project>{cc173585-7515-40ba-b6c1-142ea635e864}</Project>
       <Name>Samples.Domain.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samples.View\Samples.View.csproj">
+      <Project>{c3d87860-a5a5-44b8-bfbf-4d43cc515a5a}</Project>
+      <Name>Samples.View</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

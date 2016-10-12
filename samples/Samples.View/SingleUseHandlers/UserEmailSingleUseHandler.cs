@@ -25,4 +25,12 @@ namespace Samples.View.SingleUseHandlers
     {
         Task SendEmail(string email, string text);
     }
+
+    public class MockEmailSender : IEmailSender
+    {
+        public async Task SendEmail(string email, string text)
+        {
+            await Task.CompletedTask;
+        }
+    }
 }
