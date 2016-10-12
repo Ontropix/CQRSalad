@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryCommandBus.cs" />
+    <Compile Include="InMemoryDomainBus.cs" />
+    <Compile Include="InMemoryEventBus.cs" />
+    <Compile Include="InMemoryQueryBus.cs" />
+    <Compile Include="Validation\IMessageValidationFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +61,9 @@
       <Project>{3bb78f29-d840-41b2-9460-a2820373cd20}</Project>
       <Name>CQRSalad.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
