@@ -49,14 +49,10 @@ namespace CQRSalad.Infrastructure.Validation
         }
     }
 
-    public class FluentMessageValidator<TMessage> : AbstractValidator<TMessage> where TMessage : ICommand
+    public class FluentMessageValidator<TMessage> : AbstractValidator<TMessage> where TMessage : class
     {
         public FluentMessageValidator()
         {
-            //RuleFor(command => command.Metadata).NotNull();
-            //RuleFor(command => command.Metadata.CommandId).NotEmpty();
-            //RuleFor(command => command.Metadata.SenderId).NotEmpty();
-            //RuleFor(command => command.Metadata.Timestamp).Must(createdDate => createdDate <= DateTime.UtcNow).WithMessage("CreatedDate is greater than UtcNow.");
         }
     }
 

@@ -6,6 +6,19 @@ using Samples.Domain.Interface.User;
 
 namespace Samples.Domain.Specifications
 {
+    internal static class Emitter
+    {
+        internal static UserCreatedEvent UserCreatedEvent(string userId, string email, string userName)
+        {
+            return new UserCreatedEvent
+            {
+                UserId = userId,
+                Email = email,
+                UserName = userName
+            };
+        }
+    }
+
     [TestClass]
     public class UserAggregateSpecification : AggregateSpecification<UserAggregate>
     {
@@ -13,8 +26,8 @@ namespace Samples.Domain.Specifications
         public void When_CreateUserCommand_ShouldBe_UserCreatedEvent()
         {
             string userId = Guid.NewGuid().ToString();
-            string userEmail = "ivan.ivanov@gmail.com";
-            string userName = "ivanivanov";
+            string userEmail = "john.doe@gmail.com";
+            string userName = "johndoe";
 
             Given();
 
@@ -29,7 +42,36 @@ namespace Samples.Domain.Specifications
             {
                 UserId = userId,
                 Email = userEmail,
-                UserName = userName + 1
+                UserName = userName
+            });
+        }
+
+        [TestMethod]
+        public void When_FollowUserCommand_ShouldBe_UserCreatedEvent()
+        {
+            string userId_1 = Guid.NewGuid().ToString();
+            string userEmail_1 = "john.doe@gmail.com";
+            string userName_1 = "johndoe";
+
+            string userId_2 = Guid.NewGuid().ToString();
+            string userEmail_2 = "john.doe@gmail.com";
+            string userName_2 = "johndoe";
+
+            Given(
+                Emitter.UserCreatedEvent(userId_1, userEmail_1, userName_1),
+                Emitter.UserCreatedEvent(userId_2, userEmail_2, userName_2)
+                );
+
+            When(new FollowUserCommand
+            {
+                UserId = userId_1,
+                FollowingUserId = userId_2
+            });
+
+            Expected(new UserFollowedEvent
+            {
+                UserId = userId_1,
+                FollowingUserId = userId_2
             });
         }
     }

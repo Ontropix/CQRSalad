@@ -11,7 +11,7 @@ namespace Samples.Tests
     [TestClass]
     public class UnitTest1
     {
-        private Container container;
+        private readonly Container container;
 
         public UnitTest1()
         {
@@ -24,6 +24,7 @@ namespace Samples.Tests
             container.UseInMemoryBuses();
             container.UseInMemoryEventStore();
             container.UseCommandProcessorSingleton();
+            container.UseFluentMessageValidator();
         }
 
         [TestMethod]
@@ -31,30 +32,30 @@ namespace Samples.Tests
         {
             string userId = "1";
 
-            var commandBus = container.GetInstance<ICommandBus>();
-            await commandBus.SendAsync(new CreateUserCommand()
+            var bus = container.GetInstance<IDomainBus>();
+
+            await bus.SendAsync(new CreateUserCommand()
             {
                 UserId = userId,
                 Email = "first@gmail.com",
                 UserName = "first"
             }, "test");
 
-            await commandBus.SendAsync(new CreateUserCommand()
+            await bus.SendAsync(new CreateUserCommand()
             {
                 UserId = "2",
                 Email = "second@gmail.com",
                 UserName = "second"
             }, "test");
 
-            var queryBus = container.GetInstance<IQueryBus>();
-            var result = await queryBus.QueryAsync(new UserProfileByIdQuery()
+            var result = await bus.QueryAsync(new UserProfileByIdQuery()
             {
                 UserId = userId
             }, "test");
             
             Console.WriteLine(result);
 
-            await commandBus.SendAsync(new FollowUserCommand
+            await bus.SendAsync(new FollowUserCommand
             {
                 UserId = userId,
                 FollowingUserId = "2"

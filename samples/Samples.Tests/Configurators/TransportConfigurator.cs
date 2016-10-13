@@ -2,8 +2,10 @@
 using System.Reflection;
 using CQRSalad.Domain;
 using CQRSalad.Infrastructure;
+using CQRSalad.Infrastructure.Validation;
 using Kutcha.Core;
 using Kutcha.InMemory;
+using Samples.Tests.Structuremap;
 using Samples.View.SingleUseHandlers;
 using StructureMap;
 
@@ -26,6 +28,18 @@ namespace Samples.Tests.Configurators
 
             container.Configure(expression => expression.For<IEmailSender>().Use<MockEmailSender>());
 
+            return container;
+        }
+
+        public static IContainer UseFluentMessageValidator(this IContainer container)
+        {
+            var validatorsManager = new FluentValidatorsRegistry(new StructureMapServiceProvider(container));
+            validatorsManager.Register(
+                typeof(Samples.Domain.Interface._namespace).Assembly,
+                typeof(Samples.Domain.Events._namespace).Assembly
+                );
+            container.Configure(expression => expression.For<FluentValidatorsRegistry>().Use(validatorsManager).Singleton());
+            container.Configure(expression => expression.For<IMessageValidationFacade>().Use<FluentMessageValidationFacade>().Singleton());
             return container;
         }
 

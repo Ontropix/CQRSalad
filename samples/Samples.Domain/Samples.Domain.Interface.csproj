@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,7 +49,7 @@
     <Compile Include="User\Commands\AddFollowerCommand.cs" />
     <Compile Include="User\Commands\FollowUserCommand.cs" />
     <Compile Include="User\Commands\CreateUserCommand.cs" />
-    <Compile Include="User\Data\UserProfile.cs" />
+    <Compile Include="User\Models\UserProfile.cs" />
     <Compile Include="User\Queries\UserFollowersCountQuery.cs" />
     <Compile Include="User\Queries\UserFollowingsCountQuery.cs" />
     <Compile Include="User\Queries\UserProfileByIdQuery.cs" />
@@ -60,6 +64,13 @@
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
+      <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
+      <Name>CQRSalad.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -67,6 +67,22 @@ namespace CQRSalad.EventSourcing.Testing
                     throw new EventsNotMatchException(error);
                 }
             }
+
+            Console.WriteLine("Expected:");
+            Console.WriteLine("[");
+            foreach (var expectedEvent in expectedEvents)
+            {
+                Console.Write($"{Dump(expectedEvent)} \r\n");
+            }
+            Console.WriteLine("]");
+
+            Console.WriteLine($"\r\nGot:");
+            Console.WriteLine("[");
+            foreach (var expectedEvent in expectedEvents)
+            {
+                Console.Write($"{Dump(expectedEvent)} \r\n");
+            }
+            Console.WriteLine("]");
         }
 
         private static bool CompareEvents(object one, object two)
