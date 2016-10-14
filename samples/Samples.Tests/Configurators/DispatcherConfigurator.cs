@@ -1,16 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using CQRSalad.Dispatching.ActionsScanning;
 using CQRSalad.Dispatching.Core;
 using CQRSalad.Dispatching.Descriptors;
 using CQRSalad.Dispatching.HandlersScanning;
+using CQRSalad.Dispatching.Interceptors;
 using CQRSalad.Dispatching.Priority;
-using CQRSalad.Dispatching.ServiceProvider;
 using CQRSalad.Dispatching.Subscriptions;
 using CQRSalad.Dispatching.TypesScanning;
 using CQRSalad.EventSourcing;
+using Newtonsoft.Json;
 using Samples.Domain.Events.User;
+using Samples.Domain.Interface.User;
 using Samples.Tests.Structuremap;
 using StructureMap;
 
@@ -55,15 +59,38 @@ namespace Samples.Tests.Configurators
         {
             IMessageDispatcher dispatcher = Dispatcher.Create(configuration =>
             {
-                configuration.SetServiceProvider(new DefaultDispatcherServiceProvider(new StructureMapServiceProvider(container)));
+                configuration.SetServiceProvider(new StructureMapServiceProvider(container));
 
                 var subscriptionManager = container.GetInstance<DispatcherSubscriptionsManager>();
                 configuration.SetSubscriptionStore(subscriptionManager.Subscribe());
-                
+
+                configuration.AddInterceptor<ConsoleQueriesInterceptor>();
             });
 
             container.Configure(expression => expression.For<IMessageDispatcher>().Use(dispatcher).Singleton());
             return container;
+        }
+
+        public class ConsoleQueriesInterceptor : QueriesInterceptor
+        {
+            public override async Task OnInvocationStarted(object query, object messageHandler)
+            {
+                await Task.CompletedTask;
+                Console.WriteLine(query.GetType());
+                Console.WriteLine(JsonConvert.SerializeObject(query));
+                Console.WriteLine(messageHandler.GetType());
+            }
+
+            public override async Task OnInvocationFinished(object query, object messageHandler, object invocationResult)
+            {
+                await Task.CompletedTask;
+                Console.WriteLine(JsonConvert.SerializeObject(invocationResult));
+            }
+
+            public override async Task OnException(object query, object messageHandler, Exception invocationException)
+            {
+                await Task.CompletedTask;
+            }
         }
     }
 }

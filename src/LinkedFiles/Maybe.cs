@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CQRSalad.Infrastructure
 {
@@ -47,6 +48,18 @@ namespace CQRSalad.Infrastructure
             }
 
             action(obj);
+            return obj;
+        }
+
+        public static async Task<TInput> Do<TInput>(this TInput obj, Func<TInput, Task> action)
+            where TInput : class
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+
+            await action(obj);
             return obj;
         }
 

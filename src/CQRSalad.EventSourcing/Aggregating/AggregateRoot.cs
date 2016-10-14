@@ -29,10 +29,6 @@ namespace CQRSalad.EventSourcing
             Changes.Add(evnt);
             Version++;
         }
-
-        internal void ProcessCommand<TCommand>(TCommand command)
-        {
-        }
     }
 
     public abstract class AggregateRoot<TState> : AggregateRoot where TState : class, new()

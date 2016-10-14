@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CQRSalad.Dispatching.Context;
 using CQRSalad.Infrastructure;
 
@@ -6,30 +7,28 @@ namespace CQRSalad.Dispatching.Interceptors
 {
     public abstract class SpecificMessageInterceptor<TMessage> : IContextInterceptor where TMessage : class
     {
-        void IContextInterceptor.OnInvocationStarted(DispatchingContext context)
+        async Task IContextInterceptor.OnInvocationStarted(DispatchingContext context)
         {
-            ExecuteOnSpecificMessageType(context, message => OnInvocationStarted(message, context.HandlerInstance));
+            await ExecuteOnSpecificMessageType(context, message => OnInvocationStarted(message, context.HandlerInstance));
         }
 
-        void IContextInterceptor.OnInvocationFinished(DispatchingContext context)
+        async Task IContextInterceptor.OnInvocationFinished(DispatchingContext context)
         {
-            ExecuteOnSpecificMessageType(context, message => OnInvocationFinished(message, context.HandlerInstance, context.Result));
+            await ExecuteOnSpecificMessageType(context, message => OnInvocationFinished(message, context.HandlerInstance, context.Result));
         }
 
-        void IContextInterceptor.OnException(DispatchingContext context, Exception invocationException)
+        async Task IContextInterceptor.OnException(DispatchingContext context, Exception invocationException)
         {
-            ExecuteOnSpecificMessageType(context, message => OnException(message, context.HandlerInstance, invocationException));
+            await ExecuteOnSpecificMessageType(context, message => OnException(message, context.HandlerInstance, invocationException));
         }
 
-        public abstract void OnInvocationStarted(TMessage message, object messageHandler);
-        public abstract void OnInvocationFinished(TMessage message, object messageHandler, object invocationResult);
-        public abstract void OnException(TMessage message, object messageHandler, Exception invocationException);
+        public abstract Task OnInvocationStarted(TMessage message, object messageHandler);
+        public abstract Task OnInvocationFinished(TMessage message, object messageHandler, object invocationResult);
+        public abstract Task OnException(TMessage message, object messageHandler, Exception invocationException);
 
-        protected static void ExecuteOnSpecificMessageType(DispatchingContext context, Action<TMessage> action)
+        protected static async Task ExecuteOnSpecificMessageType(DispatchingContext context, Func<TMessage, Task> action)
         {
-            context.With(c => c.MessageInstance)
-                   .Cast<TMessage>()
-                   .Do(action.Invoke);
+            await context.With(c => c.MessageInstance).Cast<TMessage>().Do(action);
         }
     }
 }

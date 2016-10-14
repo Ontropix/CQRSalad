@@ -53,7 +53,6 @@ namespace Samples.Tests
                 UserId = userId
             }, "test");
             
-            Console.WriteLine(result);
 
             await bus.SendAsync(new FollowUserCommand
             {

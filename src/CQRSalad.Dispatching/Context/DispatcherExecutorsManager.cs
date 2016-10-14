@@ -11,9 +11,8 @@ namespace CQRSalad.Dispatching.Context
     {
         private readonly DispatcherExecutorsCache _executorsCache;
 
-        public DispatcherExecutorsManager(DispatcherExecutorsCache executorsCache)
+        public DispatcherExecutorsManager()
         {
-            _executorsCache = executorsCache;
         }
 
         internal ContextExecutor GetExecutor(DispatcherSubscription subscription)

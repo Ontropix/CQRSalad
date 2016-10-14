@@ -12,7 +12,7 @@ List<Type> messageTypes = AggregateType.GetMethods(BindingFlags.Public | Binding
 				                                        !method.IsConstructor && !method.IsGenericMethod &&
 														!method.IsStatic)
 									   .Select(method => method.GetParameters()[0].ParameterType)
-									   .Where(parameter => typeof(ICommand).IsAssignableFrom(parameter))
+									   //.Where(parameter => typeof(ICommand).IsAssignableFrom(parameter))
 									   .ToList();
 
 string aggregateName = AggregateType.FullName;

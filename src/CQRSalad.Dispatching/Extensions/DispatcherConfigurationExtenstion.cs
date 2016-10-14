@@ -1,28 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using CQRSalad.Dispatching.Core;
-using CQRSalad.Dispatching.Interceptors;
-using CQRSalad.Dispatching.ServiceProvider;
 using CQRSalad.Dispatching.Subscriptions;
 
 namespace CQRSalad.Dispatching
 {
     public static class DispatcherConfigurationExtensions
     {
-        //public static DispatcherConfiguration EnableHandlingPriority(this DispatcherConfiguration configuration)
-        //{
-        //    configuration.IsHandlingPriorityEnabled = true;
-        //    return configuration;
-        //}
-
-        public static DispatcherConfiguration SetServiceProvider(this DispatcherConfiguration configuration, IDispatcherServiceProvider serviceProvider)
+        public static DispatcherConfiguration SetServiceProvider(
+            this DispatcherConfiguration configuration, 
+            IServiceProvider serviceProvider)
         {
             configuration.ServiceProvider = serviceProvider;
             return configuration;
         }
-        
-        public static DispatcherConfiguration AddInterceptor(this DispatcherConfiguration configuration, Type interceptorType)
+
+        public static DispatcherConfiguration SetSubscriptionStore(
+            this DispatcherConfiguration configuration,
+            DispatcherSubscriptionsStore store)
+        {
+            configuration.SubscriptionsStore = store;
+            return configuration;
+        }
+
+        public static DispatcherConfiguration AddInterceptor(
+            this DispatcherConfiguration configuration, 
+            Type interceptorType)
         {
             configuration.Interceptors.Add(interceptorType);
             return configuration;
@@ -30,48 +32,8 @@ namespace CQRSalad.Dispatching
 
         public static DispatcherConfiguration AddInterceptor<TInterceptor>(this DispatcherConfiguration configuration)
         {
-            Type interceptorType = typeof (TInterceptor);
-            configuration.Interceptors.Add(interceptorType);
+            configuration.Interceptors.Add(typeof(TInterceptor));
             return configuration;
         }
-
-        public static DispatcherConfiguration SetSubscriptionStore(this DispatcherConfiguration configuration, DispatcherSubscriptionsStore store)
-        {
-            configuration.SubscriptionsStore = store;
-            return configuration;
-        }
-        
-        public static void Validate(this DispatcherConfiguration configuration)
-        {
-            var errors = new List<string>();
-
-            if (configuration.ServiceProvider == null)
-            {
-                errors.Add("ServiceProvider is null.");
-            }
-
-            //if (configuration.ScanningRules == null || !configuration.ScanningRules.Any())
-            //{
-            //    errors.Add("No ScanRules were specified.");
-            //}
-
-            if (configuration.Interceptors != null && configuration.Interceptors.Count > 0)
-            {
-                foreach (Type interceptorType in configuration.Interceptors)
-                {
-                    if (!typeof(IContextInterceptor).IsAssignableFrom(interceptorType))
-                    {
-                        errors.Add($"Interceptor {interceptorType.FullName} must implement IMessageHandlerInterceptor");
-                    }
-                }
-            }
-
-            if (errors.Any())
-            {
-                string errorMessage = $"Configuration is invalid: \n - {String.Join("\n - ", errors)}";
-                throw new DispatcherConfigurationException(errorMessage, configuration);
-            }
-        }
-
     }
 }

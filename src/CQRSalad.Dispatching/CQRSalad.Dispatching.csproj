@@ -52,7 +52,6 @@
     <Compile Include="Context\DispatcherExecutorsManager.cs" />
     <Compile Include="Context\DispatchingContext.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
-    <Compile Include="ServiceProvider\DispatcherServiceProvider.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Core\Dispatcher.cs" />
     <Compile Include="Core\DispatcherConfiguration.cs" />
@@ -63,6 +62,7 @@
     <Compile Include="Exceptions\HandlerNotFoundException.cs" />
     <Compile Include="Exceptions\ServiceProviderException.cs" />
     <Compile Include="Extensions\DispatcherConfigurationExtenstion.cs" />
+    <Compile Include="Interceptors\QueriesInterceptor.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
     <Compile Include="Interceptors\IContextInterceptor.cs" />
     <Compile Include="ActionsScanning\DefaultDispatcherHandlersProvider.cs" />
@@ -86,7 +86,12 @@
     <Compile Include="TypesScanning\IDispatcherTypesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CQRSalad.Domain\CQRSalad.Domain.csproj">
+      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
+      <Name>CQRSalad.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

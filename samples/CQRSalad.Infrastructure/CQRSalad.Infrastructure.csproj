@@ -49,6 +49,8 @@
     <Compile Include="InMemoryDomainBus.cs" />
     <Compile Include="InMemoryEventBus.cs" />
     <Compile Include="InMemoryQueryBus.cs" />
+    <Compile Include="Logging\IDispatcherContextLogger.cs" />
+    <Compile Include="Validation\FluentMessageValidationFacade.cs" />
     <Compile Include="Validation\IMessageValidationFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,10 +63,15 @@
       <Project>{3bb78f29-d840-41b2-9460-a2820373cd20}</Project>
       <Name>CQRSalad.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.Core\Kutcha.Core.csproj">
+      <Project>{166f6eb2-5143-43de-b578-1f0e31a596d5}</Project>
+      <Name>Kutcha.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

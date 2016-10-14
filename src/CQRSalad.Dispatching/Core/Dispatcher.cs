@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching.Context;
-using CQRSalad.Dispatching.ServiceProvider;
+using CQRSalad.Dispatching.Interceptors;
 using CQRSalad.Dispatching.Subscriptions;
 
 namespace CQRSalad.Dispatching.Core
@@ -12,24 +12,43 @@ namespace CQRSalad.Dispatching.Core
     {
         private readonly DispatcherSubscriptionsStore _subscriptionsStore;
         private readonly DispatcherExecutorsManager _executorsManager;
-        private readonly IDispatcherServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly List<Type> _interceptorsTypes;
 
         private Dispatcher(
-            DispatcherSubscriptionsStore subscriptionsStore, 
-            IDispatcherServiceProvider serviceProvider, 
-            DispatcherExecutorsManager executorsManager)
+            IServiceProvider serviceProvider,
+            DispatcherSubscriptionsStore subscriptionsStore,
+            DispatcherExecutorsManager executorsManager, 
+            List<Type> interceptorsTypes)
         {
+            Argument.IsNotNull(serviceProvider, nameof(serviceProvider));
+            Argument.IsNotNull(subscriptionsStore, nameof(subscriptionsStore));
+            Argument.IsNotNull(executorsManager, nameof(executorsManager));
+
+            if (interceptorsTypes != null && interceptorsTypes.Count > 0)
+            {
+                foreach (Type interceptorType in interceptorsTypes)
+                {
+                    if (!typeof(IContextInterceptor).IsAssignableFrom(interceptorType))
+                    {
+                        throw new ArgumentException($"Interceptor {interceptorType.FullName} must implement IContextInterceptor");
+                    }
+                }
+            }
+
             _subscriptionsStore = subscriptionsStore;
             _serviceProvider = serviceProvider;
             _executorsManager = executorsManager;
+            _interceptorsTypes = interceptorsTypes;
         }
 
         public static Dispatcher Create(DispatcherConfiguration configuration)
         {
             return new Dispatcher(
-                configuration.SubscriptionsStore,
                 configuration.ServiceProvider,
-                configuration.ExecutorManager);
+                configuration.SubscriptionsStore,
+                configuration.ExecutorManager,
+                configuration.Interceptors);
         }
 
         public static Dispatcher Create(Action<DispatcherConfiguration> configurator)
@@ -62,32 +81,26 @@ namespace CQRSalad.Dispatching.Core
 
         private async Task<object> DispatchMessageAsync(object messageInstance, DispatcherSubscription subscription)
         {
-            object handlerInstance = _serviceProvider.GetHandlerInstance(subscription.HandlerType);
+            object handlerInstance = _serviceProvider.GetMessageHandler(subscription.HandlerType);
             ContextExecutor executor = _executorsManager.GetExecutor(subscription);
 
             var context = new DispatchingContext(handlerInstance, messageInstance);
-            await executor.Execute(context);
+
+            List<IContextInterceptor> interceptors = _serviceProvider.GetInterceptors(_interceptorsTypes);
+            interceptors.ForEach(async interceptor => await interceptor.OnInvocationStarted(context));
+
+            try
+            {
+                await executor.Execute(context);
+            }
+            catch (Exception exception)
+            {
+                interceptors.ForEach(async interceptor => await interceptor.OnException(context, exception));
+                throw;
+            }
+            interceptors.ForEach(async interceptor => await interceptor.OnInvocationFinished(context));
+
             return context.Result;
-            //return _interceptorTypes.Count > 0 ? await InterceptAsync(context) : await context.InvokeAsync();
         }
-
-        //private async Task<object> InterceptAsync(AsyncDispatcherContext context)
-        //{
-        //    List<IContextInterceptor> interceptors = _serviceProvider.GetInterceptors(_interceptorTypes);
-
-        //    interceptors.ForEach(interceptor => interceptor.OnInvocationStarted(context));
-        //    try
-        //    {
-        //        await context.InvokeAsync();
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        interceptors.ForEach(interceptor => interceptor.OnException(context, exception));
-        //        throw;
-        //    }
-        //    interceptors.ForEach(interceptor => interceptor.OnInvocationFinished(context));
-
-        //    return context.Result;
-        //}
     }
 }
