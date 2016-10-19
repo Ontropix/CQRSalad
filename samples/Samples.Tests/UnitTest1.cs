@@ -38,26 +38,17 @@ namespace Samples.Tests
             {
                 UserId = userId,
                 Email = "first@gmail.com",
-                UserName = "first"
             }, "test");
 
             await bus.SendAsync(new CreateUserCommand()
             {
                 UserId = "2",
                 Email = "second@gmail.com",
-                UserName = "second"
             }, "test");
 
             var result = await bus.QueryAsync(new UserProfileByIdQuery()
             {
                 UserId = userId
-            }, "test");
-            
-
-            await bus.SendAsync(new FollowUserCommand
-            {
-                UserId = userId,
-                FollowingUserId = "2"
             }, "test");
         }
     }

@@ -2,7 +2,7 @@
 using CQRSalad.Dispatching;
 using CQRSalad.Dispatching.Priority;
 using Kutcha.Core;
-using Samples.Domain.Events.User;
+using Samples.Domain.Model.User;
 using Samples.View.Views;
 
 namespace Samples.View.ViewHandlers
@@ -18,24 +18,13 @@ namespace Samples.View.ViewHandlers
             _store = store;
         }
 
-        public async Task Apply(UserCreatedEvent evnt)
+        public async Task Apply(UserCreated evnt)
         {
             await _store.InsertAsync(new UserView
             {
                 Id = evnt.UserId,
                 Email = evnt.Email,
-                UserName = evnt.UserName
             });
-        }
-
-        public async Task Apply(UserFollowedEvent evnt)
-        {
-            await _store.FindOneAndUpdateAsync(evnt.UserId, view => view.FollowingIds.Add(evnt.FollowingUserId));
-        }
-        
-        public async Task Apply(FollowerAddedEvent evnt)
-        {
-            await _store.FindOneAndUpdateAsync(evnt.UserId, view => view.FollowersIds.Add(evnt.FollowerUserId));
         }
     }
 }

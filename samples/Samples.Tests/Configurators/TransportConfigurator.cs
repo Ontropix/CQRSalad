@@ -5,6 +5,7 @@ using CQRSalad.Infrastructure;
 using CQRSalad.Infrastructure.Validation;
 using Kutcha.Core;
 using Kutcha.InMemory;
+using Samples.Domain.Model;
 using Samples.Tests.Structuremap;
 using Samples.View.SingleUseHandlers;
 using StructureMap;
@@ -36,7 +37,7 @@ namespace Samples.Tests.Configurators
             var validatorsManager = new FluentValidatorsRegistry(new StructureMapServiceProvider(container));
             validatorsManager.Register(
                 typeof(Samples.Domain.Interface._namespace).Assembly,
-                typeof(Samples.Domain.Events._namespace).Assembly
+                typeof(_namespace).Assembly
                 );
             container.Configure(expression => expression.For<FluentValidatorsRegistry>().Use(validatorsManager).Singleton());
             container.Configure(expression => expression.For<IMessageValidationFacade>().Use<FluentMessageValidationFacade>().Singleton());

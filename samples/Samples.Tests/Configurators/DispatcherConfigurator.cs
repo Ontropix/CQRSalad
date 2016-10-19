@@ -13,8 +13,7 @@ using CQRSalad.Dispatching.Subscriptions;
 using CQRSalad.Dispatching.TypesScanning;
 using CQRSalad.EventSourcing;
 using Newtonsoft.Json;
-using Samples.Domain.Events.User;
-using Samples.Domain.Interface.User;
+using Samples.Domain.Model;
 using Samples.Tests.Structuremap;
 using StructureMap;
 
@@ -24,13 +23,13 @@ namespace Samples.Tests.Configurators
     {
         public static IContainer UseAssemblyRuleScanning(this IContainer container)
         {
-            Assembly applicationServices = ApplicationServiceGenerator.Generate(typeof(UserAggregate).Assembly);
+            Assembly applicationServices = ApplicationServiceGenerator.Generate(typeof(Domain.Model._namespace).Assembly);
 
             var rules = new List<AssemblyScanningRule>
             {
                 new AssemblyScanningRule(applicationServices),                                               //for command handling
                 new AssemblyScanningRule(typeof(Samples.Domain.Interface._namespace).Assembly),              //scan for commands and queries
-                new AssemblyScanningRule(typeof(Samples.Domain.Events._namespace).Assembly),                  //for events
+                new AssemblyScanningRule(typeof(_namespace).Assembly),                  //for events
                 new AssemblyScanningRule(typeof(Samples.View._namespace).Assembly)                  //for events
             };
             

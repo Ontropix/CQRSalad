@@ -43,9 +43,9 @@ namespace CQRSalad.Infrastructure.Validation
         }
     }
 
-    public class FluentMessageValidator<TMessage> : AbstractValidator<TMessage> where TMessage : class
+    public class FluentValidatorFor<TMessage> : AbstractValidator<TMessage> where TMessage : class
     {
-        public FluentMessageValidator()
+        public FluentValidatorFor()
         {
         }
     }

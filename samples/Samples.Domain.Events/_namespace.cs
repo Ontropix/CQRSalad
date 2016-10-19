@@ -1,4 +1,4 @@
-﻿namespace Samples.Domain.Events
+﻿namespace Samples.Domain.Model
 {
     public class _namespace
     {

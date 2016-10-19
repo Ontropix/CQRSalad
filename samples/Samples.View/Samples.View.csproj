@@ -42,10 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryHandlers\TodoListQueryHandler.cs" />
     <Compile Include="QueryHandlers\UserQueryHandler.cs" />
     <Compile Include="SingleUseHandlers\UserEmailSingleUseHandler.cs" />
+    <Compile Include="ViewHandlers\TodoListViewHandler.cs" />
     <Compile Include="ViewHandlers\UserViewHandler.cs" />
     <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\TodoListView.cs" />
     <Compile Include="Views\UserView.cs" />
     <Compile Include="_namespace.cs" />
   </ItemGroup>

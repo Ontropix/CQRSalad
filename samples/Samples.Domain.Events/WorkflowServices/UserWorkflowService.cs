@@ -3,10 +3,8 @@ using CQRSalad.Dispatching;
 using CQRSalad.Dispatching.Priority;
 using CQRSalad.Domain;
 using CQRSalad.EventSourcing;
-using Samples.Domain.Events.User;
-using Samples.Domain.Interface.User;
 
-namespace Samples.Domain.Events.WorkflowServices
+namespace Samples.Domain.Model.WorkflowServices
 {
     [DispatcherHandler]
     public class UserWorkflowService : WorkflowService
@@ -15,16 +13,16 @@ namespace Samples.Domain.Events.WorkflowServices
         {
         }
 
-        [DispatchingPriority(DispatchingPriority.Low)]
-        public async Task On(UserFollowedEvent evnt)
-        {
-            await ProduceCommandAsync(
-                command: new AddFollowerCommand
-                {
-                    UserId = evnt.FollowingUserId,
-                    FollowerUserId = evnt.UserId
-                },
-                sender: evnt.UserId);
-        }
+        //[DispatchingPriority(DispatchingPriority.Low)]
+        //public async Task On(UserFollowed evnt)
+        //{
+        //    await ProduceCommandAsync(
+        //        command: new AddFollowerCommand
+        //        {
+        //            UserId = evnt.FollowingUserId,
+        //            FollowerUserId = evnt.UserId
+        //        },
+        //        sender: evnt.UserId);
+        //}
     }
 }

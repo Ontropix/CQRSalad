@@ -22,25 +22,10 @@ namespace Samples.View.QueryHandlers
             UserProfile profile = new UserProfile
             {
                 Id = view.Id,
-                UserName = view.UserName,
                 Email = view.Email,
-                FollowersCount = view.FollowersIds.Count,
-                FollowingsCount = view.FollowingIds.Count
             };
 
             return profile;
-        }
-
-        public async Task<int> Query(UserFollowersCountQuery query)
-        {
-            UserView view = await _store.FindByIdAsync(query.UserId);
-            return view.FollowersIds.Count;
-        }
-
-        public async Task<int> Query(UserFollowingsCountQuery query)
-        {
-            UserView view = await _store.FindByIdAsync(query.UserId);
-            return view.FollowingIds.Count;
         }
     }
 }

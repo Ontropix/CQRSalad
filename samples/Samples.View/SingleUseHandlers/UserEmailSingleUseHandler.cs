@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using Samples.Domain.Events.User;
+using Samples.Domain.Model.User;
 
 namespace Samples.View.SingleUseHandlers
 {
@@ -15,7 +15,7 @@ namespace Samples.View.SingleUseHandlers
             _emailSender = emailSender;
         }
 
-        public async Task Apply(UserCreatedEvent evnt)
+        public async Task Apply(UserCreated evnt)
         {
             await _emailSender.SendEmail(evnt.Email, EMAIL_GREETING);
         }
