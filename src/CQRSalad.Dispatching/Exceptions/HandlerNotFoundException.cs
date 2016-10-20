@@ -7,7 +7,7 @@ namespace CQRSalad.Dispatching
         public Type MessageType { get; private set; }
 
         public HandlerNotFoundException(Type messageType)
-            : base(String.Format("Handler for message '{0}' was not found.", messageType.FullName))
+            : base($"Handler for message '{messageType.FullName}' was not found.")
         {
             this.MessageType = messageType;
         }

@@ -87,7 +87,7 @@ namespace CQRSalad.Dispatching.Core
             var context = new DispatchingContext(handlerInstance, messageInstance);
 
             List<IContextInterceptor> interceptors = _serviceProvider.GetInterceptors(_interceptorsTypes);
-            interceptors.ForEach(async interceptor => await interceptor.OnInvocationStarted(context));
+            interceptors.ForEach(async interceptor => await interceptor.OnExecuting(context));
 
             try
             {
@@ -98,7 +98,7 @@ namespace CQRSalad.Dispatching.Core
                 interceptors.ForEach(async interceptor => await interceptor.OnException(context, exception));
                 throw;
             }
-            interceptors.ForEach(async interceptor => await interceptor.OnInvocationFinished(context));
+            interceptors.ForEach(async interceptor => await interceptor.OnExecuted(context));
 
             return context.Result;
         }

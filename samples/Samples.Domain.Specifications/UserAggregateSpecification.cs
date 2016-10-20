@@ -29,7 +29,7 @@ namespace Samples.Domain.Specifications
 
             Given();
 
-            When(new CreateUserCommand
+            When(new CreateUser
             {
                 UserId = userId,
                 Email = userEmail,

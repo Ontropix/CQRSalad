@@ -38,14 +38,14 @@ namespace CQRSalad.EventSourcing
             Argument.IsNotNull(aggregate, nameof(aggregate));
             Argument.StringNotEmpty(aggregate.Id, nameof(aggregate.Id));
 
-            if (aggregate.Changes.Count < 1)
+            if (aggregate.UncommittedEvents.Count < 1)
             {
                 throw new InvalidOperationException("Attempting to save aggregate without changes.");
             }
 
             //add metadata
             DateTime commitmentTime = DateTime.UtcNow;
-            var domainEvents = aggregate.Changes.Select(x => new DomainEvent
+            var domainEvents = aggregate.UncommittedEvents.Select(x => new DomainEvent
             {
                 EventId = _idGenerator.Generate(),
                 Body = x,

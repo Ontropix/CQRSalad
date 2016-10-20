@@ -8,12 +8,12 @@ namespace Samples.Domain.Model.TodoList
         [AggregateCtor]
         public void When(CreateTodoList command)
         {
-            ProduceEvent(command.MapTo<TodoListCreated>());
+            ProduceEvent(command.MapToEvent<TodoListCreated>());
         }
         
         public void When(DeleteTodoList command)
         {
-            ProduceEvent(command.MapTo<TodoListDeleted>());
+            ProduceEvent(command.MapToEvent<TodoListDeleted>());
         }
 
         public void When(AddListItem command)
@@ -23,7 +23,7 @@ namespace Samples.Domain.Model.TodoList
                 ProduceError("Duplicate item ID.");
             }
 
-            ProduceEvent(command.MapTo<ListItemAdded>());
+            ProduceEvent(command.MapToEvent<ListItemAdded>());
         }
 
         public void When(RemoveListItem command)
@@ -33,7 +33,7 @@ namespace Samples.Domain.Model.TodoList
                 ProduceError("Item not found.");
             }
 
-            ProduceEvent(command.MapTo<ListItemRemoved>());
+            ProduceEvent(command.MapToEvent<ListItemRemoved>());
         }
 
         public void When(CompleteListItem command)
@@ -43,7 +43,7 @@ namespace Samples.Domain.Model.TodoList
                 ProduceError("Item not found.");
             }
 
-            ProduceEvent(command.MapTo<ListItemCompleted>());
+            ProduceEvent(command.MapToEvent<ListItemCompleted>());
         }
     }
 }

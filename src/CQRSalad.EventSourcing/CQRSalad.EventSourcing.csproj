@@ -46,11 +46,14 @@
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
     <Compile Include="Aggregating\AggregateRoot.cs" />
+    <Compile Include="Aggregating\IEvent.cs" />
+    <Compile Include="Aggregating\IEventBus.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
-    <Compile Include="Snapshoting\AggregateSnapshot.cs" />
+    <Compile Include="Extensions\EventActivator.cs" />
+    <Compile Include="ValueInjection\Snapshoting\AggregateSnapshot.cs" />
     <Compile Include="Aggregating\IAggregateRepository.cs" />
-    <Compile Include="Snapshoting\ISnapshotStore.cs" />
-    <Compile Include="Snapshoting\ShapshotAggregateRepository.cs" />
+    <Compile Include="ValueInjection\Snapshoting\ISnapshotStore.cs" />
+    <Compile Include="ValueInjection\Snapshoting\ShapshotAggregateRepository.cs" />
     <Compile Include="Handlers\ApplicationService.cs" />
     <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Extensions\AggregateRootExtensions.cs" />

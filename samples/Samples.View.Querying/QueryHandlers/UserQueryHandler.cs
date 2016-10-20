@@ -4,7 +4,7 @@ using Kutcha.Core;
 using Samples.Domain.Interface.User;
 using Samples.View.Views;
 
-namespace Samples.View.QueryHandlers
+namespace Samples.View.Querying.QueryHandlers
 {
     [DispatcherHandler]
     public class UserQueryHandler
@@ -16,7 +16,7 @@ namespace Samples.View.QueryHandlers
             _store = store;
         }
 
-        public async Task<UserProfile> Query(UserProfileByIdQuery query)
+        public async Task<UserProfile> Query(UserProfileById query)
         {
             UserView view = await _store.FindByIdAsync(query.UserId);
             UserProfile profile = new UserProfile

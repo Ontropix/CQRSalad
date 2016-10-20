@@ -44,7 +44,7 @@ namespace CQRSalad.EventSourcing
             aggregate.GetStateProperty().SetValue(aggregate, value);
         }
 
-        public static TEvent MapTo<TEvent>(this ICommand command) where TEvent: new()
+        public static TEvent MapToEvent<TEvent>(this ICommand command) where TEvent: class, IEvent, new()
         {
             TEvent evnt = new TEvent();
             evnt.InjectFromCommand(command);

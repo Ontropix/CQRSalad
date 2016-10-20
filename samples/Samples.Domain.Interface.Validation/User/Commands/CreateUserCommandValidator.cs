@@ -4,7 +4,7 @@ using Samples.Domain.Interface.User;
 
 namespace Samples.Domain.Interface.Validation.User.Commands
 {
-    public sealed class CreateUserCommandValidator : FluentValidatorFor<CreateUserCommand>
+    public sealed class CreateUserCommandValidator : FluentValidatorFor<CreateUser>
     {
         public CreateUserCommandValidator()
         {

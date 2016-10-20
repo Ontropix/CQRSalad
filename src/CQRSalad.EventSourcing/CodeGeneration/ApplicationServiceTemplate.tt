@@ -44,10 +44,11 @@ namespace <#= serviceNamespace #>
 		
 		<#foreach(Type messageType in messageTypes) { #>
 	
-			public async Task Handle(<#= messageType.FullName #> command)
+			public async Task<List<IEvent>> Handle(<#= messageType.FullName #> command)
 			{
-				List<object> producedEvents = await Execute(command);
+				List<IEvent> producedEvents = await Execute(command);
 				await _eventBus.PublishAsync(producedEvents);
+				return producedEvents;
 			}
 	<# } #>
 	}

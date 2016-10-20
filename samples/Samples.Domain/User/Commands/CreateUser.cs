@@ -3,7 +3,7 @@ using CQRSalad.EventSourcing;
 
 namespace Samples.Domain.Interface.User
 {
-    public class CreateUserCommand : ICommand
+    public class CreateUser : ICommand
     {
         [AggregateId]
         public string UserId { get; set; }

@@ -37,12 +37,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryCommandBus.cs" />
@@ -62,6 +56,10 @@
     <ProjectReference Include="..\..\src\CQRSalad.Domain\CQRSalad.Domain.csproj">
       <Project>{3bb78f29-d840-41b2-9460-a2820373cd20}</Project>
       <Name>CQRSalad.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
+      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
+      <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.Core\Kutcha.Core.csproj">
       <Project>{166f6eb2-5143-43de-b578-1f0e31a596d5}</Project>

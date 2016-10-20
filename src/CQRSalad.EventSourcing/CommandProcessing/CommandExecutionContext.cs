@@ -78,7 +78,7 @@ namespace CQRSalad.EventSourcing
 
             action.Invoke(Aggregate, new object[] { Command });
 
-            if (Aggregate.Changes.Count < 1)
+            if (Aggregate.UncommittedEvents.Count < 1)
             {
                 throw new CommandProducedNoEventsException(Command);
             }

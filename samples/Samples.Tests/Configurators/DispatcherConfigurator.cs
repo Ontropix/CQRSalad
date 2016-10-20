@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using CQRSalad.Dispatching.ActionsScanning;
+using CQRSalad.Dispatching.Context;
 using CQRSalad.Dispatching.Core;
 using CQRSalad.Dispatching.Descriptors;
 using CQRSalad.Dispatching.HandlersScanning;
@@ -13,7 +14,6 @@ using CQRSalad.Dispatching.Subscriptions;
 using CQRSalad.Dispatching.TypesScanning;
 using CQRSalad.EventSourcing;
 using Newtonsoft.Json;
-using Samples.Domain.Model;
 using Samples.Tests.Structuremap;
 using StructureMap;
 
@@ -27,10 +27,10 @@ namespace Samples.Tests.Configurators
 
             var rules = new List<AssemblyScanningRule>
             {
-                new AssemblyScanningRule(applicationServices),                                               //for command handling
-                new AssemblyScanningRule(typeof(Samples.Domain.Interface._namespace).Assembly),              //scan for commands and queries
-                new AssemblyScanningRule(typeof(_namespace).Assembly),                  //for events
-                new AssemblyScanningRule(typeof(Samples.View._namespace).Assembly)                  //for events
+                new AssemblyScanningRule(applicationServices),                                               //for application services
+                new AssemblyScanningRule(typeof(Samples.Domain.Workflow._namespace).Assembly),                  //for workflow services
+                new AssemblyScanningRule(typeof(Samples.View._namespace).Assembly),                  //for view handlers
+                new AssemblyScanningRule(typeof(Samples.View.Querying._namespace).Assembly)                  //for query handlers
             };
             
             var typeProvider = new AssemblyTypesProvider(rules);
@@ -63,7 +63,7 @@ namespace Samples.Tests.Configurators
                 var subscriptionManager = container.GetInstance<DispatcherSubscriptionsManager>();
                 configuration.SetSubscriptionStore(subscriptionManager.Subscribe());
 
-                configuration.AddInterceptor<ConsoleQueriesInterceptor>();
+                configuration.AddInterceptor<ConsoleInterceptor>();
             });
 
             container.Configure(expression => expression.For<IMessageDispatcher>().Use(dispatcher).Singleton());
@@ -72,21 +72,45 @@ namespace Samples.Tests.Configurators
 
         public class ConsoleQueriesInterceptor : QueriesInterceptor
         {
-            public override async Task OnInvocationStarted(object query, object messageHandler)
+            public override async Task OnExecuting(DispatchingContext context)
             {
                 await Task.CompletedTask;
-                Console.WriteLine(query.GetType());
-                Console.WriteLine(JsonConvert.SerializeObject(query));
-                Console.WriteLine(messageHandler.GetType());
+                Console.WriteLine($"MESSAGE TYPE     : {context.MessageInstance.GetType()}");
+                Console.WriteLine($"MESSAGE INSTANCE : {JsonConvert.SerializeObject(context.MessageInstance)}");
+                Console.WriteLine($"HANDLER TYPE     : {context.HandlerInstance.GetType()}");
             }
 
-            public override async Task OnInvocationFinished(object query, object messageHandler, object invocationResult)
+            public override async Task OnExecuted(DispatchingContext context)
             {
                 await Task.CompletedTask;
-                Console.WriteLine(JsonConvert.SerializeObject(invocationResult));
+                Console.WriteLine($"RESULT: {JsonConvert.SerializeObject(context.Result)}");
+                Console.WriteLine();
             }
 
-            public override async Task OnException(object query, object messageHandler, Exception invocationException)
+            public override async Task OnException(DispatchingContext context)
+            {
+                await Task.CompletedTask;
+            }
+        }
+
+        public class ConsoleInterceptor : IContextInterceptor
+        {
+            public async Task OnExecuting(DispatchingContext context)
+            {
+                await Task.CompletedTask;
+                Console.WriteLine($"MESSAGE TYPE     : {context.MessageInstance.GetType()}");
+                Console.WriteLine($"MESSAGE INSTANCE : {JsonConvert.SerializeObject(context.MessageInstance)}");
+                Console.WriteLine($"HANDLER TYPE     : {context.HandlerInstance.GetType()}");
+            }
+
+            public async Task OnExecuted(DispatchingContext context)
+            {
+                await Task.CompletedTask;
+                Console.WriteLine($"RESULT: {JsonConvert.SerializeObject(context.Result)}");
+                Console.WriteLine();
+            }
+
+            public async Task OnException(DispatchingContext context, Exception invocationException)
             {
                 await Task.CompletedTask;
             }

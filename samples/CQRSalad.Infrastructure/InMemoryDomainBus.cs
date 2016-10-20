@@ -17,10 +17,10 @@ namespace CQRSalad.Infrastructure
             _validationFacade = validationFacade;
         }
 
-        public async Task SendAsync<TCommand>(TCommand command, string senderId) where TCommand : class
+        public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class
         {
             ValidateMessage(command);
-            await _commandBus.SendAsync(command, senderId);
+            await _commandBus.CommandAsync(command, senderId);
         }
 
         public async Task<TResult> QueryAsync<TResult>(IQueryFor<TResult> query, string senderId)

@@ -33,12 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,14 +41,15 @@
     <Compile Include="TodoList\Commands\RemoveListItem.cs" />
     <Compile Include="TodoList\Commands\CompleteListItem.cs" />
     <Compile Include="TodoList\Commands\DeleteTodoList.cs" />
+    <Compile Include="TodoList\Data\TodoItemStatus.cs" />
     <Compile Include="TodoList\Data\TodoList.cs" />
     <Compile Include="TodoList\Data\TodoListItem.cs" />
     <Compile Include="TodoList\Data\TodoListSummary.cs" />
     <Compile Include="TodoList\Queries\TodoListById.cs" />
     <Compile Include="TodoList\Queries\TodoListsByOwnerId.cs" />
-    <Compile Include="User\Commands\CreateUserCommand.cs" />
+    <Compile Include="User\Commands\CreateUser.cs" />
     <Compile Include="User\Models\UserProfile.cs" />
-    <Compile Include="User\Queries\UserProfileByIdQuery.cs" />
+    <Compile Include="User\Queries\UserProfileById.cs" />
     <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>

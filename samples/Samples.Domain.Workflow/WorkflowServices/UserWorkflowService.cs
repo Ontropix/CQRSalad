@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using CQRSalad.Dispatching;
-using CQRSalad.Dispatching.Priority;
+﻿using CQRSalad.Dispatching;
 using CQRSalad.Domain;
 using CQRSalad.EventSourcing;
 
-namespace Samples.Domain.Model.WorkflowServices
+namespace Samples.Domain.Workflow.WorkflowServices
 {
     [DispatcherHandler]
     public class UserWorkflowService : WorkflowService

@@ -7,12 +7,12 @@ namespace CQRSalad.Dispatching.Interceptors
 {
     public abstract class SpecificMessageInterceptor<TMessage> : IContextInterceptor where TMessage : class
     {
-        async Task IContextInterceptor.OnInvocationStarted(DispatchingContext context)
+        async Task IContextInterceptor.OnExecuting(DispatchingContext context)
         {
             await ExecuteOnSpecificMessageType(context, message => OnInvocationStarted(message, context.HandlerInstance));
         }
 
-        async Task IContextInterceptor.OnInvocationFinished(DispatchingContext context)
+        async Task IContextInterceptor.OnExecuted(DispatchingContext context)
         {
             await ExecuteOnSpecificMessageType(context, message => OnInvocationFinished(message, context.HandlerInstance, context.Result));
         }

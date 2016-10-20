@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CQRSalad.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Samples.Domain.Interface.TodoList.Commands;
 using Samples.Domain.Interface.User;
 using Samples.Tests.Configurators;
 using StructureMap;
@@ -11,20 +12,20 @@ namespace Samples.Tests
     [TestClass]
     public class UnitTest1
     {
-        private readonly Container container;
+        private readonly IContainer container;
 
         public UnitTest1()
         {
-            container = new Container();
-            container.UseGuidIdGenerator();
-            container.UseInMemoryKutcha();
-            container.RegisterKutchaRoots();
-            container.UseAssemblyRuleScanning();
-            container.UseAsyncDispatcherSingleton();
-            container.UseInMemoryBuses();
-            container.UseInMemoryEventStore();
-            container.UseCommandProcessorSingleton();
-            container.UseFluentMessageValidator();
+            container = new Container()
+                .UseGuidIdGenerator()
+                .UseInMemoryKutcha()
+                .RegisterKutchaRoots()
+                .UseAssemblyRuleScanning()
+                .UseAsyncDispatcherSingleton()
+                .UseInMemoryBuses()
+                .UseInMemoryEventStore()
+                .UseCommandProcessorSingleton()
+                .UseFluentMessageValidator();
         }
 
         [TestMethod]
@@ -34,21 +35,62 @@ namespace Samples.Tests
 
             var bus = container.GetInstance<IDomainBus>();
 
-            await bus.SendAsync(new CreateUserCommand()
+            await bus.CommandAsync(new CreateUser
             {
                 UserId = userId,
                 Email = "first@gmail.com",
             }, "test");
 
-            await bus.SendAsync(new CreateUserCommand()
+            await bus.CommandAsync(new CreateUser
             {
                 UserId = "2",
                 Email = "second@gmail.com",
             }, "test");
 
-            var result = await bus.QueryAsync(new UserProfileByIdQuery()
+            var result = await bus.QueryAsync(new UserProfileById
             {
                 UserId = userId
+            }, "test");
+
+            string listId = "list1";
+            await bus.CommandAsync(new CreateTodoList
+            {
+                ListId = listId,
+                OwnerId = userId,
+                Title = "Buy in the shop"
+            }, "test");
+
+            await bus.CommandAsync(new AddListItem
+            {
+                ListId = listId,
+                ItemId = "1",
+                Description = "Milk"
+            }, "test");
+
+            await bus.CommandAsync(new AddListItem
+            {
+                ListId = listId,
+                ItemId = "2",
+                Description = "Meat"
+            }, "test");
+
+            await bus.CommandAsync(new RemoveListItem
+            {
+                ListId = listId,
+                ItemId = "2"
+            }, "test");
+
+            await bus.CommandAsync(new AddListItem
+            {
+                ListId = listId,
+                ItemId = "3",
+                Description = "Bread"
+            }, "test");
+
+            await bus.CommandAsync(new CompleteListItem
+            {
+                ListId = listId,
+                ItemId = "3"
             }, "test");
         }
     }

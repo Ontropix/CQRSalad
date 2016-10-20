@@ -17,7 +17,7 @@ namespace CQRSalad.EventSourcing
             _aggregateRepository = aggregateRepository;
         }
 
-        public async Task<List<object>> Execute<TCommand>(TCommand command) where TCommand : class
+        public async Task<List<IEvent>> Execute<TCommand>(TCommand command) where TCommand : class
         {
             Argument.IsNotNull(command, nameof(command));
 
@@ -30,7 +30,7 @@ namespace CQRSalad.EventSourcing
             
             await _aggregateRepository.Save(aggregate);
 
-            return aggregate.Changes;
+            return aggregate.UncommittedEvents;
         }
 
         private string GetAggregateId(object command)

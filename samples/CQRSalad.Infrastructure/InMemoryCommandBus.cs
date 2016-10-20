@@ -13,7 +13,7 @@ namespace CQRSalad.Infrastructure
             _dispatcher = dispatcher;
         }
 
-        public async Task SendAsync<TCommand>(TCommand command, string senderId) where TCommand : class
+        public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class
         {
             await _dispatcher.SendAsync(command);
         }

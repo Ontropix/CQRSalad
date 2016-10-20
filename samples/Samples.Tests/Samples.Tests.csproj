@@ -100,9 +100,17 @@
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
       <Name>Samples.Domain.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain.Workflow\Samples.Domain.Workflow.csproj">
+      <Project>{07c71680-a4e3-4ab6-9c5c-7cda39dda014}</Project>
+      <Name>Samples.Domain.Workflow</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
       <Project>{cc173585-7515-40ba-b6c1-142ea635e864}</Project>
       <Name>Samples.Domain.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.View.Querying\Samples.View.Querying.csproj">
+      <Project>{305dbe5c-df95-44e8-b568-f4561f3e9151}</Project>
+      <Name>Samples.View.Querying</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.View\Samples.View.csproj">
       <Project>{c3d87860-a5a5-44b8-bfbf-4d43cc515a5a}</Project>

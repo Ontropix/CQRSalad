@@ -103,17 +103,18 @@ foreach(Type messageType in messageTypes) {
             
             #line default
             #line hidden
-            this.Write("\t\r\n\t\t\tpublic async Task Handle(");
+            this.Write("\t\r\n\t\t\tpublic async Task<List<IEvent>> Handle(");
             
             #line 47 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(messageType.FullName));
             
             #line default
             #line hidden
-            this.Write(" command)\r\n\t\t\t{\r\n\t\t\t\tList<object> producedEvents = await Execute(command);\r\n\t\t\t\ta" +
-                    "wait _eventBus.PublishAsync(producedEvents);\r\n\t\t\t}\r\n\t");
+            this.Write(" command)\r\n\t\t\t{\r\n\t\t\t\tList<IEvent> producedEvents = await Execute(command);\r\n\t\t\t\ta" +
+                    "wait _eventBus.PublishAsync(producedEvents);\r\n\t\t\t\treturn producedEvents;\r\n\t\t\t}\r\n" +
+                    "\t");
             
-            #line 52 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 53 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
  } 
             
             #line default

@@ -52,7 +52,6 @@
     <Compile Include="User\Events\UserCreated.cs" />
     <Compile Include="User\UserAggregate.cs" />
     <Compile Include="User\UserState.cs" />
-    <Compile Include="WorkflowServices\UserWorkflowService.cs" />
     <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>

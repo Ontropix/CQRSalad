@@ -8,12 +8,12 @@ namespace CQRSalad.EventSourcing
     {
         internal string Id { get; set; }
         internal int Version { get; set; }
-        internal List<object> Changes { get; }
+        internal List<IEvent> UncommittedEvents { get; }
         internal virtual bool HasState => false;
 
         protected AggregateRoot()
         {
-            Changes = new List<object>();
+            UncommittedEvents = new List<IEvent>();
         }
 
         internal virtual void Reel(List<object> events)
@@ -22,11 +22,11 @@ namespace CQRSalad.EventSourcing
             Version += events.Count;
         }
 
-        protected virtual void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class
+        protected virtual void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
-            Changes.Add(evnt);
+            UncommittedEvents.Add(evnt);
             Version++;
         }
     }
@@ -66,7 +66,7 @@ namespace CQRSalad.EventSourcing
         private void ApplyEventOnState(object evnt)
         {
             MethodInfo action = FindStateMethod(evnt);
-            action?.Invoke(State, new [] { evnt });
+            action?.Invoke(State, new object[] { evnt });
         }
 
         private MethodInfo FindStateMethod(object evnt)

@@ -1,4 +1,4 @@
-namespace CQRSalad.EventStore.Core
+namespace CQRSalad.EventSourcing
 {
     public interface IEvent
     {

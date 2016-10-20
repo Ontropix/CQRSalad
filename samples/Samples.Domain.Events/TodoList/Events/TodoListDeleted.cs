@@ -1,4 +1,4 @@
-using CQRSalad.EventStore.Core;
+using CQRSalad.EventSourcing;
 
 namespace Samples.Domain.Model.TodoList
 {

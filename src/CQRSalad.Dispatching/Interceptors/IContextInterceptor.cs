@@ -6,8 +6,8 @@ namespace CQRSalad.Dispatching.Interceptors
 {
     public interface IContextInterceptor
     {
-        Task OnInvocationStarted(DispatchingContext context);
-        Task OnInvocationFinished(DispatchingContext context);
+        Task OnExecuting(DispatchingContext context);
+        Task OnExecuted(DispatchingContext context);
         Task OnException(DispatchingContext context, Exception invocationException);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching.Core;
-using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 
 namespace CQRSalad.Infrastructure
 {
@@ -14,12 +14,12 @@ namespace CQRSalad.Infrastructure
             _dispatcher = dispatcher;
         }
 
-        public async Task PublishAsync<TEvent>(TEvent @event) where TEvent : class
+        public async Task PublishAsync<TEvent>(TEvent @event) where TEvent : class, IEvent
         {
             await _dispatcher.PublishAsync(@event);
         }
 
-        public async Task PublishAsync(List<object> events)
+        public async Task PublishAsync(List<IEvent> events)
         {
             foreach (var @event in events)
             {

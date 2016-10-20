@@ -9,7 +9,7 @@ namespace CQRSalad.EventSourcing.Testing
 {
     public class AggregateSpecification<TAggregate> where TAggregate : AggregateRoot, new()
     {
-        private List<object> ObtainedEvents { get; set; }
+        private List<IEvent> ObtainedEvents { get; set; }
         protected TAggregate Aggregate { get; set; }
 
         public AggregateSpecification()
@@ -33,7 +33,7 @@ namespace CQRSalad.EventSourcing.Testing
             
             var context = new CommandExecutionContext<TCommand>(Aggregate, command);
             context.Perform();
-            ObtainedEvents = Aggregate.Changes;
+            ObtainedEvents = Aggregate.UncommittedEvents;
         }
 
         public void Expected(params object[] expectedEvents)
