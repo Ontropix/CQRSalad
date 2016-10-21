@@ -3,7 +3,6 @@ using System.Reflection;
 using CQRSalad.Domain;
 using CQRSalad.EventStore.Core;
 using CQRSalad.Infrastructure;
-using CQRSalad.Infrastructure.Buses;
 using CQRSalad.Infrastructure.Validation;
 using Kutcha.Core;
 using Kutcha.InMemory;

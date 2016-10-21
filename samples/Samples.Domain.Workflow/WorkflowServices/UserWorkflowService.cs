@@ -1,6 +1,6 @@
 ﻿using CQRSalad.Dispatching;
 using CQRSalad.Domain;
-using CQRSalad.EventSourcing;
+using CQRSalad.Infrastructure;
 
 namespace Samples.Domain.Workflow.WorkflowServices
 {

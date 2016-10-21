@@ -2,12 +2,12 @@
 
 namespace CQRSalad.Dispatching.Context
 {
-    internal class ContextExecutor
+    internal class DispatcherContextExecutor
     {
         private readonly HandlerExecutor _executor;
         private readonly bool _isAsync;
 
-        public ContextExecutor(HandlerExecutor executor, bool isAsync)
+        public DispatcherContextExecutor(HandlerExecutor executor, bool isAsync)
         {
             _executor = executor;
             _isAsync = isAsync;

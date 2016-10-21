@@ -52,6 +52,10 @@
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
+      <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
+      <Name>CQRSalad.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

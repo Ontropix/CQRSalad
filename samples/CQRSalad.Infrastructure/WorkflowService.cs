@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CQRSalad.Domain;
 
-namespace CQRSalad.EventSourcing
+namespace CQRSalad.Infrastructure
 {
     public abstract class WorkflowService
     {
@@ -13,7 +13,7 @@ namespace CQRSalad.EventSourcing
             _domainBus = domainBus;
         }
 
-        protected async Task ProduceCommandAsync<TCommand>(TCommand command, string sender) where TCommand : class
+        protected async Task ProduceCommandAsync<TCommand>(TCommand command, string sender) where TCommand : class, ICommand
         {
             Argument.IsNotNull(command, nameof(command));
             Argument.StringNotEmpty(sender, nameof(sender));

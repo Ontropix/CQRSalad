@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CQRSalad.EventSourcing.Testing.Extensions
+namespace CQRSalad.Infrastructure
 {
     public static class LinqExtensions
     {

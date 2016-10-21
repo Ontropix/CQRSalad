@@ -45,16 +45,16 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
-    <Compile Include="Aggregating\AggregateRoot.cs" />
-    <Compile Include="Aggregating\IEvent.cs" />
-    <Compile Include="Aggregating\IEventBus.cs" />
+    <Compile Include="Core\AggregateRoot.cs" />
+    <Compile Include="Core\CommandExecutorsManager.cs" />
+    <Compile Include="Core\IEvent.cs" />
+    <Compile Include="Core\IEventBus.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
-    <Compile Include="Extensions\EventActivator.cs" />
-    <Compile Include="Aggregating\IAggregateRepository.cs" />
-    <Compile Include="Handlers\ApplicationService.cs" />
+    <Compile Include="Core\IAggregateRepository.cs" />
+    <Compile Include="Core\ApplicationService.cs" />
     <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
-    <Compile Include="CommandProcessing\CommandExecutionContext.cs" />
+    <Compile Include="Core\DomainContext.cs" />
     <Compile Include="Exceptions\CommandProducedNoEventsException.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
     <Compile Include="Extensions\CommandExtensions.cs" />
@@ -65,12 +65,9 @@
       <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGeneration\T4Extensions.cs" />
-    <Compile Include="Handlers\WorkflowService.cs" />
-    <Compile Include="Testing\AggregateSpecification.cs" />
-    <Compile Include="Testing\Exceptions\AggregateTestException.cs" />
-    <Compile Include="Testing\Exceptions\EventsNotMatchException.cs" />
-    <Compile Include="Testing\Exceptions\UnexpectedEventException.cs" />
-    <Compile Include="Testing\Extensions\LinqExtensions.cs" />
+    <Compile Include="Specification\AggregateSpecification.cs" />
+    <Compile Include="Specification\Exceptions\EventsNotMatchException.cs" />
+    <Compile Include="Specification\Exceptions\UnexpectedEventException.cs" />
     <Compile Include="ValueInjection\Convensions\CommandToEventConvention.cs" />
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="ValueInjection\Convensions\CaseInsensitiveConvention.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CQRSalad.Domain;
-using CQRSalad.Infrastructure.Buses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Samples.Domain.Interface.TodoList.Commands;
 using Samples.Domain.Interface.User;

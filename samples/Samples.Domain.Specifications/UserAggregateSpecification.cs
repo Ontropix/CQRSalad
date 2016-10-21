@@ -1,4 +1,5 @@
 ﻿using System;
+using CQRSalad.EventSourcing.Specification;
 using CQRSalad.EventSourcing.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Samples.Domain.Interface.User;

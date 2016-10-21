@@ -1,4 +1,4 @@
-﻿namespace CQRSalad.Infrastructure.Buses
+﻿namespace CQRSalad.Domain
 {
     public interface IDomainBus : ICommandBus, IQueryBus
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CQRSalad.Domain;
 using CQRSalad.EventSourcing.Testing.Exceptions;
 using Newtonsoft.Json;
 
-
-namespace CQRSalad.EventSourcing.Testing
+namespace CQRSalad.EventSourcing.Specification
 {
     public class AggregateSpecification<TAggregate> where TAggregate : AggregateRoot, new()
     {
@@ -17,7 +17,7 @@ namespace CQRSalad.EventSourcing.Testing
             Aggregate = new TAggregate();
         }
 
-        public void Given(params object[] givenEvents)
+        public void Given(params IEvent[] givenEvents)
         {
             if (givenEvents.Length == 0)
             {
@@ -27,16 +27,16 @@ namespace CQRSalad.EventSourcing.Testing
             Aggregate.Reel(givenEvents.ToList()); //todo
         }
 
-        public void When<TCommand>(TCommand command) where TCommand : class
+        public void When(ICommand command)
         {
             Argument.IsNotNull(command, nameof(command));
             
-            var context = new CommandExecutionContext<TCommand>(Aggregate, command);
+            var context = new DomainContext(Aggregate, command);
             context.Perform();
             ObtainedEvents = Aggregate.Changes;
         }
 
-        public void Expected(params object[] expectedEvents)
+        public void Expected(params IEvent[] expectedEvents)
         {
             if (expectedEvents == null || expectedEvents.Length < 1)
             {

@@ -47,7 +47,7 @@
     <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
       <Link>LinkedFiles\SyntaxSugar.cs</Link>
     </Compile>
-    <Compile Include="Context\ContextExecutor.cs" />
+    <Compile Include="Context\DispatcherContextExecutor.cs" />
     <Compile Include="Context\DispatcherExecutorsCache.cs" />
     <Compile Include="Context\DispatcherExecutorsManager.cs" />
     <Compile Include="Context\DispatchingContext.cs" />

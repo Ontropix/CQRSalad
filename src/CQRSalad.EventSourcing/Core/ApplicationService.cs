@@ -10,7 +10,7 @@ namespace CQRSalad.EventSourcing
     public abstract class ApplicationService<TAggregate> where TAggregate : AggregateRoot, new()
     {
         private readonly IAggregateRepository<TAggregate> _aggregateRepository;
-        private AggregateExecutorsManager ExecutorsManager { get; } = new AggregateExecutorsManager();
+        private CommandExecutorsManager ExecutorsManager { get; } = new CommandExecutorsManager();
 
         protected ApplicationService(IAggregateRepository<TAggregate> aggregateRepository)
         {
@@ -24,13 +24,12 @@ namespace CQRSalad.EventSourcing
 
             string aggregateId = GetAggregateId(command);
             TAggregate aggregate = await _aggregateRepository.LoadById(aggregateId);
-
-            //todo rewrite to Expressions with cache like we execute handlers
-            var context = new CommandExecutionContext<TCommand>(aggregate, command);
-            context.Perform();
+            
+            var context = new DomainContext(aggregate, command);
+            CommandExecutor executor = ExecutorsManager.GetExecutor(typeof (TAggregate), typeof(TCommand));
+            executor(context);
 
             await _aggregateRepository.Save(aggregate);
-
             return aggregate.Changes;
         }
 

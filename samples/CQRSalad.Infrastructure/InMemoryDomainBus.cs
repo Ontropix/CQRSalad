@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Domain;
-using CQRSalad.Infrastructure.Buses;
 using CQRSalad.Infrastructure.Validation;
 
 namespace CQRSalad.Infrastructure

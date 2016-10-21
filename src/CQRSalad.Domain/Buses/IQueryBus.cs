@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
-using CQRSalad.Domain;
 
-namespace CQRSalad.Infrastructure.Buses
+namespace CQRSalad.Domain
 {
     public interface IQueryBus
     {

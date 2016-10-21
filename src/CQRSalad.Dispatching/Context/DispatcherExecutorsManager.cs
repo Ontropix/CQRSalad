@@ -15,7 +15,7 @@ namespace CQRSalad.Dispatching.Context
         {
         }
 
-        internal ContextExecutor GetExecutor(DispatcherSubscription subscription)
+        internal DispatcherContextExecutor GetExecutor(DispatcherSubscription subscription)
         {
             //todo cache
 
@@ -25,7 +25,7 @@ namespace CQRSalad.Dispatching.Context
                     subscription.MessageType);
 
             bool isTaskResult = subscription.Action.IsAsync();
-            var executor = new ContextExecutor(func, isTaskResult); //todo
+            var executor = new DispatcherContextExecutor(func, isTaskResult); //todo
             return executor;
         }
 

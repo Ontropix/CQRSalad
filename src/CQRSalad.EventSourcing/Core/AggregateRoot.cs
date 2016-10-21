@@ -16,7 +16,7 @@ namespace CQRSalad.EventSourcing
             Changes = new List<IEvent>();
         }
 
-        internal virtual void Reel(List<object> events)
+        internal virtual void Reel(List<IEvent> events)
         {
             Argument.ElementsNotNull(events);
             Version += events.Count;
@@ -41,7 +41,7 @@ namespace CQRSalad.EventSourcing
             State = new TState();
         }
 
-        internal sealed override void Reel(List<object> events)
+        internal sealed override void Reel(List<IEvent> events)
         {
             base.Reel(events);
             foreach (var @event in events)

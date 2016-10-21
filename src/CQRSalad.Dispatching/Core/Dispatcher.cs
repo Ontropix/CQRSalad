@@ -82,7 +82,7 @@ namespace CQRSalad.Dispatching.Core
         private async Task<object> DispatchMessageAsync(object messageInstance, DispatcherSubscription subscription)
         {
             object handlerInstance = _serviceProvider.GetMessageHandler(subscription.HandlerType);
-            ContextExecutor executor = _executorsManager.GetExecutor(subscription);
+            DispatcherContextExecutor executor = _executorsManager.GetExecutor(subscription);
 
             var context = new DispatchingContext(handlerInstance, messageInstance);
 

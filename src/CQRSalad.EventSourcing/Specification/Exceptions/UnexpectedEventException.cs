@@ -1,8 +1,8 @@
 using System;
 
-namespace CQRSalad.EventSourcing.Testing.Exceptions
+namespace CQRSalad.EventSourcing.Specification
 {
-    public sealed class UnexpectedEventException : AggregateTestException
+    public sealed class UnexpectedEventException : ApplicationException
     {
         public UnexpectedEventException(string message, Exception innerException = null) : base(message, innerException)
         {
