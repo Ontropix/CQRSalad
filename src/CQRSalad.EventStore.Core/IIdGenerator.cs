@@ -1,4 +1,4 @@
-namespace CQRSalad.Domain
+namespace CQRSalad.EventStore.Core
 {
     /// <summary>
     /// Id generator

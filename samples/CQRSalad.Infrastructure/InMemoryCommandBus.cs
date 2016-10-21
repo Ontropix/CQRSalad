@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching.Core;
 using CQRSalad.Domain;
+using CQRSalad.Infrastructure.Buses;
 
 namespace CQRSalad.Infrastructure
 {
@@ -13,7 +14,7 @@ namespace CQRSalad.Infrastructure
             _dispatcher = dispatcher;
         }
 
-        public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class
+        public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class, ICommand
         {
             await _dispatcher.SendAsync(command);
         }

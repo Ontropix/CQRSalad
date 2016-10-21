@@ -1,6 +1,7 @@
 ﻿using System;
+using CQRSalad.Domain;
 
-namespace CQRSalad.Domain
+namespace CQRSalad.Infrastructure.Exceptions
 {
     public class InvalidQueryException<TResult> : ApplicationException
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using CQRSalad.Domain;
 
 namespace CQRSalad.EventSourcing
 {
@@ -17,7 +18,7 @@ namespace CQRSalad.EventSourcing
             _aggregateRepository = aggregateRepository;
         }
 
-        public async Task<List<IEvent>> Execute<TCommand>(TCommand command) where TCommand : class
+        public async Task<List<IEvent>> Execute<TCommand>(TCommand command) where TCommand : class, ICommand
         {
             Argument.IsNotNull(command, nameof(command));
 
@@ -27,14 +28,15 @@ namespace CQRSalad.EventSourcing
             //todo rewrite to Expressions with cache like we execute handlers
             var context = new CommandExecutionContext<TCommand>(aggregate, command);
             context.Perform();
-            
+
             await _aggregateRepository.Save(aggregate);
 
-            return aggregate.UncommittedEvents;
+            return aggregate.Changes;
         }
 
         private string GetAggregateId(object command)
         {
+            //TODO cache
             var propertiesWithAggregateId = command
                 .GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)

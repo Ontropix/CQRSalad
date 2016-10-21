@@ -33,15 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buses\ICommandBus.cs" />
-    <Compile Include="Buses\IDomainBus.cs" />
-    <Compile Include="Buses\IQueryBus.cs" />
-    <Compile Include="Exceptions\InvalidQueryException.cs" />
-    <Compile Include="Messaging\DomainMessage.cs" />
     <Compile Include="Messaging\ICommand.cs" />
+    <Compile Include="Messaging\IDomainMessage.cs" />
     <Compile Include="Messaging\IQueryFor.cs" />
-    <Compile Include="Exceptions\InvalidCommandException.cs" />
-    <Compile Include="IIdGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

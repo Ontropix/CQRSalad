@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using CQRSalad.EventSourcing;
+using CQRSalad.EventStore.Core;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CQRSalad.Domain;
-using CQRSalad.EventStore.Core;
+using CQRSalad.EventSourcing;
 
-namespace CQRSalad.EventSourcing
+namespace CQRSalad.EventStore.Core
 {
     public class ShapshotAggregateRepository<TAggregate> : AggregateRepository<TAggregate>
         where TAggregate : AggregateRoot, new()

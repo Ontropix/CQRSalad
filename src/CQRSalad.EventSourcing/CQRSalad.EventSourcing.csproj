@@ -50,18 +50,13 @@
     <Compile Include="Aggregating\IEventBus.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
     <Compile Include="Extensions\EventActivator.cs" />
-    <Compile Include="ValueInjection\Snapshoting\AggregateSnapshot.cs" />
     <Compile Include="Aggregating\IAggregateRepository.cs" />
-    <Compile Include="ValueInjection\Snapshoting\ISnapshotStore.cs" />
-    <Compile Include="ValueInjection\Snapshoting\ShapshotAggregateRepository.cs" />
     <Compile Include="Handlers\ApplicationService.cs" />
     <Compile Include="Exceptions\CommandProcessingException.cs" />
-    <Compile Include="Extensions\AggregateRootExtensions.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="CommandProcessing\CommandExecutionContext.cs" />
     <Compile Include="Exceptions\CommandProducedNoEventsException.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
-    <Compile Include="Aggregating\AggregateRepository.cs" />
     <Compile Include="Extensions\CommandExtensions.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
@@ -94,10 +89,6 @@
     <ProjectReference Include="..\CQRSalad.Domain\CQRSalad.Domain.csproj">
       <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
       <Name>CQRSalad.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CQRSalad.EventStore.Core\CQRSalad.EventStore.Core.csproj">
-      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
-      <Name>CQRSalad.EventStore.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

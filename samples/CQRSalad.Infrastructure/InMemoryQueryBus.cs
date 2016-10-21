@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching.Core;
 using CQRSalad.Domain;
+using CQRSalad.Infrastructure.Buses;
 
 namespace CQRSalad.Infrastructure
 {

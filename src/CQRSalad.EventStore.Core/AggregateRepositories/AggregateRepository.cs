@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CQRSalad.Domain;
-using CQRSalad.EventStore.Core;
+using CQRSalad.EventSourcing;
 
-namespace CQRSalad.EventSourcing
+namespace CQRSalad.EventStore.Core
 {
     public class AggregateRepository<TAggregate> : IAggregateRepository<TAggregate>
         where TAggregate : AggregateRoot, new()
@@ -38,14 +37,14 @@ namespace CQRSalad.EventSourcing
             Argument.IsNotNull(aggregate, nameof(aggregate));
             Argument.StringNotEmpty(aggregate.Id, nameof(aggregate.Id));
 
-            if (aggregate.UncommittedEvents.Count < 1)
+            if (aggregate.Changes.Count < 1)
             {
                 throw new InvalidOperationException("Attempting to save aggregate without changes.");
             }
 
             //add metadata
             DateTime commitmentTime = DateTime.UtcNow;
-            var domainEvents = aggregate.UncommittedEvents.Select(x => new DomainEvent
+            var domainEvents = aggregate.Changes.Select(x => new DomainEvent
             {
                 EventId = _idGenerator.Generate(),
                 Body = x,

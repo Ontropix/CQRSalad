@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CQRSalad.Domain;
+using CQRSalad.Infrastructure.Exceptions;
 using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;

@@ -8,12 +8,12 @@ namespace CQRSalad.EventSourcing
     {
         internal string Id { get; set; }
         internal int Version { get; set; }
-        internal List<IEvent> UncommittedEvents { get; }
+        internal List<IEvent> Changes { get; }
         internal virtual bool HasState => false;
 
         protected AggregateRoot()
         {
-            UncommittedEvents = new List<IEvent>();
+            Changes = new List<IEvent>();
         }
 
         internal virtual void Reel(List<object> events)
@@ -26,7 +26,7 @@ namespace CQRSalad.EventSourcing
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
-            UncommittedEvents.Add(evnt);
+            Changes.Add(evnt);
             Version++;
         }
     }

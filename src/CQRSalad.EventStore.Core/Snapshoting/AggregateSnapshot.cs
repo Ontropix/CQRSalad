@@ -1,6 +1,6 @@
 using System;
 
-namespace CQRSalad.EventSourcing
+namespace CQRSalad.EventStore.Core
 {
     public class AggregateSnapshot
     {

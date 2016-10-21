@@ -21,7 +21,7 @@ namespace CQRSalad.Infrastructure.Logging
 
     public class KutchaDispatcherContextLog : IDispatcherContextLog, IKutchaRoot
     {
-        string IKutchaRoot.Id => this.Id;
+        //string IKutchaRoot.Id => this.Id;
         public string Id { get; set; }
     }
 

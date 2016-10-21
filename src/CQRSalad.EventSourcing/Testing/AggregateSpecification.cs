@@ -33,7 +33,7 @@ namespace CQRSalad.EventSourcing.Testing
             
             var context = new CommandExecutionContext<TCommand>(Aggregate, command);
             context.Perform();
-            ObtainedEvents = Aggregate.UncommittedEvents;
+            ObtainedEvents = Aggregate.Changes;
         }
 
         public void Expected(params object[] expectedEvents)

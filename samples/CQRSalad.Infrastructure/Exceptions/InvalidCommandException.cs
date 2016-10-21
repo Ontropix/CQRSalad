@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQRSalad.Domain
+namespace CQRSalad.Infrastructure.Exceptions
 {
     public class InvalidCommandException<TCommand> : ApplicationException
     {

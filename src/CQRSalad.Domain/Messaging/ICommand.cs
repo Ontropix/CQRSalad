@@ -1,6 +1,6 @@
 ﻿namespace CQRSalad.Domain
 {
-    public interface ICommand
+    public interface ICommand : IDomainMessage
     {
     }
 }

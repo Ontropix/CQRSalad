@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using CQRSalad.EventSourcing;
+using CQRSalad.EventStore.Core;
 using CQRSalad.EventStore.MongoDB.Serializers;
 using MongoDB.Bson;
 

@@ -39,6 +39,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buses\ICommandBus.cs" />
+    <Compile Include="Buses\IDomainBus.cs" />
+    <Compile Include="Buses\IQueryBus.cs" />
+    <Compile Include="Exceptions\InvalidCommandException.cs" />
+    <Compile Include="Exceptions\InvalidQueryException.cs" />
     <Compile Include="InMemoryCommandBus.cs" />
     <Compile Include="InMemoryDomainBus.cs" />
     <Compile Include="InMemoryEventBus.cs" />

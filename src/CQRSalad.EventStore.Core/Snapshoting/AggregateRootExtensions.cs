@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using CQRSalad.Domain;
+using CQRSalad.EventStore.Core;
 
 namespace CQRSalad.EventSourcing
 {
@@ -44,11 +44,5 @@ namespace CQRSalad.EventSourcing
             aggregate.GetStateProperty().SetValue(aggregate, value);
         }
 
-        public static TEvent MapToEvent<TEvent>(this ICommand command) where TEvent: class, IEvent, new()
-        {
-            TEvent evnt = new TEvent();
-            evnt.InjectFromCommand(command);
-            return evnt;
-        }
     }
 }

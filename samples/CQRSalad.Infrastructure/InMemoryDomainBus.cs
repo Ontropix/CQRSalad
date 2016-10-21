@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Domain;
+using CQRSalad.Infrastructure.Buses;
 using CQRSalad.Infrastructure.Validation;
 
 namespace CQRSalad.Infrastructure
@@ -17,7 +18,7 @@ namespace CQRSalad.Infrastructure
             _validationFacade = validationFacade;
         }
 
-        public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class
+        public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class, ICommand
         {
             ValidateMessage(command);
             await _commandBus.CommandAsync(command, senderId);
