@@ -29,6 +29,30 @@ namespace CQRSalad.EventSourcing
             CommandExecutor executor = ExecutorsManager.GetExecutor(typeof (TAggregate), typeof(TCommand));
             executor(context);
 
+            if (action == null)
+            {
+                throw new CommandProcessingException("Aggregate doesn't handle command.");
+            }
+
+            var ctor = action.GetCustomAttribute<AggregateCtorAttribute>(false);
+
+            if (ctor == null && Aggregate.Version == 0)
+            {
+                throw new InvalidOperationException("Attempting to create an aggregate using non-constructor command.");
+            }
+
+            if (ctor != null && Aggregate.Version > 0)
+            {
+                throw new InvalidOperationException("Attempting to create existed aggregate.");
+            }
+
+            action.Invoke(Aggregate, new object[] { Command });
+
+            if (Aggregate.Changes.Count < 1)
+            {
+                throw new CommandProducedNoEventsException(Command);
+            }
+
             await _aggregateRepository.Save(aggregate);
             return aggregate.Changes;
         }

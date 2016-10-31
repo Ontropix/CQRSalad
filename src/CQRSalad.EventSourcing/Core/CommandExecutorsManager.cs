@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
-    internal delegate void CommandExecutor(DomainContext context);
+    internal delegate void CommandExecutor(DomainContext context); //object, object
 
     internal class CommandExecutorsManager
     {
@@ -13,31 +13,10 @@ namespace CQRSalad.EventSourcing
             //todo cache
 
             MethodInfo action = aggregateType.FindMethodBySinglePameter(commandType);
-            if (action == null)
-            {
-                throw new CommandProcessingException("Aggregate doesn't handle command.");
-            }
-
-            var ctor = action.GetCustomAttribute<AggregateCtorAttribute>(false);
-
-            if (ctor == null && Aggregate.Version == 0)
-            {
-                throw new InvalidOperationException("Attempting to create an aggregate using non-constructor command.");
-            }
-
-            if (ctor != null && Aggregate.Version > 0)
-            {
-                throw new InvalidOperationException("Attempting to create existed aggregate.");
-            }
-
-            action.Invoke(Aggregate, new object[] {Command});
-
-            if (Aggregate.Changes.Count < 1)
-            {
-                throw new CommandProducedNoEventsException(Command);
-            }
-
             CommandExecutor executor = CreateExecutorDelegate(aggregateType, action, commandType);
+
+            var executor = new DispatcherContextExecutor(func, isTaskResult); //todo
+
             return executor;
         }
 

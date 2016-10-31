@@ -20,7 +20,7 @@ namespace CQRSalad.EventSourcing.CodeGeneration
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+    #line 1 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class ApplicationServiceTemplate : ApplicationServiceTemplateBase
     {
@@ -31,7 +31,7 @@ namespace CQRSalad.EventSourcing.CodeGeneration
         public virtual string TransformText()
         {
             
-            #line 8 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 8 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
 
 List<Type> messageTypes = AggregateType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
 									   .Where(method => method.IsPublic && method.GetParameters().Length == 1 &&
@@ -52,35 +52,35 @@ string serviceNamespace = AggregateType.Namespace;
             this.Write("using System.Threading.Tasks;\r\nusing CQRSalad.EventSourcing;\r\nusing CQRSalad.Doma" +
                     "in;\r\nusing System.Collections.Generic;\r\n\r\nnamespace ");
             
-            #line 27 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 27 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serviceNamespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n\t[CQRSalad.Dispatching.DispatcherHandler]\r\n\tpublic class ");
             
-            #line 30 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 30 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serviceName));
             
             #line default
             #line hidden
             this.Write(" : ApplicationService<");
             
-            #line 30 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 30 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(aggregateName));
             
             #line default
             #line hidden
             this.Write(">\r\n\t{\r\n\t\tprivate readonly IEventBus _eventBus;\r\n\r\n\t\tpublic ");
             
-            #line 34 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 34 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(serviceName));
             
             #line default
             #line hidden
             this.Write("(IAggregateRepository<");
             
-            #line 34 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 34 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(aggregateName));
             
             #line default
@@ -98,14 +98,14 @@ string serviceNamespace = AggregateType.Namespace;
 		
 		");
             
-            #line 45 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 45 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
 foreach(Type messageType in messageTypes) { 
             
             #line default
             #line hidden
             this.Write("\t\r\n\t\t\tpublic async Task<List<IEvent>> Handle(");
             
-            #line 47 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 47 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(messageType.FullName));
             
             #line default
@@ -114,7 +114,7 @@ foreach(Type messageType in messageTypes) {
                     "wait _eventBus.PublishAsync(producedEvents);\r\n\t\t\t\treturn producedEvents;\r\n\t\t\t}\r\n" +
                     "\t");
             
-            #line 53 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+            #line 53 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
  } 
             
             #line default
@@ -123,7 +123,7 @@ foreach(Type messageType in messageTypes) {
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "D:\projects\ME\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
+        #line 1 "D:\projects\CQRSalad\src\CQRSalad.EventSourcing\CodeGeneration\ApplicationServiceTemplate.tt"
 
 private global::System.Type _AggregateTypeField;
 

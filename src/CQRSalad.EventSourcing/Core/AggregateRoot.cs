@@ -46,7 +46,7 @@ namespace CQRSalad.EventSourcing
             base.Reel(events);
             foreach (var @event in events)
             {
-                ApplyEventOnState(@event);
+                ApplyOnState(@event);
             }
         }
 
@@ -54,7 +54,7 @@ namespace CQRSalad.EventSourcing
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
-            ApplyEventOnState(evnt);
+            ApplyOnState(evnt);
             base.ProduceEvent(evnt);
         }
 
@@ -63,7 +63,7 @@ namespace CQRSalad.EventSourcing
             throw new InvalidAggregateStateException(errorMessage);
         }
         
-        private void ApplyEventOnState(object evnt)
+        private void ApplyOnState(object evnt)
         {
             MethodInfo action = FindStateMethod(evnt);
             action?.Invoke(State, new object[] { evnt });
