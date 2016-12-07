@@ -80,10 +80,6 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">
-      <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
-      <Name>CQRSalad.Dispatching</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CQRSalad.Domain\CQRSalad.Domain.csproj">
       <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
       <Name>CQRSalad.Domain</Name>

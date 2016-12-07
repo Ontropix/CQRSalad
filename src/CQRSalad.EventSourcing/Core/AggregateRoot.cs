@@ -4,19 +4,28 @@ using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
+    public class AggregateActivator
+    {
+        public static TAggregate CreateInstance<TAggregate>(string aggregateId) where TAggregate : AggregateRoot, new()
+        {
+            Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
+            return new TAggregate { Id = aggregateId};
+        }
+    }
+
     public abstract class AggregateRoot
     {
-        public string Id { get; set; }
-        public int Version { get; set; }
-        public List<IEvent> Changes { get; }
-        public virtual bool HasState => false; //todo public?
+        public string Id { get; internal set; }
+        public int Version { get; internal set; }
+        internal List<IEvent> Changes { get; } //todo change type for safety collection
+        internal virtual bool HasState => false;
 
         protected AggregateRoot()
         {
             Changes = new List<IEvent>();
         }
 
-        internal virtual void Reel(List<IEvent> events)
+        public virtual void Reel(List<IEvent> events)
         {
             Argument.ElementsNotNull(events);
             Version += events.Count;
@@ -34,14 +43,14 @@ namespace CQRSalad.EventSourcing
     public abstract class AggregateRoot<TState> : AggregateRoot where TState : class, new()
     {
         protected internal TState State { get; internal set; }
-        public sealed override bool HasState => true;
+        internal sealed override bool HasState => true;
 
         protected AggregateRoot()
         {
             State = new TState();
         }
 
-        internal sealed override void Reel(List<IEvent> events)
+        public sealed override void Reel(List<IEvent> events)
         {
             base.Reel(events);
             foreach (var @event in events)
