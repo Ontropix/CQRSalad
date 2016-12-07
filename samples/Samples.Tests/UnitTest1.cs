@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Samples.Domain.Interface.TodoList.Commands;
 using Samples.Domain.Interface.User;

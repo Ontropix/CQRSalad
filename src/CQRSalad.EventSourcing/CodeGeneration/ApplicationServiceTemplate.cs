@@ -110,7 +110,7 @@ foreach(Type messageType in messageTypes) {
             
             #line default
             #line hidden
-            this.Write(" command)\r\n\t\t\t{\r\n\t\t\t\tList<IEvent> producedEvents = await Execute(command);\r\n\t\t\t\ta" +
+            this.Write(" command)\r\n\t\t\t{\r\n\t\t\t\tList<IEvent> producedEvents = await Process(command);\r\n\t\t\t\ta" +
                     "wait _eventBus.PublishAsync(producedEvents);\r\n\t\t\t\treturn producedEvents;\r\n\t\t\t}\r\n" +
                     "\t");
             

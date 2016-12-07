@@ -31,8 +31,7 @@ namespace CQRSalad.EventSourcing.Specification
         {
             Argument.IsNotNull(command, nameof(command));
             
-            var context = new DomainContext(Aggregate, command);
-            context.Perform();
+            Aggregate.Perform(command);
             ObtainedEvents = Aggregate.Changes;
         }
 

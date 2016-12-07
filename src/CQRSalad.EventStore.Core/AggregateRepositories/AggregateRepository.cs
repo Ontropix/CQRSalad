@@ -27,7 +27,7 @@ namespace CQRSalad.EventStore.Core
             List<DomainEvent> stream = await _eventStore.GetStreamAsync(aggregateId);
 
             var aggregate = new TAggregate { Id = aggregateId };
-            aggregate.Reel(stream.Select(x => x.Body).ToList()); //todo
+            //aggregate.Reel(stream.Select(x => x.Body).ToList()); //todo
 
             return aggregate;
         }

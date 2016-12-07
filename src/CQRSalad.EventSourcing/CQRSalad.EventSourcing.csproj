@@ -46,7 +46,7 @@
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
     <Compile Include="Core\AggregateRoot.cs" />
-    <Compile Include="Core\CommandExecutorsManager.cs" />
+    <Compile Include="Extensions\AggregatesMethodsCache.cs" />
     <Compile Include="Core\IEvent.cs" />
     <Compile Include="Core\IEventBus.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
@@ -54,10 +54,11 @@
     <Compile Include="Core\ApplicationService.cs" />
     <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
-    <Compile Include="Core\DomainContext.cs" />
     <Compile Include="Exceptions\CommandProducedNoEventsException.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
-    <Compile Include="Extensions\CommandExtensions.cs" />
+    <Compile Include="Extensions\AggregateRootExtensions.cs" />
+    <Compile Include="Extensions\CommandsPropertyCache.cs" />
+    <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
       <AutoGen>True</AutoGen>

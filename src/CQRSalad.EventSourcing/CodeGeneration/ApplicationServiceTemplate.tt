@@ -46,7 +46,7 @@ namespace <#= serviceNamespace #>
 	
 			public async Task<List<IEvent>> Handle(<#= messageType.FullName #> command)
 			{
-				List<IEvent> producedEvents = await Execute(command);
+				List<IEvent> producedEvents = await Process(command);
 				await _eventBus.PublishAsync(producedEvents);
 				return producedEvents;
 			}

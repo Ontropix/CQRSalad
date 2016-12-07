@@ -39,7 +39,7 @@ namespace CQRSalad.EventStore.Core
             aggregate.RestoreFromSnapshot(snapshot);
 
             List<DomainEvent> stream = await _eventStore.GetStreamPartAsync(aggregateId, snapshot.Version + 1);
-            aggregate.Reel(stream.Select(x => x.Body).ToList());
+            //aggregate.Reel(stream.Select(x => x.Body).ToList());
             return aggregate;
         }
 

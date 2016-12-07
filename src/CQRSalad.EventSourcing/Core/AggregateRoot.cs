@@ -6,10 +6,10 @@ namespace CQRSalad.EventSourcing
 {
     public abstract class AggregateRoot
     {
-        internal string Id { get; set; }
-        internal int Version { get; set; }
-        internal List<IEvent> Changes { get; }
-        internal virtual bool HasState => false;
+        public string Id { get; set; }
+        public int Version { get; set; }
+        public List<IEvent> Changes { get; }
+        public virtual bool HasState => false; //todo public?
 
         protected AggregateRoot()
         {
@@ -34,7 +34,7 @@ namespace CQRSalad.EventSourcing
     public abstract class AggregateRoot<TState> : AggregateRoot where TState : class, new()
     {
         protected internal TState State { get; internal set; }
-        internal sealed override bool HasState => true;
+        public sealed override bool HasState => true;
 
         protected AggregateRoot()
         {
