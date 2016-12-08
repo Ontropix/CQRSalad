@@ -6,7 +6,6 @@ namespace CQRSalad.EventSourcing
 {
     internal static class ReflectionExtensions
     {
-        //todo add cache
         internal static MethodInfo FindMethodBySinglePameter(this IReflect methodOwner, Type parameterType)
         {
             //we can take First element, because we filter methods with definition: "public void ACTION_NAME (MESSAGE_TYPE message)"

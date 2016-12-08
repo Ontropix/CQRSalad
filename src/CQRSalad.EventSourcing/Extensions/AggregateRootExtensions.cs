@@ -1,11 +1,10 @@
 using System;
-using CQRSalad.Domain;
 
 namespace CQRSalad.EventSourcing
 {
     public static class AggregateRootExtensions
     {
-        internal static void Perform<TCommand>(this AggregateRoot aggregate, TCommand command)
+        internal static void Perform<TCommand>(this IAggregateRoot aggregate, TCommand command)
             where TCommand : class, ICommand
         {
             Type aggregateType = aggregate.GetType();

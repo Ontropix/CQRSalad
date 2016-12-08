@@ -21,7 +21,6 @@ string serviceNamespace = AggregateType.Namespace;
 #>
 using System.Threading.Tasks;
 using CQRSalad.EventSourcing;
-using CQRSalad.Domain;
 using System.Collections.Generic;
 
 namespace <#= serviceNamespace #>

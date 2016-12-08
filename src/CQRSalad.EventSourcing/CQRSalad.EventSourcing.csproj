@@ -45,19 +45,22 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
+    <Compile Include="Core\AggregateActivator.cs" />
     <Compile Include="Core\AggregateRoot.cs" />
-    <Compile Include="Extensions\AggregatesMethodsCache.cs" />
+    <Compile Include="DelegateCaches\AggregatesStateMethodsCache.cs" />
+    <Compile Include="DelegateCaches\AggregatesMethodsCache.cs" />
     <Compile Include="Core\IEvent.cs" />
     <Compile Include="Core\IEventBus.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
     <Compile Include="Core\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
+    <Compile Include="DelegateCaches\DelegateHelper.cs" />
     <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="Exceptions\CommandProducedNoEventsException.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
     <Compile Include="Extensions\AggregateRootExtensions.cs" />
-    <Compile Include="Extensions\CommandsPropertyCache.cs" />
+    <Compile Include="DelegateCaches\CommandsPropertyCache.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
@@ -66,24 +69,14 @@
       <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeGeneration\T4Extensions.cs" />
+    <Compile Include="Messaging\ICommand.cs" />
+    <Compile Include="Messaging\IDomainMessage.cs" />
+    <Compile Include="Messaging\IQueryFor.cs" />
     <Compile Include="Specification\AggregateSpecification.cs" />
     <Compile Include="Specification\Exceptions\EventsNotMatchException.cs" />
     <Compile Include="Specification\Exceptions\UnexpectedEventException.cs" />
-    <Compile Include="ValueInjection\Convensions\CommandToEventConvention.cs" />
-    <Compile Include="Extensions\EventExtensions.cs" />
-    <Compile Include="ValueInjection\Convensions\CaseInsensitiveConvention.cs" />
-    <Compile Include="ValueInjection\ConventionInfo.cs" />
-    <Compile Include="ValueInjection\ConventionInjection.cs" />
-    <Compile Include="ValueInjection\PropertyInfoCache.cs" />
-    <Compile Include="ValueInjection\ValueInjecter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CQRSalad.Domain\CQRSalad.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>CQRSalad.Domain</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="CodeGeneration\ApplicationServiceTemplate.tt">

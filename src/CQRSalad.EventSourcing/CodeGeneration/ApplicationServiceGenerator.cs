@@ -34,7 +34,7 @@ namespace CQRSalad.EventSourcing
         private static List<Type> GetAggregateTypes(Assembly assemblyWithAggregates)
         {
             return assemblyWithAggregates.GetExportedTypes().Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType && x.IsPublic
-                                                                        && typeof (AggregateRoot).IsAssignableFrom(x)).ToList();
+                                                                        && typeof (IAggregateRoot).IsAssignableFrom(x)).ToList();
         }
     }
 }

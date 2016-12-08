@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CQRSalad.Domain;
 
 namespace CQRSalad.EventSourcing
 {
-    public abstract class ApplicationService<TAggregate> where TAggregate : AggregateRoot, new()
+    public abstract class ApplicationService<TAggregate, TState> where TAggregate : AggregateRoot<TState>, new() where TState : class, new()
     {
         private readonly IAggregateRepository<TAggregate> _aggregateRepository;
 

@@ -66,6 +66,10 @@
       <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
       <Name>CQRSalad.Dispatching</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSalad.EventSourcing.Snapshots\CQRSalad.EventSourcing.Snapshots.csproj">
+      <Project>{B926D9F7-6822-497E-AAB3-490F33B8FBDB}</Project>
+      <Name>CQRSalad.EventSourcing.Snapshots</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>

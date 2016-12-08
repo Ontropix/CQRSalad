@@ -1,5 +1,4 @@
-﻿using CQRSalad.Domain;
-using CQRSalad.EventSourcing;
+﻿using CQRSalad.EventSourcing;
 using CQRSalad.EventStore.Core;
 using CQRSalad.Infrastructure;
 using StructureMap;

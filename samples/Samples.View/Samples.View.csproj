@@ -49,10 +49,6 @@
       <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
       <Name>CQRSalad.Dispatching</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\CQRSalad.Domain\CQRSalad.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>CQRSalad.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.Core\Kutcha.Core.csproj">
       <Project>{166F6EB2-5143-43DE-B578-1F0E31A596D5}</Project>
       <Name>Kutcha.Core</Name>

@@ -46,10 +46,6 @@
     <Compile Include="Messaging\DomainEvent.cs" />
     <Compile Include="Messaging\EventMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Snapshoting\AggregateRootExtensions.cs" />
-    <Compile Include="Snapshoting\AggregateSnapshot.cs" />
-    <Compile Include="Snapshoting\ISnapshotStore.cs" />
-    <Compile Include="Snapshoting\ShapshotAggregateRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">

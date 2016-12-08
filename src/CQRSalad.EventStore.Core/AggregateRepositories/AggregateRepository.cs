@@ -7,7 +7,7 @@ using CQRSalad.EventSourcing;
 namespace CQRSalad.EventStore.Core
 {
     public class AggregateRepository<TAggregate> : IAggregateRepository<TAggregate>
-        where TAggregate : AggregateRoot, new()
+        where TAggregate : class, IAggregateRoot, new()
     {
         private readonly IEventStore _eventStore;
         private readonly IIdGenerator _idGenerator;
@@ -42,7 +42,7 @@ namespace CQRSalad.EventStore.Core
                 throw new InvalidOperationException("Attempting to save aggregate without changes.");
             }
 
-            //add metadata
+            //todo metadata
             DateTime commitmentTime = DateTime.UtcNow;
             var domainEvents = aggregate.Changes.Select(x => new DomainEvent
             {

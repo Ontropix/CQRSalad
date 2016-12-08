@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CQRSalad.Domain;
+using CQRSalad.EventSourcing;
 using Samples.Domain.Interface.TodoList.Models;
 
 namespace Samples.Domain.Interface.TodoList.Queries

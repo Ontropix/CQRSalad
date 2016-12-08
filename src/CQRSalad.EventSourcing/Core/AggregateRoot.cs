@@ -4,67 +4,63 @@ using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
-    public class AggregateActivator
+    internal class BB
     {
-        public static TAggregate CreateInstance<TAggregate>(string aggregateId) where TAggregate : AggregateRoot, new()
-        {
-            Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
-            return new TAggregate { Id = aggregateId};
-        }
     }
 
-    public abstract class AggregateRoot
+    internal interface IAggregateRoot
     {
-        public string Id { get; internal set; }
-        public int Version { get; internal set; }
-        internal List<IEvent> Changes { get; } //todo change type for safety collection
-        internal virtual bool HasState => false;
+        string Id { get; set; }
+        int Version { get; set; }
+        List<IEvent> Changes { get; } 
+        void Reel(List<IEvent> events);
+        object State { get; set; }
+    }
 
-        protected AggregateRoot()
+    public abstract class AggregateRoot<TState> : IAggregateRoot where TState : class, new()
+    {
+        string IAggregateRoot.Id
         {
-            Changes = new List<IEvent>();
+            get { return this.Id; }
+            set { this.Id = value; }
         }
 
-        public virtual void Reel(List<IEvent> events)
+        object IAggregateRoot.State
         {
-            Argument.ElementsNotNull(events);
+            get { return State; }
+            set { State = (TState) value; }
+        }
+
+        protected internal TState State { get; private set; } = new TState();
+
+        internal string Id { get; set; }
+
+
+
+        public int Version { get; set; }
+
+        public List<IEvent> Changes { get; } = new List<IEvent>();
+
+        public bool HasState => true;
+
+
+        public void Reel(List<IEvent> events)
+        {
             Version += events.Count;
-        }
-
-        protected virtual void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent
-        {
-            Argument.IsNotNull(evnt, nameof(evnt));
-
-            Changes.Add(evnt);
-            Version++;
-        }
-    }
-
-    public abstract class AggregateRoot<TState> : AggregateRoot where TState : class, new()
-    {
-        protected internal TState State { get; internal set; }
-        internal sealed override bool HasState => true;
-
-        protected AggregateRoot()
-        {
-            State = new TState();
-        }
-
-        public sealed override void Reel(List<IEvent> events)
-        {
-            base.Reel(events);
             foreach (var @event in events)
             {
                 ApplyOnState(@event);
             }
         }
-
-        protected sealed override void ProduceEvent<TEvent>(TEvent evnt)
+        
+        protected void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
             ApplyOnState(evnt);
-            base.ProduceEvent(evnt);
+
+            Changes.Add(evnt);
+            Version++;
         }
 
         protected void ProduceError(string errorMessage)
@@ -75,7 +71,7 @@ namespace CQRSalad.EventSourcing
         private void ApplyOnState(object evnt)
         {
             MethodInfo action = FindStateMethod(evnt);
-            action?.Invoke(State, new object[] { evnt });
+            action?.Invoke(State, new object[] { evnt }); //todo use cached expressions
         }
 
         private MethodInfo FindStateMethod(object evnt)

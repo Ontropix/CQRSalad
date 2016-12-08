@@ -13,6 +13,7 @@ using CQRSalad.Dispatching.Priority;
 using CQRSalad.Dispatching.Subscriptions;
 using CQRSalad.Dispatching.TypesScanning;
 using CQRSalad.EventSourcing;
+using CQRSalad.Infrastructure.Interceptors;
 using Newtonsoft.Json;
 using Samples.Tests.Structuremap;
 using StructureMap;

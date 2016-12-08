@@ -52,12 +52,8 @@
     <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CQRSalad.Domain\CQRSalad.Domain.csproj">
-      <Project>{3bb78f29-d840-41b2-9460-a2820373cd20}</Project>
-      <Name>CQRSalad.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
-      <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
+    <ProjectReference Include="..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
+      <Project>{9ecba7b7-4258-4df9-8623-4cf77dd0ccff}</Project>
       <Name>CQRSalad.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">

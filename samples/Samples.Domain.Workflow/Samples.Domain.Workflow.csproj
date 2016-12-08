@@ -44,15 +44,11 @@
       <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
       <Name>CQRSalad.Dispatching</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\CQRSalad.Domain\CQRSalad.Domain.csproj">
-      <Project>{3BB78F29-D840-41B2-9460-A2820373CD20}</Project>
-      <Name>CQRSalad.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
+    <ProjectReference Include="..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
       <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
       <Name>CQRSalad.Infrastructure</Name>
     </ProjectReference>
