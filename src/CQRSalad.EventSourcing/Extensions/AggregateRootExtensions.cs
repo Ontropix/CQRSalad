@@ -2,10 +2,9 @@ using System;
 
 namespace CQRSalad.EventSourcing
 {
-    public static class AggregateRootExtensions
+    internal static class AggregateRootExtensions
     {
         internal static void Perform<TCommand>(this IAggregateRoot aggregate, TCommand command)
-            where TCommand : class, ICommand
         {
             Type aggregateType = aggregate.GetType();
             Type commandType = command.GetType();
@@ -26,7 +25,7 @@ namespace CQRSalad.EventSourcing
 
             if (aggregate.Changes.Count < 1)
             {
-                throw new CommandProducedNoEventsException(command);
+                throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' hasn't produced any events");
             }
         }
     }

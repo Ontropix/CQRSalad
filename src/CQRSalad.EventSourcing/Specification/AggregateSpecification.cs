@@ -1,97 +1,74 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CQRSalad.EventSourcing.Testing.Exceptions;
-using Newtonsoft.Json;
 
 namespace CQRSalad.EventSourcing.Specification
 {
-    public class AggregateSpecification<TAggregate> where TAggregate : IAggregateRoot, new()
+    public abstract class AggregateSpecification<TAggregate> where TAggregate : IAggregateRoot, new()
     {
-        private List<IEvent> ObtainedEvents { get; set; }
-        protected TAggregate Aggregate { get; set; }
-
-        public AggregateSpecification()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<IEvent> Given()
         {
-            Aggregate = new TAggregate();
+            return new IEvent[0];
         }
 
-        public void Given(params IEvent[] givenEvents)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract ICommand When();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract IEnumerable<IEvent> Expected();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public SpecificationResult Verify()
         {
-            if (givenEvents.Length == 0)
+            var aggregate = new TAggregate();
+
+            List<IEvent> givenEvents = Given().ToList();
+            if (givenEvents.Count > 0)
             {
-                return;
+                aggregate.Reel(givenEvents);
             }
 
-            Aggregate.Reel(givenEvents.ToList()); //todo
+            ICommand command = When();
+            if (command == null)
+            {
+                throw new InvalidOperationException("No command provided.");
+            }
+
+            aggregate.Perform(command);
+            var obtainedEvents = aggregate.Changes;
+
+            List<IEvent> expectedEvents = Expected().ToList();
+            if (expectedEvents == null || expectedEvents.Count < 1)
+            {
+                throw new InvalidOperationException("No expected events provided.");
+            }
+
+            return new SpecificationResult
+            {
+                Given = givenEvents,
+                Expected = expectedEvents,
+                Obtained = obtainedEvents
+            };
         }
+    }
 
-        public void When<TCommand>(TCommand command) where TCommand : class, ICommand
-        {
-            Argument.IsNotNull(command, nameof(command));
-            
-            Aggregate.Perform(command);
-            ObtainedEvents = Aggregate.Changes;
-        }
-
-        public void Expected(params IEvent[] expectedEvents)
-        {
-            if (expectedEvents == null || expectedEvents.Length < 1)
-            {
-                throw new ArgumentException("No expected events provided.");
-            }
-
-            if (ObtainedEvents.Count != expectedEvents.Length)
-            {
-                string expectedJson = $"Expected:\r{String.Join("\r", expectedEvents.Select(t => t.GetType().FullName))}";
-                string obtainedJson = $"Got:\r{String.Join("\r", ObtainedEvents.Select(t => t.GetType().FullName))}";
-                throw new UnexpectedEventException($"\r\n{expectedJson}\r\n{obtainedJson}");
-            }
-
-            for (var index = 0; index < ObtainedEvents.Count; index++)
-            {
-                object expected = expectedEvents[index];
-                object obtained = ObtainedEvents[index];
-
-                if (expected.GetType() != obtained.GetType())
-                {
-                    string error = $"Unexpected event. \r\nExpected: \r{Dump(expected)} \r\nGot: \r{Dump(obtained)}";
-                    throw new UnexpectedEventException(error);
-                }
-
-                if (!CompareEvents(expected, obtained))
-                {
-                    string error = $"Events are not match. \r\nExpected: \r{Dump(expected)} \r\nGot: \r{Dump(obtained)}";
-                    throw new EventsNotMatchException(error);
-                }
-            }
-
-            Console.WriteLine("Expected:");
-            Console.WriteLine("[");
-            foreach (var expectedEvent in expectedEvents)
-            {
-                Console.Write($"{Dump(expectedEvent)} \r\n");
-            }
-            Console.WriteLine("]");
-
-            Console.WriteLine($"\r\nGot:");
-            Console.WriteLine("[");
-            foreach (var expectedEvent in expectedEvents)
-            {
-                Console.Write($"{Dump(expectedEvent)} \r\n");
-            }
-            Console.WriteLine("]");
-        }
-
-        private static bool CompareEvents(object one, object two)
-        {
-            return string.Equals(JsonConvert.SerializeObject(one), JsonConvert.SerializeObject(two), StringComparison.Ordinal);
-        }
-
-        private static string Dump(object @event)
-        {
-            string json = JsonConvert.SerializeObject(@event, Formatting.Indented);
-            return json.Replace("\n", "");
-        }
+    public class SpecificationResult
+    {
+        public List<IEvent> Given { get; set; }
+        public List<IEvent> Expected { get; set; }
+        public List<IEvent> Obtained { get; set; }
     }
 }

@@ -52,6 +52,10 @@
     <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
+      <Project>{099a8dea-f66f-4584-978d-6c1c0ce78360}</Project>
+      <Name>CQRSalad.EventSourcing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
       <Project>{9ecba7b7-4258-4df9-8623-4cf77dd0ccff}</Project>
       <Name>CQRSalad.Infrastructure</Name>

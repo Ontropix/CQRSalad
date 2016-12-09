@@ -4,7 +4,8 @@ namespace Samples.Domain.Model.TodoList
 {
     public class TodoListState
     {
-        public HashSet<string> ItemsIds { get; set; } = new HashSet<string>();
+        internal bool IsDeleted { get; set; }
+        internal HashSet<string> ItemsIds { get; set; } = new HashSet<string>();
 
         public void On(ListItemAdded evnt)
         {
@@ -19,5 +20,7 @@ namespace Samples.Domain.Model.TodoList
         public void On(ListItemCompleted evnt)
         {
         }
+
+        
     }
 }

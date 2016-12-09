@@ -1,6 +1,6 @@
 ﻿namespace CQRSalad.EventSourcing
 {
-    public interface IQueryFor<TResult> : IDomainMessage
+    public interface IQueryFor<TResult>
     {
     }
 }

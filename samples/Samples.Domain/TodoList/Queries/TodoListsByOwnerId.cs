@@ -6,6 +6,6 @@ namespace Samples.Domain.Interface.TodoList.Queries
 {
     public sealed class TodoListsByOwnerId : IQueryFor<List<TodoListSummary>>
     {
-        public string ListId { get; set; }
+        public string OwnerId { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Samples.Domain.Interface.Validation.TodoList.Queries
     {
         public TodoListsByOwnerIdValidator()
         {
-            RuleFor(x => x.ListId).NotEmpty();
+            RuleFor(x => x.OwnerId).NotEmpty();
         }
     }
 }

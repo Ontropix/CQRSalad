@@ -35,11 +35,8 @@ namespace CQRSalad.EventStore.Core
                 return await base.LoadById(aggregateId);
             }
 
-            var aggregate = AggregateActivator.CreateInstance<TAggregate>(aggregateId);
-
-            aggregate.Id = snapshot.AggregateId;
-            aggregate.State = snapshot.State;
-            aggregate.Version = snapshot.Version;
+            var aggregate = new TAggregate();
+            aggregate.Restore(snapshot);
             
             List<DomainEvent> stream = await _eventStore.GetStreamPartAsync(aggregateId, snapshot.Version + 1);
             aggregate.Reel(stream.Select(x => x.Body).Cast<IEvent>().ToList()); //todo cast

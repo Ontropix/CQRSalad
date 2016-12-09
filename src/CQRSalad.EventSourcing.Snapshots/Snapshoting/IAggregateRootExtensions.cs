@@ -1,9 +1,9 @@
-﻿using System;
-using CQRSalad.EventStore.Core;
+using System;
+using CQRSalad.EventSourcing;
 
-namespace CQRSalad.EventSourcing
+namespace CQRSalad.EventStore.Core
 {
-    internal static class AggregateRootExtensions
+    internal static class IAggregateRootExtensions
     {
         internal static AggregateSnapshot MakeSnapshot(this IAggregateRoot aggregate)
         {
@@ -15,6 +15,13 @@ namespace CQRSalad.EventSourcing
                 State = aggregate.State,
                 Timestamp = DateTime.UtcNow
             };
+        }
+
+        internal static void Restore(this IAggregateRoot aggregate, AggregateSnapshot snapshot)
+        {
+            aggregate.Id = snapshot.AggregateId;
+            aggregate.State = snapshot.State;
+            aggregate.Version = snapshot.Version;
         }
     }
 }

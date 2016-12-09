@@ -39,8 +39,8 @@
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Snapshoting\AggregateRootExtensions.cs" />
     <Compile Include="Snapshoting\AggregateSnapshot.cs" />
+    <Compile Include="Snapshoting\IAggregateRootExtensions.cs" />
     <Compile Include="Snapshoting\ISnapshotStore.cs" />
     <Compile Include="Snapshoting\ShapshotAggregateRepository.cs" />
   </ItemGroup>

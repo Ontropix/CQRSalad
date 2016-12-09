@@ -4,47 +4,14 @@ using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
-    internal class BB
-    {
-    }
-
-    internal interface IAggregateRoot
-    {
-        string Id { get; set; }
-        int Version { get; set; }
-        List<IEvent> Changes { get; } 
-        void Reel(List<IEvent> events);
-        object State { get; set; }
-    }
-
     public abstract class AggregateRoot<TState> : IAggregateRoot where TState : class, new()
     {
-        string IAggregateRoot.Id
-        {
-            get { return this.Id; }
-            set { this.Id = value; }
-        }
-
-        object IAggregateRoot.State
-        {
-            get { return State; }
-            set { State = (TState) value; }
-        }
-
-        protected internal TState State { get; private set; } = new TState();
-
-        internal string Id { get; set; }
-
-
-
-        public int Version { get; set; }
-
-        public List<IEvent> Changes { get; } = new List<IEvent>();
-
-        public bool HasState => true;
-
-
-        public void Reel(List<IEvent> events)
+        string IAggregateRoot.Id  { get { return Id; } set { Id = value; } }
+        int IAggregateRoot.Version { get { return Version; } set { Version = value; } }
+        object IAggregateRoot.State { get { return State; } set { State = (TState) value; } }
+        List<IEvent> IAggregateRoot.Changes => _changes;
+        
+        void IAggregateRoot.Reel(List<IEvent> events)
         {
             Version += events.Count;
             foreach (var @event in events)
@@ -52,14 +19,19 @@ namespace CQRSalad.EventSourcing
                 ApplyOnState(@event);
             }
         }
-        
+
+        internal string Id { get; set; }
+        internal int Version { get; private set; }
+        private readonly List<IEvent> _changes = new List<IEvent>();
+        protected internal TState State { get; private set; } = new TState();
+
         protected void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent
         {
             Argument.IsNotNull(evnt, nameof(evnt));
 
             ApplyOnState(evnt);
 
-            Changes.Add(evnt);
+            _changes.Add(evnt);
             Version++;
         }
 

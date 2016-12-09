@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace CQRSalad.EventSourcing
 {
-    public abstract class ApplicationService<TAggregate, TState> where TAggregate : AggregateRoot<TState>, new() where TState : class, new()
+    public abstract class ApplicationService<TAggregate> where TAggregate : IAggregateRoot, new()
     {
         private readonly IAggregateRepository<TAggregate> _aggregateRepository;
 

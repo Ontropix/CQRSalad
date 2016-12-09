@@ -51,9 +51,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TodoListAggregateSpecification.cs" />
-    <Compile Include="UserAggregateSpecification.cs" />
+    <Compile Include="SpecificationRunnerTest.cs" />
+    <Compile Include="TodoList\TodoListSpecification.cs" />
+    <Compile Include="TodoList\TodoListScenarios.cs" />
+    <Compile Include="User\UserSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\UserScenarios.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">

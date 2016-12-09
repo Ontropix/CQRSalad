@@ -1,7 +1,7 @@
 ﻿
 namespace CQRSalad.EventSourcing
 {
-    public interface ICommand : IDomainMessage
+    public interface ICommand
     {
     }
 }
