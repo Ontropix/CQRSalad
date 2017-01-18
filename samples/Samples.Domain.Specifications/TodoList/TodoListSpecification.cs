@@ -37,7 +37,7 @@ namespace Samples.Domain.Specifications
             yield return new TodoListCreated
             {
                 ListId = _id,
-                Title = "Fod",
+                Title = _title,
                 OwnerId = _ownerId
             };
         }

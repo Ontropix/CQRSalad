@@ -6,6 +6,6 @@ namespace CQRSalad.EventSourcing
     public interface IEventBus
     {
         Task PublishAsync<TEvent>(TEvent @event) where TEvent : class, IEvent;
-        Task PublishAsync(List<IEvent> events);
+        Task PublishAsync(IEnumerable<IEvent> events);
     }
 }

@@ -41,10 +41,10 @@
     <Compile Include="TodoList\Commands\RemoveListItem.cs" />
     <Compile Include="TodoList\Commands\CompleteListItem.cs" />
     <Compile Include="TodoList\Commands\DeleteTodoList.cs" />
-    <Compile Include="TodoList\Data\TodoItemStatus.cs" />
-    <Compile Include="TodoList\Data\TodoList.cs" />
-    <Compile Include="TodoList\Data\TodoListItem.cs" />
-    <Compile Include="TodoList\Data\TodoListSummary.cs" />
+    <Compile Include="TodoList\Models\TodoItemStatus.cs" />
+    <Compile Include="TodoList\Models\TodoList.cs" />
+    <Compile Include="TodoList\Models\TodoListItem.cs" />
+    <Compile Include="TodoList\Models\TodoListSummary.cs" />
     <Compile Include="TodoList\Queries\TodoListById.cs" />
     <Compile Include="TodoList\Queries\TodoListsByOwnerId.cs" />
     <Compile Include="User\Commands\CreateUser.cs" />

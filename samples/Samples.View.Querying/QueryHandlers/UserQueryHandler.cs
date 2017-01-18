@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using Kutcha.Core;
+using Kutcha.Core.Extensions;
 using Samples.Domain.Interface.User;
 using Samples.View.Views;
 
@@ -19,13 +20,11 @@ namespace Samples.View.Querying.QueryHandlers
         public async Task<UserProfile> Query(UserProfileById query)
         {
             UserView view = await _store.FindByIdAsync(query.UserId);
-            UserProfile profile = new UserProfile
+            return view?.ToModel(new UserProfile
             {
                 Id = view.Id,
                 Email = view.Email,
-            };
-
-            return profile;
+            });
         }
     }
 }

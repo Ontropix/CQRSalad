@@ -19,7 +19,7 @@ namespace CQRSalad.Infrastructure
             await _dispatcher.PublishAsync(@event);
         }
 
-        public async Task PublishAsync(List<IEvent> events)
+        public async Task PublishAsync(IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
             {

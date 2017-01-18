@@ -14,7 +14,8 @@ namespace CQRSalad.EventSourcing
             _aggregateRepository = aggregateRepository;
         }
 
-        public async Task<List<IEvent>> Process<TCommand>(TCommand command) where TCommand : class, ICommand
+        public async Task<IEnumerable<IEvent>> Process<TCommand>(TCommand command)
+            where TCommand : class, ICommand
         {
             Argument.IsNotNull(command, nameof(command));
 

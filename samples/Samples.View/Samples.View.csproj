@@ -49,6 +49,10 @@
       <Project>{B68C6B2C-309E-40C4-BA96-E37B8124304A}</Project>
       <Name>CQRSalad.Dispatching</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
+      <Project>{099a8dea-f66f-4584-978d-6c1c0ce78360}</Project>
+      <Name>CQRSalad.EventSourcing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.Core\Kutcha.Core.csproj">
       <Project>{166F6EB2-5143-43DE-B578-1F0E31A596D5}</Project>
       <Name>Kutcha.Core</Name>

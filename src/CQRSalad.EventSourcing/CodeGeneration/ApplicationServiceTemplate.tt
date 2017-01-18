@@ -2,18 +2,13 @@
 <#@ parameter name="AggregateType" type="System.Type" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.EventStore.Core.dll" #>
-<#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.Domain.dll" #>
 <#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.EventSourcing.dll" #>
-<#@ import namespace="System.Reflection" #><#@ import namespace="System.Collections.Generic" #><#@ import namespace="System.Linq" #><#@ output extension=".cs" #><#@ import namespace="CQRSalad.EventSourcing" #><#@ import namespace="CQRSalad.Domain" #>
+<#@ import namespace="System.Reflection" #><#@ import namespace="System.Collections.Generic" #><#@ import namespace="System.Linq" #><#@ output extension=".cs" #><#@ import namespace="CQRSalad.EventSourcing" #>
 <#
-List<Type> messageTypes = AggregateType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-									   .Where(method => method.IsPublic && method.GetParameters().Length == 1 &&
-														!method.IsAbstract && !method.ContainsGenericParameters &&
-				                                        !method.IsConstructor && !method.IsGenericMethod &&
-														!method.IsStatic)
-									   .Select(method => method.GetParameters()[0].ParameterType)
-									   .Where(parameter => typeof(ICommand).IsAssignableFrom(parameter))
-									   .ToList();
+List<Type> messageTypes = AggregateType.GetMethodsWithSingleParameter()
+				.Where(method => typeof (ICommand).IsAssignableFrom(method.GetParameters()[0].ParameterType))
+				.Select(method => method.GetParameters()[0].ParameterType)
+				.ToList();
 
 string aggregateName = AggregateType.FullName;
 string serviceName = AggregateType.Name.Replace("Aggregate", "") + "ApplicationService";
@@ -28,26 +23,16 @@ namespace <#= serviceNamespace #>
 	[CQRSalad.Dispatching.DispatcherHandler]
 	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>
 	{
-		private readonly IEventBus _eventBus;
-
-		public <#= serviceName #>(IAggregateRepository<<#= aggregateName #>> aggregateRepository, IEventBus eventBus)
+		public <#= serviceName #>(IAggregateRepository<<#= aggregateName #>> aggregateRepository)
 				: base(aggregateRepository)
 		{		
-			if (eventBus == null)
-            {
-                throw new System.ArgumentNullException("eventBus");
-            }
-			
-            _eventBus = eventBus;
 		}
 		
-		<#foreach(Type messageType in messageTypes) { #>
+		<#foreach(var messageType in messageTypes) { #>
 	
 			public async Task<List<IEvent>> Handle(<#= messageType.FullName #> command)
 			{
-				List<IEvent> producedEvents = await Process(command);
-				await _eventBus.PublishAsync(producedEvents);
-				return producedEvents;
+				return await Process(command);				
 			}
 	<# } #>
 	}

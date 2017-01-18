@@ -6,31 +6,15 @@ namespace CQRSalad.EventSourcing.Specification
 {
     public abstract class AggregateSpecification<TAggregate> where TAggregate : IAggregateRoot, new()
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public virtual IEnumerable<IEvent> Given()
         {
             return new IEvent[0];
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
         public abstract ICommand When();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public abstract IEnumerable<IEvent> Expected();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public SpecificationResult Verify()
         {
             var aggregate = new TAggregate();
