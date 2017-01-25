@@ -6,7 +6,7 @@ using ServiceStack;
 
 namespace Samples.API.ServiceStack.ServiceModel
 {
-    [Route("/hello/{Name}")]
+    [Route("/todo/create", "POST")]
     public class CreateTodoListRequest : IReturn<CreateTodoListResponse>
     {
         public string Title { get; set; }

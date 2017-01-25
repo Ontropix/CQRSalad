@@ -17,8 +17,8 @@ namespace Samples.API.ServiceStack.ServiceInterface
             _domainBus = domainBus;
             _idGenerator = idGenerator;
         }
-
-        public async Task<string> Any(CreateTodoListRequest request)
+        
+        public async Task<CreateTodoListResponse> Any(CreateTodoListRequest request)
         {
             string todoListId = _idGenerator.Generate();
 
@@ -28,7 +28,10 @@ namespace Samples.API.ServiceStack.ServiceInterface
                 Title = request.Title
             }, ""); 
 
-            return todoListId;
+            return new CreateTodoListResponse
+            {
+                Id = todoListId
+            };
         }
     }
 }

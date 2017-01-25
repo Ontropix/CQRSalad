@@ -30,7 +30,7 @@ namespace <#= serviceNamespace #>
 		
 		<#foreach(var messageType in messageTypes) { #>
 	
-			public async Task<List<IEvent>> Handle(<#= messageType.FullName #> command)
+			public async Task<IEnumerable<IEvent>> Handle(<#= messageType.FullName #> command)
 			{
 				return await Process(command);				
 			}

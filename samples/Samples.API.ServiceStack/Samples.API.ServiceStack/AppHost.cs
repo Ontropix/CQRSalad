@@ -1,6 +1,7 @@
 ﻿using Funq;
 using ServiceStack;
 using Samples.API.ServiceStack.ServiceInterface;
+using ServiceStack.Api.Swagger;
 
 namespace Samples.API.ServiceStack
 {
@@ -19,6 +20,7 @@ namespace Samples.API.ServiceStack
         public override void Configure(Container container)
         {
             //Config examples
+            Plugins.Add(new SwaggerFeature());
             //this.Plugins.Add(new PostmanFeature());
             //this.Plugins.Add(new CorsFeature());
         }
