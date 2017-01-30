@@ -1,9 +1,13 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ parameter name="AggregateType" type="System.Type" #>
+<#@ output extension=".cs" #>
+
 <#@ assembly name="System.Core" #>
-<#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.EventStore.Core.dll" #>
-<#@ assembly name="$(ProjectDir)bin\Debug\CQRSalad.EventSourcing.dll" #>
-<#@ import namespace="System.Reflection" #><#@ import namespace="System.Collections.Generic" #><#@ import namespace="System.Linq" #><#@ output extension=".cs" #><#@ import namespace="CQRSalad.EventSourcing" #>
+
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="CQRSalad.EventSourcing" #>
 <#
 List<Type> messageTypes = AggregateType.GetMethodsWithSingleParameter()
 				.Where(method => typeof (ICommand).IsAssignableFrom(method.GetParameters()[0].ParameterType))
@@ -20,7 +24,6 @@ using System.Collections.Generic;
 
 namespace <#= serviceNamespace #>
 {
-	[CQRSalad.Dispatching.DispatcherHandler]
 	public class <#= serviceName #> : ApplicationService<<#= aggregateName #>>
 	{
 		public <#= serviceName #>(IAggregateRepository<<#= aggregateName #>> aggregateRepository)
@@ -36,4 +39,4 @@ namespace <#= serviceNamespace #>
 			}
 	<# } #>
 	}
-}
+} 

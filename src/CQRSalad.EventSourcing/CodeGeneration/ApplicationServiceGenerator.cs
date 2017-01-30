@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using CQRSalad.EventSourcing.CodeGeneration;
@@ -10,11 +11,11 @@ namespace CQRSalad.EventSourcing
 {
     public static class ApplicationServiceGenerator
     {
-        public static Assembly Generate(Assembly assemblyWithAggregates)
+        public static Assembly Generate(Assembly aggregatesAssembly)
         {
-            Argument.IsNotNull(assemblyWithAggregates, nameof(assemblyWithAggregates));
+            Argument.IsNotNull(aggregatesAssembly, nameof(aggregatesAssembly));
 
-            List<Type> aggregateTypes = GetAggregateTypes(assemblyWithAggregates);
+            List<Type> aggregateTypes = GetAggregateTypes(aggregatesAssembly);
             string[] classSources = aggregateTypes.Select(x => new ApplicationServiceTemplate().Compile(x)).ToArray();
             
             string[] referencedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
@@ -23,7 +24,13 @@ namespace CQRSalad.EventSourcing
                                                      .Select(a => a.Location)
                                                      .ToArray();
 
-            var compilerParams = new CompilerParameters(referencedAssemblies) { GenerateInMemory = true };
+            string assemblyFolder = Path.GetDirectoryName(aggregatesAssembly.Location) ?? Path.GetTempPath();
+            string assemblyName = $"{aggregatesAssembly.GetName().Name}.Interface.dll";
+
+            var compilerParams = new CompilerParameters(referencedAssemblies)
+            {
+                OutputAssembly = Path.Combine(assemblyFolder, assemblyName)
+            };
 
             var providerOptions = new Dictionary<string, string> { { "CompilerVersion", "v4.0" } };
             var provider = new CSharpCodeProvider(providerOptions);
