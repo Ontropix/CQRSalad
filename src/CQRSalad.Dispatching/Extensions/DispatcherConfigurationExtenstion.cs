@@ -16,7 +16,7 @@ namespace CQRSalad.Dispatching
 
         public static DispatcherConfiguration SetSubscriptionStore(
             this DispatcherConfiguration configuration,
-            DispatcherSubscriptionsStore store)
+            IDispatcherSubscriptionsStore store)
         {
             configuration.SubscriptionsStore = store;
             return configuration;

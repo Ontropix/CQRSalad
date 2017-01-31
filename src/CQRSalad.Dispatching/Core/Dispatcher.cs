@@ -10,16 +10,20 @@ namespace CQRSalad.Dispatching.Core
 {
     public class Dispatcher : IMessageDispatcher
     {
-        private readonly DispatcherSubscriptionsStore _subscriptionsStore;
+        private IDispatcherSubscriptionsStore Subscriptions { get; }
+        private IServiceProvider ServiceProvider { get; }
+        private bool ThrowIfMultipleSendingHandlersFound { get; }
+
         private readonly DispatcherExecutorsManager _executorsManager;
-        private readonly IServiceProvider _serviceProvider;
         private readonly List<Type> _interceptorsTypes;
 
         private Dispatcher(
             IServiceProvider serviceProvider,
-            DispatcherSubscriptionsStore subscriptionsStore,
+            IDispatcherSubscriptionsStore subscriptionsStore,
+
             DispatcherExecutorsManager executorsManager, 
-            List<Type> interceptorsTypes)
+            List<Type> interceptorsTypes, 
+            bool throwIfMultipleSendingHandlersFound)
         {
             Argument.IsNotNull(serviceProvider, nameof(serviceProvider));
             Argument.IsNotNull(subscriptionsStore, nameof(subscriptionsStore));
@@ -36,19 +40,22 @@ namespace CQRSalad.Dispatching.Core
                 }
             }
 
-            _subscriptionsStore = subscriptionsStore;
-            _serviceProvider = serviceProvider;
+            Subscriptions = subscriptionsStore;
+            ServiceProvider = serviceProvider;
+            ThrowIfMultipleSendingHandlersFound = throwIfMultipleSendingHandlersFound;
+
             _executorsManager = executorsManager;
             _interceptorsTypes = interceptorsTypes;
         }
-
+        
         public static Dispatcher Create(DispatcherConfiguration configuration)
         {
             return new Dispatcher(
                 configuration.ServiceProvider,
                 configuration.SubscriptionsStore,
                 configuration.ExecutorManager,
-                configuration.Interceptors);
+                configuration.Interceptors,
+                configuration.ThrowIfMultipleSendingHandlersFound);
         }
 
         public static Dispatcher Create(Action<DispatcherConfiguration> configurator)
@@ -61,7 +68,7 @@ namespace CQRSalad.Dispatching.Core
 
         public async Task PublishAsync<TMessage>(TMessage message)
         {
-            List<DispatcherSubscription> subscriptions = _subscriptionsStore[message.GetType()].ToList();
+            List<DispatcherSubscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
             foreach (DispatcherSubscription subscription in subscriptions)
             {
                 await DispatchMessageAsync(message, subscription);
@@ -70,10 +77,10 @@ namespace CQRSalad.Dispatching.Core
 
         public async Task<object> SendAsync(object message)
         {
-            List<DispatcherSubscription> subscriptions = _subscriptionsStore[message.GetType()].ToList();
-            if (subscriptions.Count > 1)
+            List<DispatcherSubscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
+            if (subscriptions.Count > 1 && ThrowIfMultipleSendingHandlersFound)
             {
-                throw new AmbiguousHandlingException(message);
+                throw new MultipleHandlersException(message);
             }
 
             return await DispatchMessageAsync(message, subscriptions[0]);
@@ -81,12 +88,12 @@ namespace CQRSalad.Dispatching.Core
 
         private async Task<object> DispatchMessageAsync(object messageInstance, DispatcherSubscription subscription)
         {
-            object handlerInstance = _serviceProvider.GetMessageHandler(subscription.HandlerType);
-            DispatcherContextExecutor executor = _executorsManager.GetExecutor(subscription);
-
+            object handlerInstance = ServiceProvider.GetMessageHandler(subscription.HandlerType);
             var context = new DispatchingContext(handlerInstance, messageInstance);
 
-            List<IContextInterceptor> interceptors = _serviceProvider.GetInterceptors(_interceptorsTypes);
+            IDispatcherContextExecutor executor = _executorsManager.GetExecutor(subscription);
+            
+            List<IContextInterceptor> interceptors = ServiceProvider.GetInterceptors(_interceptorsTypes);
             interceptors.ForEach(async interceptor => await interceptor.OnExecuting(context));
 
             try
@@ -98,6 +105,7 @@ namespace CQRSalad.Dispatching.Core
                 interceptors.ForEach(async interceptor => await interceptor.OnException(context, exception));
                 throw;
             }
+
             interceptors.ForEach(async interceptor => await interceptor.OnExecuted(context));
 
             return context.Result;

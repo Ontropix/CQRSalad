@@ -8,7 +8,7 @@ namespace CQRSalad.Dispatching
         {
             //todo type checking
             //todo caching
-            return task.GetType().GetProperty("Result").GetValue(task);
+            return task.GetType().GetProperty("Result")?.GetValue(task);
         }
     }
 }

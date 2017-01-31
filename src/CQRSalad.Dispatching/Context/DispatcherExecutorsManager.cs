@@ -15,21 +15,26 @@ namespace CQRSalad.Dispatching.Context
         {
         }
 
-        internal DispatcherContextExecutor GetExecutor(DispatcherSubscription subscription)
+        internal IDispatcherContextExecutor GetExecutor(DispatcherSubscription subscription)
         {
             //todo cache
 
             HandlerExecutor func = CreateExecutorDelegate(
-                    subscription.HandlerType,
-                    subscription.Action,
-                    subscription.MessageType);
+                subscription.MessageType,
+                subscription.HandlerType,
+                subscription.Action);
 
             bool isTaskResult = subscription.Action.IsAsync();
-            var executor = new DispatcherContextExecutor(func, isTaskResult); //todo
-            return executor;
+
+            if (isTaskResult)
+            {
+                return new AsyncContextExecutor(func);
+            }
+
+            return new SyncContextExecutor(func);
         }
 
-        private static HandlerExecutor CreateExecutorDelegate(Type handlerType, MethodInfo action, Type messageType)
+        private static HandlerExecutor CreateExecutorDelegate(Type messageType, Type handlerType, MethodInfo action)
         {
             Type objectType = typeof(object);
             ParameterExpression handlerParameter = Expression.Parameter(objectType, "handler");

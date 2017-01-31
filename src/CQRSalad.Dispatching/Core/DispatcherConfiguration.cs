@@ -9,10 +9,12 @@ namespace CQRSalad.Dispatching.Core
     {
         public IServiceProvider ServiceProvider { get; set; }
 
-        public DispatcherSubscriptionsStore SubscriptionsStore { get; set; }
+        public IDispatcherSubscriptionsStore SubscriptionsStore { get; set; }
 
         internal DispatcherExecutorsManager ExecutorManager { get; set; } = new DispatcherExecutorsManager();
 
         public List<Type> Interceptors { get; set; } = new List<Type>();
+
+        public bool ThrowIfMultipleSendingHandlersFound { get; set; } = true;
     }
 }

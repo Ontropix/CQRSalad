@@ -21,7 +21,7 @@ namespace CQRSalad.Dispatching
 
             if (handlerInstance == null)
             {
-                throw new ServiceProviderException($"ServiceProvider has returned null for type '{handlerType}'.");
+                throw new ServiceProviderException($"Can't create instance of '{handlerType}' handler.");
             }
 
             return handlerInstance;

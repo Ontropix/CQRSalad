@@ -47,7 +47,7 @@
     <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
       <Link>LinkedFiles\SyntaxSugar.cs</Link>
     </Compile>
-    <Compile Include="Context\DispatcherContextExecutor.cs" />
+    <Compile Include="Context\SyncContextExecutor.cs" />
     <Compile Include="Context\DispatcherExecutorsCache.cs" />
     <Compile Include="Context\DispatcherExecutorsManager.cs" />
     <Compile Include="Context\DispatchingContext.cs" />
@@ -56,7 +56,7 @@
     <Compile Include="Core\Dispatcher.cs" />
     <Compile Include="Core\DispatcherConfiguration.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
-    <Compile Include="Exceptions\AmbiguousHandlingException.cs" />
+    <Compile Include="Exceptions\MultipleHandlersException.cs" />
     <Compile Include="Exceptions\DispatcherConfigurationException.cs" />
     <Compile Include="Exceptions\DispatchingException.cs" />
     <Compile Include="Exceptions\HandlerNotFoundException.cs" />
@@ -76,7 +76,10 @@
     <Compile Include="Descriptors\HandlerDescriptor.cs" />
     <Compile Include="Priority\DispatchingPriority.cs" />
     <Compile Include="Priority\DispatchingPriorityAttribute.cs" />
-    <Compile Include="Subscriptions\DispatcherSubscriptionsStore.cs" />
+    <Compile Include="Subscriptions\DispatcherSubscription.cs" />
+    <Compile Include="Subscriptions\DispatcherSubscriptionsManager.cs" />
+    <Compile Include="Subscriptions\DefaultSubscriptionsStore.cs" />
+    <Compile Include="Subscriptions\IDispatcherSubscriptionsStore.cs" />
     <Compile Include="TypesScanning\AssemblyScanningRuleExtensions.cs" />
     <Compile Include="TypesScanning\AssemblyScanningRule.cs" />
     <Compile Include="TypesScanning\AssemblyTypesProvider.cs" />
