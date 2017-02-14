@@ -1,9 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using CQRSalad.Dispatching.Context;
 
-namespace CQRSalad.Dispatching.Interceptors
+namespace CQRSalad.Dispatching
 {
+    internal interface IInterceptorsManager
+    {
+        void RegisterInterceptor(Type interceptorType);
+    }
+
     public interface IContextInterceptor
     {
         Task OnExecuting(DispatchingContext context);

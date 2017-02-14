@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using CQRSalad.Dispatching.Subscriptions;
 
-namespace CQRSalad.Dispatching.Context
+namespace CQRSalad.Dispatching
 {
     internal delegate object HandlerExecutor(object handler, object message);
 
     internal class DispatcherExecutorsManager
     {
         private readonly DispatcherExecutorsCache _executorsCache;
-
-        public DispatcherExecutorsManager()
-        {
-        }
 
         internal IDispatcherContextExecutor GetExecutor(DispatcherSubscription subscription)
         {

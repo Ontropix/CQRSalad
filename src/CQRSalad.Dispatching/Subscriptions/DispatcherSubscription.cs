@@ -1,14 +1,15 @@
+using System;
 using System.Reflection;
 using CQRSalad.Dispatching.Priority;
 
-namespace CQRSalad.Dispatching.Subscriptions
+namespace CQRSalad.Dispatching
 {
-    public class DispatcherSubscription
+    internal class DispatcherSubscription
     {
-        public TypeInfo MessageType { get; set; }
-        public TypeInfo HandlerType { get; set; }
+        public Type MessageType { get; set; }
+        public Type HandlerType { get; set; }
         public MethodInfo Action { get; set; }
-        public DispatchingPriority Priority { get; set; }
+        public Priority.Priority Priority { get; set; }
 
         //todo override Equals and GetHashCode
     }

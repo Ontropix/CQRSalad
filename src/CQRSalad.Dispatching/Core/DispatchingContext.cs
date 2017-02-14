@@ -1,4 +1,4 @@
-﻿namespace CQRSalad.Dispatching.Context
+﻿namespace CQRSalad.Dispatching
 {
     public class DispatchingContext
     {

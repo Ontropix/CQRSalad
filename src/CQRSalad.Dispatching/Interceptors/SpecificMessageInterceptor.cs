@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using CQRSalad.Dispatching.Context;
 using CQRSalad.Infrastructure;
 
 namespace CQRSalad.Dispatching.Interceptors

@@ -3,14 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using CQRSalad.Dispatching.ActionsScanning;
-using CQRSalad.Dispatching.Context;
-using CQRSalad.Dispatching.Core;
-using CQRSalad.Dispatching.Descriptors;
-using CQRSalad.Dispatching.HandlersScanning;
-using CQRSalad.Dispatching.Interceptors;
 using CQRSalad.Dispatching.Priority;
-using CQRSalad.Dispatching.Subscriptions;
 using CQRSalad.Dispatching.TypesScanning;
 using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure.Interceptors;
@@ -22,42 +15,25 @@ namespace Samples.Tests.Configurators
 {
     public static class DispatcherConfigurator
     {
-        public static IContainer UseAssemblyRuleScanning(this IContainer container)
+        public static IContainer UseDispatcher(this IContainer container)
         {
             Assembly applicationServices = ApplicationServiceGenerator.Generate(typeof(Domain.Model._namespace).Assembly);
 
-            var rules = new List<AssemblyScanningRule>
+            var assemblies = new List<Assembly>
             {
-                new AssemblyScanningRule(applicationServices),                                               //for application services
-                new AssemblyScanningRule(typeof(Samples.Domain.Workflow._namespace).Assembly),                  //for workflow services
-                new AssemblyScanningRule(typeof(Samples.View._namespace).Assembly),                  //for view handlers
-                new AssemblyScanningRule(typeof(Samples.View.Querying._namespace).Assembly)                  //for query handlers
+                applicationServices,
+                typeof(Samples.Domain.Workflow._namespace).Assembly,
+                typeof(Samples.View._namespace).Assembly,
+                typeof(Samples.View.Querying._namespace).Assembly
             };
-            
-            var typeProvider = new AssemblyTypesProvider(rules);
-            container.Configure(expression => expression.For<IDispatcherTypesProvider>().Use(typeProvider).Singleton());
-            
-            var handlersProvider = new DefaultDispatcherHandlersProvider(typeProvider);
-            container.Configure(expression => expression.For<IDispatcherHandlersProvider>().Use(handlersProvider).Singleton());
 
-            var handlerActionsProvider = new DefaultDispatcherHandlerActionsProvider();
-            container.Configure(expression => expression.For<IDispatcherHandlerActionsProvider>().Use(handlerActionsProvider).Singleton());
+            var typeProvider = new AssemblyTypesProvider(assemblies);
+            container.Configure(expression => expression.For<IDispatcherTypesProvider>().Use(typeProvider).Singleton());
 
             var priorityProvider = new DefaultDispatcherPriorityProvider();
+            container.Configure(expression => expression.For<IDispatcherPriorityProvider>().Use(priorityProvider).Singleton());
 
-            var subscriptionManager = new DispatcherSubscriptionsManager(
-                handlersProvider,
-                new DefaultDispatcherHandlerDescriptorsBuilder(priorityProvider),
-                new DefaultDispatcherHandlerActionDescriptorsBuilder(handlerActionsProvider, priorityProvider)
-            );
-            container.Configure(expression => expression.For<DispatcherSubscriptionsManager>().Use(subscriptionManager).Singleton());
-
-            return container;
-        }
-
-        public static IContainer UseAsyncDispatcherSingleton(this IContainer container)
-        {
-            IMessageDispatcher dispatcher = Dispatcher.Create(configuration =>
+            Dispatcher dispatcher = Dispatcher.Create(configuration =>
             {
                 configuration.SetServiceProvider(new StructureMapServiceProvider(container));
 
@@ -67,7 +43,8 @@ namespace Samples.Tests.Configurators
                 configuration.AddInterceptor<ConsoleInterceptor>();
             });
 
-            container.Configure(expression => expression.For<IMessageDispatcher>().Use(dispatcher).Singleton());
+            container.Configure(expression => expression.For<Dispatcher>().Use(dispatcher).Singleton());
+
             return container;
         }
 

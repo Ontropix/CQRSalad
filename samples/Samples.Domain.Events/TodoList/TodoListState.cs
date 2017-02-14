@@ -20,7 +20,5 @@ namespace Samples.Domain.Model.TodoList
         public void On(ListItemCompleted evnt)
         {
         }
-
-        
     }
 }

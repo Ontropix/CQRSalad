@@ -1,15 +1,14 @@
 using System;
-using CQRSalad.Dispatching.Core;
 
 namespace CQRSalad.Dispatching
 {
     public class DispatcherConfigurationException : ApplicationException
     {
-        public DispatcherConfiguration ConfigurationDump { get; private set; }
+        public DispatcherConfig ConfigDump { get; private set; }
 
-        public DispatcherConfigurationException(string message, DispatcherConfiguration configurationDump) : base(message)
+        public DispatcherConfigurationException(string message, DispatcherConfig configDump) : base(message)
         {
-            ConfigurationDump = configurationDump;
+            ConfigDump = configDump;
         }
     }
 }

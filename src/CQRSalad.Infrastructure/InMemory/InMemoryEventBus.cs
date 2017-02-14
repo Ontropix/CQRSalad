@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CQRSalad.Dispatching.Core;
+using CQRSalad.Dispatching;
 using CQRSalad.EventSourcing;
 
 namespace CQRSalad.Infrastructure
 {
     public class InMemoryEventBus : IEventBus
     {
-        private readonly IMessageDispatcher _dispatcher;
+        private readonly Dispatcher _dispatcher;
 
-        public InMemoryEventBus(IMessageDispatcher dispatcher)
+        public InMemoryEventBus(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }

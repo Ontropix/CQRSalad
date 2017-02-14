@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CQRSalad.Dispatching.Context
+namespace CQRSalad.Dispatching
 {
     internal interface IDispatcherContextExecutor
     {

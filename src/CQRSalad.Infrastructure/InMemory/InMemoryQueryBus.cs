@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
-using CQRSalad.Dispatching.Core;
+using CQRSalad.Dispatching;
 using CQRSalad.EventSourcing;
 
 namespace CQRSalad.Infrastructure
 {
     public class InMemoryQueryBus : IQueryBus
     {
-        private readonly IMessageDispatcher _dispatcher;
+        private readonly Dispatcher _dispatcher;
 
-        public InMemoryQueryBus(IMessageDispatcher dispatcher)
+        public InMemoryQueryBus(Dispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }

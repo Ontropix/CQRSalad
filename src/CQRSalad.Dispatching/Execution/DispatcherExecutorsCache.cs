@@ -1,6 +1,6 @@
 using System;
 
-namespace CQRSalad.Dispatching.Context
+namespace CQRSalad.Dispatching
 {
     internal class DispatcherExecutorsCache
     {

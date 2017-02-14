@@ -1,39 +1,29 @@
 ﻿using System;
-using CQRSalad.Dispatching.Core;
-using CQRSalad.Dispatching.Subscriptions;
 
 namespace CQRSalad.Dispatching
 {
     public static class DispatcherConfigurationExtensions
     {
-        public static DispatcherConfiguration SetServiceProvider(
-            this DispatcherConfiguration configuration, 
+        public static DispatcherConfig SetServiceProvider(
+            this DispatcherConfig config, 
             IServiceProvider serviceProvider)
         {
-            configuration.ServiceProvider = serviceProvider;
-            return configuration;
+            config.ServiceProvider = serviceProvider;
+            return config;
         }
 
-        public static DispatcherConfiguration SetSubscriptionStore(
-            this DispatcherConfiguration configuration,
-            IDispatcherSubscriptionsStore store)
-        {
-            configuration.SubscriptionsStore = store;
-            return configuration;
-        }
-
-        public static DispatcherConfiguration AddInterceptor(
-            this DispatcherConfiguration configuration, 
+        public static DispatcherConfig AddInterceptor(
+            this DispatcherConfig config, 
             Type interceptorType)
         {
-            configuration.Interceptors.Add(interceptorType);
-            return configuration;
+            config.Interceptors.Add(interceptorType);
+            return config;
         }
 
-        public static DispatcherConfiguration AddInterceptor<TInterceptor>(this DispatcherConfiguration configuration)
+        public static DispatcherConfig AddInterceptor<TInterceptor>(this DispatcherConfig config)
         {
-            configuration.Interceptors.Add(typeof(TInterceptor));
-            return configuration;
+            config.Interceptors.Add(typeof(TInterceptor));
+            return config;
         }
     }
 }

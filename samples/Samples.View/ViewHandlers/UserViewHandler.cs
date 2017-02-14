@@ -8,7 +8,7 @@ using Samples.View.Views;
 namespace Samples.View.ViewHandlers
 {
     [DispatcherHandler]
-    [DispatchingPriority(DispatchingPriority.High)]
+    [DispatchingPriority(Priority.High)]
     public sealed class UserViewHandler
     {
         private readonly IKutchaStore<UserView> _store;

@@ -11,7 +11,7 @@ using TodoListItem = Samples.View.Views.TodoListItem;
 namespace Samples.View.ViewHandlers
 {
     [DispatcherHandler]
-    [DispatchingPriority(DispatchingPriority.High)]
+    [DispatchingPriority(Priority.High)]
     public sealed class TodoListViewHandler
     {
         private readonly IKutchaStore<TodoListView> _store;

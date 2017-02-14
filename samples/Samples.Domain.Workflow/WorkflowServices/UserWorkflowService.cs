@@ -10,7 +10,7 @@ namespace Samples.Domain.Workflow.WorkflowServices
         {
         }
 
-        //[DispatchingPriority(DispatchingPriority.Low)]
+        //[Priority(Priority.Low)]
         //public async Task On(UserFollowed evnt)
         //{
         //    await ProduceCommandAsync(

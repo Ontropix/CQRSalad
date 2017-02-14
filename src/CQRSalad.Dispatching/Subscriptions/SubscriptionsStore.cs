@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace CQRSalad.Dispatching.Subscriptions
+namespace CQRSalad.Dispatching
 {
-    internal class DefaultSubscriptionsStore : IDispatcherSubscriptionsStore
+    internal class SubscriptionsStore
     {
         // MessageType - List of Actions
         private readonly ConcurrentDictionary<Type, SortedSet<DispatcherSubscription>> _subscriptions = new ConcurrentDictionary<Type, SortedSet<DispatcherSubscription>>();

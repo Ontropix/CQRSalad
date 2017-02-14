@@ -47,14 +47,14 @@
     <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
       <Link>LinkedFiles\SyntaxSugar.cs</Link>
     </Compile>
-    <Compile Include="Context\SyncContextExecutor.cs" />
-    <Compile Include="Context\DispatcherExecutorsCache.cs" />
-    <Compile Include="Context\DispatcherExecutorsManager.cs" />
-    <Compile Include="Context\DispatchingContext.cs" />
+    <Compile Include="Execution\SyncContextExecutor.cs" />
+    <Compile Include="Execution\DispatcherExecutorsCache.cs" />
+    <Compile Include="Execution\DispatcherExecutorsManager.cs" />
+    <Compile Include="Core\DispatchingContext.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Core\Dispatcher.cs" />
-    <Compile Include="Core\DispatcherConfiguration.cs" />
+    <Compile Include="Core\DispatcherConfig.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Exceptions\MultipleHandlersException.cs" />
     <Compile Include="Exceptions\DispatcherConfigurationException.cs" />
@@ -63,31 +63,20 @@
     <Compile Include="Exceptions\ServiceProviderException.cs" />
     <Compile Include="Extensions\DispatcherConfigurationExtenstion.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
-    <Compile Include="Interceptors\IContextInterceptor.cs" />
-    <Compile Include="ActionsScanning\DefaultDispatcherHandlersProvider.cs" />
-    <Compile Include="ActionsScanning\IDispatcherHandlersProvider.cs" />
-    <Compile Include="Core\IMessageDispatcher.cs" />
-    <Compile Include="Descriptors\DefaultDispatcherHandlerActionDescriptorsBuilder.cs" />
-    <Compile Include="Descriptors\DefaultDispatcherHandlerDescriptorsBuilder.cs" />
-    <Compile Include="Descriptors\ActionDescriptor.cs" />
-    <Compile Include="Descriptors\IDispatcherHandlerActionDescriptorsBuilder.cs" />
-    <Compile Include="Descriptors\IDispatcherHandlerDescriptorsBuilder.cs" />
-    <Compile Include="HandlersScanning\DefaultDispatcherHandlersProvider.cs" />
-    <Compile Include="Descriptors\HandlerDescriptor.cs" />
-    <Compile Include="Priority\DispatchingPriority.cs" />
+    <Compile Include="Core\IContextInterceptor.cs" />
+    <Compile Include="Priority\DefaultDispatcherPriorityProvider.cs" />
+    <Compile Include="Priority\Priority.cs" />
     <Compile Include="Priority\DispatchingPriorityAttribute.cs" />
+    <Compile Include="Priority\IDispatcherPriorityProvider.cs" />
     <Compile Include="Subscriptions\DispatcherSubscription.cs" />
     <Compile Include="Subscriptions\DispatcherSubscriptionsManager.cs" />
-    <Compile Include="Subscriptions\DefaultSubscriptionsStore.cs" />
-    <Compile Include="Subscriptions\IDispatcherSubscriptionsStore.cs" />
-    <Compile Include="TypesScanning\AssemblyScanningRuleExtensions.cs" />
-    <Compile Include="TypesScanning\AssemblyScanningRule.cs" />
-    <Compile Include="TypesScanning\AssemblyTypesProvider.cs" />
-    <Compile Include="DispatcherHandlerAttribute.cs" />
-    <Compile Include="HandlersScanning\IDispatcherHandlersProvider.cs" />
-    <Compile Include="TypesScanning\IDispatcherTypesProvider.cs" />
+    <Compile Include="Subscriptions\SubscriptionsStore.cs" />
+    <Compile Include="Subscriptions\AssemblyTypesProvider.cs" />
+    <Compile Include="Core\DispatcherHandlerAttribute.cs" />
+    <Compile Include="Subscriptions\IDispatcherTypesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

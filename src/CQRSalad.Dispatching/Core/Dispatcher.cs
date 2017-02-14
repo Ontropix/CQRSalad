@@ -2,32 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CQRSalad.Dispatching.Context;
-using CQRSalad.Dispatching.Interceptors;
-using CQRSalad.Dispatching.Subscriptions;
 
-namespace CQRSalad.Dispatching.Core
+namespace CQRSalad.Dispatching
 {
-    public class Dispatcher : IMessageDispatcher
+    public class Dispatcher
     {
-        private IDispatcherSubscriptionsStore Subscriptions { get; }
         private IServiceProvider ServiceProvider { get; }
+        private readonly List<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }
 
         private readonly DispatcherExecutorsManager _executorsManager;
-        private readonly List<Type> _interceptorsTypes;
+        private SubscriptionsStore Subscriptions { get; }
+        
+        public static Dispatcher Create(Action<DispatcherConfig> configurator)
+        {
+            var config = new DispatcherConfig();
+            configurator(config);
+            Dispatcher instance = Create(config);
+            return instance;
+        }
+
+        public static Dispatcher Create(DispatcherConfig config)
+        {
+            return new Dispatcher(
+                config.ServiceProvider,
+                config.Interceptors,
+                config.ThrowIfMultipleSendingHandlersFound);
+        }
 
         private Dispatcher(
             IServiceProvider serviceProvider,
-            IDispatcherSubscriptionsStore subscriptionsStore,
-
-            DispatcherExecutorsManager executorsManager, 
             List<Type> interceptorsTypes, 
             bool throwIfMultipleSendingHandlersFound)
         {
             Argument.IsNotNull(serviceProvider, nameof(serviceProvider));
-            Argument.IsNotNull(subscriptionsStore, nameof(subscriptionsStore));
-            Argument.IsNotNull(executorsManager, nameof(executorsManager));
 
             if (interceptorsTypes != null && interceptorsTypes.Count > 0)
             {
@@ -40,30 +48,9 @@ namespace CQRSalad.Dispatching.Core
                 }
             }
 
-            Subscriptions = subscriptionsStore;
             ServiceProvider = serviceProvider;
-            ThrowIfMultipleSendingHandlersFound = throwIfMultipleSendingHandlersFound;
-
-            _executorsManager = executorsManager;
             _interceptorsTypes = interceptorsTypes;
-        }
-        
-        public static Dispatcher Create(DispatcherConfiguration configuration)
-        {
-            return new Dispatcher(
-                configuration.ServiceProvider,
-                configuration.SubscriptionsStore,
-                configuration.ExecutorManager,
-                configuration.Interceptors,
-                configuration.ThrowIfMultipleSendingHandlersFound);
-        }
-
-        public static Dispatcher Create(Action<DispatcherConfiguration> configurator)
-        {
-            var config = new DispatcherConfiguration();
-            configurator(config);
-            Dispatcher instance = Create(config);
-            return instance;
+            ThrowIfMultipleSendingHandlersFound = throwIfMultipleSendingHandlersFound;
         }
 
         public async Task PublishAsync<TMessage>(TMessage message)
