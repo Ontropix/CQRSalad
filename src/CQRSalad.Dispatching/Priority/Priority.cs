@@ -1,4 +1,4 @@
-namespace CQRSalad.Dispatching.Priority
+namespace CQRSalad.Dispatching
 {
     public enum Priority
     {

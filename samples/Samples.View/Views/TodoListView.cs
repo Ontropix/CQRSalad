@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Samples.Domain.Interface.TodoList;
+using Samples.Domain.Model.TodoList;
 
 namespace Samples.View.Views
 {

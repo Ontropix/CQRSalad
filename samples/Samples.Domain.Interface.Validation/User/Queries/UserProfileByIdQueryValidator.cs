@@ -1,6 +1,6 @@
 ﻿using CQRSalad.Infrastructure.Validation;
 using FluentValidation;
-using Samples.Domain.Interface.User;
+using Samples.Domain.Model.User;
 
 namespace Samples.Domain.Interface.Validation.User.Queries
 { 

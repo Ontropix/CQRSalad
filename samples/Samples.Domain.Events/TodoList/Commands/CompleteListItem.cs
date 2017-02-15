@@ -1,12 +1,11 @@
 ﻿using CQRSalad.EventSourcing;
 
-namespace Samples.Domain.Interface.TodoList.Commands
+namespace Samples.Domain.Model.TodoList
 {
-    public sealed class AddListItem : ICommand
+    public sealed class CompleteListItem : ICommand
     {
         [AggregateId]
         public string ListId { get; set; }
         public string ItemId { get; set; }
-        public string Description { get; set; }
     }
 }

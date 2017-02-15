@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using CQRSalad.Dispatching.Priority;
-using CQRSalad.Dispatching.TypesScanning;
 using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure.Interceptors;
 using Newtonsoft.Json;
@@ -29,17 +27,10 @@ namespace Samples.Tests.Configurators
 
             var typeProvider = new AssemblyTypesProvider(assemblies);
             container.Configure(expression => expression.For<IDispatcherTypesProvider>().Use(typeProvider).Singleton());
-
-            var priorityProvider = new DefaultDispatcherPriorityProvider();
-            container.Configure(expression => expression.For<IDispatcherPriorityProvider>().Use(priorityProvider).Singleton());
-
+            
             Dispatcher dispatcher = Dispatcher.Create(configuration =>
             {
                 configuration.SetServiceProvider(new StructureMapServiceProvider(container));
-
-                var subscriptionManager = container.GetInstance<DispatcherSubscriptionsManager>();
-                configuration.SetSubscriptionStore(subscriptionManager.Subscribe());
-
                 configuration.AddInterceptor<ConsoleInterceptor>();
             });
 

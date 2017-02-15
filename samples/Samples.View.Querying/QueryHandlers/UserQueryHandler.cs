@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using Kutcha.Core;
-using Samples.Domain.Interface.User;
+using Samples.Domain.Model.User;
 using Samples.View.Views;
 
 namespace Samples.View.Querying.QueryHandlers

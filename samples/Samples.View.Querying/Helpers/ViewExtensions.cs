@@ -1,4 +1,4 @@
-﻿using Samples.Domain.Interface.User;
+﻿using Samples.Domain.Model.User;
 using Samples.View.Views;
 
 namespace Samples.View.Querying

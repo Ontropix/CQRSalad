@@ -1,6 +1,6 @@
 using CQRSalad.Infrastructure.Validation;
 using FluentValidation;
-using Samples.Domain.Interface.TodoList.Queries;
+using Samples.Domain.Model.TodoList;
 
 namespace Samples.Domain.Interface.Validation.TodoList.Queries
 {

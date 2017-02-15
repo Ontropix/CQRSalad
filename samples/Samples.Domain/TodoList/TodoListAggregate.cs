@@ -1,7 +1,7 @@
 ﻿using CQRSalad.EventSourcing;
-using Samples.Domain.Interface.TodoList.Commands;
+using Samples.Domain.Model.TodoList;
 
-namespace Samples.Domain.Model.TodoList
+namespace Samples.Domain.Interface.TodoList
 {
     public class TodoListAggregate : AggregateRoot<TodoListState>
     {

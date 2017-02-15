@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using Kutcha.Core;
-using Samples.Domain.Interface.TodoList;
-using Samples.Domain.Interface.TodoList.Queries;
+using Samples.Domain.Model.TodoList;
 using Samples.View.Views;
 
 namespace Samples.View.Querying.QueryHandlers

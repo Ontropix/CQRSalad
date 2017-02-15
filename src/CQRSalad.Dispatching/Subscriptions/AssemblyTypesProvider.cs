@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CQRSalad.Dispatching.TypesScanning
+namespace CQRSalad.Dispatching
 {
     public class AssemblyTypesProvider : IDispatcherTypesProvider
     {

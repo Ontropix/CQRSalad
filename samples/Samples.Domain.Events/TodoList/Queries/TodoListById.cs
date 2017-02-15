@@ -1,6 +1,6 @@
 ﻿using CQRSalad.EventSourcing;
 
-namespace Samples.Domain.Interface.TodoList.Queries
+namespace Samples.Domain.Model.TodoList
 {
     public class TodoListById : IQueryFor<TodoList>
     {

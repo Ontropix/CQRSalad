@@ -1,7 +1,7 @@
 ﻿using CQRSalad.EventSourcing;
-using Samples.Domain.Interface.User;
+using Samples.Domain.Model.User;
 
-namespace Samples.Domain.Model.User
+namespace Samples.Domain.Interface.User
 {
     public class UserAggregate : AggregateRoot<UserState>
     {

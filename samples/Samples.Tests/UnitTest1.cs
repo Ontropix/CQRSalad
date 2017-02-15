@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Samples.Domain.Interface.TodoList.Commands;
 using Samples.Domain.Interface.User;
+using Samples.Domain.Model.TodoList;
+using Samples.Domain.Model.User;
 using Samples.Tests.Configurators;
 using StructureMap;
 
@@ -26,8 +27,7 @@ namespace Samples.Tests
                 .UseGuidIdGenerator()
                 .UseInMemoryKutcha()
                 .RegisterKutchaRoots()
-                .UseAssemblyRuleScanning()
-                .UseAsyncDispatcherSingleton()
+                .UseDispatcher()
                 .UseInMemoryBuses()
                 .UseInMemoryEventStore()
                 .UseCommandProcessorSingleton()

@@ -1,4 +1,4 @@
-﻿namespace Samples.Domain.Interface.TodoList
+﻿namespace Samples.Domain.Model.TodoList
 {
     public class TodoListItem
     {

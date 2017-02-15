@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CQRSalad.EventSourcing;
 using CQRSalad.EventSourcing.Specification;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Samples.Domain.Interface.TodoList.Commands;
+using Samples.Domain.Interface.TodoList;
 using Samples.Domain.Model.TodoList;
 
 namespace Samples.Domain.Specifications

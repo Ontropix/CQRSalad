@@ -1,6 +1,6 @@
 using CQRSalad.EventSourcing;
 
-namespace Samples.Domain.Interface.TodoList.Commands
+namespace Samples.Domain.Model.TodoList
 {
     public sealed class DeleteTodoList : ICommand
     {

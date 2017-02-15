@@ -47,9 +47,7 @@
     <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
       <Link>LinkedFiles\SyntaxSugar.cs</Link>
     </Compile>
-    <Compile Include="Execution\SyncContextExecutor.cs" />
-    <Compile Include="Execution\DispatcherExecutorsCache.cs" />
-    <Compile Include="Execution\DispatcherExecutorsManager.cs" />
+    <Compile Include="Subscriptions\DispatcherContextExecutor.cs" />
     <Compile Include="Core\DispatchingContext.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
@@ -64,12 +62,10 @@
     <Compile Include="Extensions\DispatcherConfigurationExtenstion.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
     <Compile Include="Core\IContextInterceptor.cs" />
-    <Compile Include="Priority\DefaultDispatcherPriorityProvider.cs" />
     <Compile Include="Priority\Priority.cs" />
     <Compile Include="Priority\DispatchingPriorityAttribute.cs" />
-    <Compile Include="Priority\IDispatcherPriorityProvider.cs" />
     <Compile Include="Subscriptions\DispatcherSubscription.cs" />
-    <Compile Include="Subscriptions\DispatcherSubscriptionsManager.cs" />
+    <Compile Include="Subscriptions\DispatcherServiceController.cs" />
     <Compile Include="Subscriptions\SubscriptionsStore.cs" />
     <Compile Include="Subscriptions\AssemblyTypesProvider.cs" />
     <Compile Include="Core\DispatcherHandlerAttribute.cs" />

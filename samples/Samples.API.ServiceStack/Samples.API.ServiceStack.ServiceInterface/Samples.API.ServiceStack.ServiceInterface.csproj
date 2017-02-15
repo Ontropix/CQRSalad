@@ -92,6 +92,10 @@
       <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
       <Name>CQRSalad.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Samples.Domain.Events\Samples.Domain.Model.csproj">
+      <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
+      <Name>Samples.Domain.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Samples.Domain\Samples.Domain.Interface.csproj">
       <Project>{CC173585-7515-40BA-B6C1-142EA635E864}</Project>
       <Name>Samples.Domain.Interface</Name>

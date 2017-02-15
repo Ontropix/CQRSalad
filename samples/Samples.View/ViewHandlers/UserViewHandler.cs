@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using CQRSalad.Dispatching.Priority;
 using Kutcha.Core;
 using Samples.Domain.Model.User;
 using Samples.View.Views;

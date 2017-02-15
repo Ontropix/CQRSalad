@@ -1,4 +1,4 @@
-﻿namespace Samples.Domain.Interface.User
+﻿namespace Samples.Domain.Model.User
 {
     public class UserProfile
     {

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using CQRSalad.EventSourcing;
-using Samples.Domain.Interface.TodoList.Models;
 
-namespace Samples.Domain.Interface.TodoList.Queries
+namespace Samples.Domain.Model.TodoList
 {
     public sealed class TodoListsByOwnerId : IQueryFor<List<TodoListSummary>>
     {

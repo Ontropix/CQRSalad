@@ -11,7 +11,6 @@ namespace CQRSalad.Dispatching
         private readonly List<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }
 
-        private readonly DispatcherExecutorsManager _executorsManager;
         private SubscriptionsStore Subscriptions { get; }
         
         public static Dispatcher Create(Action<DispatcherConfig> configurator)
@@ -32,7 +31,7 @@ namespace CQRSalad.Dispatching
 
         private Dispatcher(
             IServiceProvider serviceProvider,
-            List<Type> interceptorsTypes, 
+            List<Type> interceptorsTypes,
             bool throwIfMultipleSendingHandlersFound)
         {
             Argument.IsNotNull(serviceProvider, nameof(serviceProvider));
@@ -73,13 +72,13 @@ namespace CQRSalad.Dispatching
             return await DispatchMessageAsync(message, subscriptions[0]);
         }
 
-        private async Task<object> DispatchMessageAsync(object messageInstance, DispatcherSubscription subscription)
+        private async Task<object> DispatchMessageAsync(object message, DispatcherSubscription subscription)
         {
-            object handlerInstance = ServiceProvider.GetMessageHandler(subscription.HandlerType);
-            var context = new DispatchingContext(handlerInstance, messageInstance);
+            object handler = ServiceProvider.GetMessageHandler(subscription.HandlerType);
+            var context = new DispatchingContext(handler, message);
 
-            IDispatcherContextExecutor executor = _executorsManager.GetExecutor(subscription);
-            
+            var executor = new DispatcherContextExecutor(subscription.Invoker);
+
             List<IContextInterceptor> interceptors = ServiceProvider.GetInterceptors(_interceptorsTypes);
             interceptors.ForEach(async interceptor => await interceptor.OnExecuting(context));
 

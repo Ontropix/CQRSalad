@@ -1,4 +1,4 @@
-﻿namespace Samples.Domain.Interface.TodoList.Models
+﻿namespace Samples.Domain.Model.TodoList
 {
     public class TodoListSummary
     {

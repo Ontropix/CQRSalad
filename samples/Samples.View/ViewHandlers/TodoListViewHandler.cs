@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using CQRSalad.Dispatching.Priority;
 using Kutcha.Core;
-using Samples.Domain.Interface.TodoList;
 using Samples.Domain.Model.TodoList;
 using Samples.View.Views;
 using TodoListItem = Samples.View.Views.TodoListItem;
