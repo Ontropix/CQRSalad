@@ -69,7 +69,6 @@
     <Compile Include="Subscriptions\SubscriptionsStore.cs" />
     <Compile Include="Subscriptions\AssemblyTypesProvider.cs" />
     <Compile Include="Core\DispatcherHandlerAttribute.cs" />
-    <Compile Include="Subscriptions\IDispatcherTypesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

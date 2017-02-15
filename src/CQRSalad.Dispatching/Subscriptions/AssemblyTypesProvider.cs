@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CQRSalad.Dispatching
 {
-    public class AssemblyTypesProvider : IDispatcherTypesProvider
+    public class AssemblyTypesProvider
     {
         private readonly IEnumerable<Assembly> _assemblies;
 

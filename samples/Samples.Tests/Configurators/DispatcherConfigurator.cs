@@ -11,6 +11,17 @@ using StructureMap;
 
 namespace Samples.Tests.Configurators
 {
+    public static class DispatcherExtensions
+    {
+        public static Dispatcher Create(Action<DispatcherConfig> configurator)
+        {
+            var config = new DispatcherConfig();
+            configurator(config);
+            Dispatcher instance = Dispatcher.Create(config);
+            return instance;
+        }
+    }
+
     public static class DispatcherConfigurator
     {
         public static IContainer UseDispatcher(this IContainer container)
@@ -25,10 +36,7 @@ namespace Samples.Tests.Configurators
                 typeof(Samples.View.Querying._namespace).Assembly
             };
 
-            var typeProvider = new AssemblyTypesProvider(assemblies);
-            container.Configure(expression => expression.For<IDispatcherTypesProvider>().Use(typeProvider).Singleton());
-            
-            Dispatcher dispatcher = Dispatcher.Create(configuration =>
+            Dispatcher dispatcher = DispatcherExtensions.Create(configuration =>
             {
                 configuration.SetServiceProvider(new StructureMapServiceProvider(container));
                 configuration.AddInterceptor<ConsoleInterceptor>();

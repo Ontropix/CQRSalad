@@ -8,30 +8,24 @@ namespace CQRSalad.Dispatching
     public class Dispatcher
     {
         private IServiceProvider ServiceProvider { get; }
-        private readonly List<Type> _interceptorsTypes;
+        private readonly IList<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }
 
         private SubscriptionsStore Subscriptions { get; }
-        
-        public static Dispatcher Create(Action<DispatcherConfig> configurator)
-        {
-            var config = new DispatcherConfig();
-            configurator(config);
-            Dispatcher instance = Create(config);
-            return instance;
-        }
 
         public static Dispatcher Create(DispatcherConfig config)
         {
             return new Dispatcher(
+                config.AssembliesWithHandlers,
                 config.ServiceProvider,
                 config.Interceptors,
                 config.ThrowIfMultipleSendingHandlersFound);
         }
 
         private Dispatcher(
+            IEnumerable<Type> typesToRegister,
             IServiceProvider serviceProvider,
-            List<Type> interceptorsTypes,
+            IList<Type> interceptorsTypes,
             bool throwIfMultipleSendingHandlersFound)
         {
             Argument.IsNotNull(serviceProvider, nameof(serviceProvider));
