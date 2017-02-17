@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using CQRSalad.Infrastructure;
+using CQRSalad.Dispatching;
 
-namespace CQRSalad.Dispatching.Interceptors
+namespace CQRSalad.Infrastructure.Interceptors
 {
     public abstract class SpecificMessageInterceptor<TMessage> : IContextInterceptor where TMessage : class
     {

@@ -6,7 +6,7 @@ namespace CQRSalad.Dispatching
 {
     public class Dispatcher
     {
-        private IDispatcherHandlersController HandlersController { get; }
+        private IDispatcherHandlersController Controller { get; }
         private IServiceProvider ServiceProvider { get; }
         private readonly IList<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }

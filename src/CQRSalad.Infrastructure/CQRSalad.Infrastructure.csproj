@@ -52,11 +52,13 @@
     <Compile Include="Exceptions\InvalidQueryException.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="InMemory\InMemoryCommandBus.cs" />
     <Compile Include="InMemory\InMemoryDomainBus.cs" />
     <Compile Include="InMemory\InMemoryEventBus.cs" />
     <Compile Include="InMemory\InMemoryQueryBus.cs" />
     <Compile Include="Interceptors\QueriesInterceptor.cs" />
+    <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
     <Compile Include="Logging\IDispatcherContextLogger.cs" />
     <Compile Include="Validation\FluentMessageValidationFacade.cs" />
     <Compile Include="Validation\IMessageValidationFacade.cs" />
