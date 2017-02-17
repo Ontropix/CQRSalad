@@ -8,49 +8,61 @@ namespace CQRSalad.Dispatching
 {
     internal delegate object MessageInvoker(object handler, object message);
 
-    public class DispatcherServiceController
+    public interface IDispatcherHandlersController
     {
-        private const Priority DefaultPriorty = Priority.Normal;
+        void Init(IEnumerable<Type> typesToRegister);
+    }
 
-        internal SubscriptionsStore Register(IEnumerable<Type> typesToRegister)
+    public class DispatcherHandlersController : IDispatcherHandlersController
+    {
+        private readonly SubscriptionsStore _subscriptionsStore = new SubscriptionsStore();
+        protected virtual Priority DefaultPriorty => Priority.Normal;
+
+        //todo: Add validation
+
+        public void Init(IEnumerable<Type> typesToRegister)
         {
-            var store = new SubscriptionsStore();
+            IEnumerable<Type> handlerTypes = typesToRegister
+                .Distinct()
+                .Where(type => type.IsClass
+                               && type.IsPublic
+                               && !type.IsAbstract
+                               && !type.IsGenericTypeDefinition
+                               && !type.ContainsGenericParameters)
+                .Where(IsDispatcherHandler);
 
-            IEnumerable<Type> handlerTypes = typesToRegister.Distinct().Where(IsDispatcherHandler);
             foreach (Type handlerType in handlerTypes)
             {
-                var actions = GetHandlerActions(handlerType);
-                foreach (MethodInfo action in actions)
-                {
-                    Type messageType = action.GetParameters()[0].ParameterType;
-                    MessageInvoker invoker = CreateInvoker(messageType, handlerType, action);
-
-                    var subscription = new DispatcherSubscription
-                    {
-                        MessageType = messageType,
-                        HandlerType = handlerType,
-                        Invoker = invoker,
-                        Priority = GetPriority(handlerType, action)
-                    };
-
-                    store.Add(subscription);
-                }
+                RegisterHandler(handlerType);
             }
-
-            return store;
         }
 
-        private bool IsDispatcherHandler(Type type)
+        public virtual bool IsDispatcherHandler(Type type)
         {
-            return type.IsDefined(typeof(DispatcherHandlerAttribute))
-                   && type.IsClass
-                   && type.IsPublic
-                   && !type.IsAbstract
-                   && !type.IsGenericTypeDefinition
-                   && !type.ContainsGenericParameters;
+            return type.IsDefined(typeof(DispatcherHandlerAttribute));
         }
 
-        public IEnumerable<MethodInfo> GetHandlerActions(Type handlerType)
+        private void RegisterHandler(Type handlerType)
+        {
+            IEnumerable<MethodInfo> actions = GetHandlerActions(handlerType);
+            foreach (MethodInfo action in actions)
+            {
+                Type messageType = action.GetParameters()[0].ParameterType;
+                MessageInvoker invoker = CreateInvoker(messageType, handlerType, action);
+
+                var subscription = new Subscription
+                {
+                    MessageType = messageType,
+                    HandlerType = handlerType,
+                    Invoker = invoker,
+                    Priority = GetDispatchingPriority(handlerType, action)
+                };
+
+                _subscriptionsStore.Add(subscription);
+            }
+        }
+
+        private IEnumerable<MethodInfo> GetHandlerActions(Type handlerType)
         {
             List<MethodInfo> actions = handlerType
                 .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
@@ -59,7 +71,7 @@ namespace CQRSalad.Dispatching
             return actions;
         }
 
-        private bool IsHandlerAction(MethodInfo method)
+        public virtual bool IsHandlerAction(MethodInfo method)
         {
             bool isDefinitionMatch = method.IsPublic &&
                                      method.GetParameters().Length == 1 &&
@@ -71,28 +83,22 @@ namespace CQRSalad.Dispatching
 
             return isDefinitionMatch;
         }
-        
-        public Priority GetPriority(Type handlerType, MethodInfo action)
+
+        public virtual Priority GetDispatchingPriority(Type handlerType, MethodInfo action)
         {
             Type attributeType = typeof(DispatchingPriorityAttribute);
 
             if (Attribute.IsDefined(action, attributeType))
             {
-                return GetPriorityFromAttribute(action);
+                return action.GetCustomAttribute<DispatchingPriorityAttribute>(false).Priority;
             }
 
             if (Attribute.IsDefined(handlerType, attributeType))
             {
-                return GetPriorityFromAttribute(handlerType);
+                return handlerType.GetCustomAttribute<DispatchingPriorityAttribute>(false).Priority;
             }
 
             return DefaultPriorty;
-        }
-
-        private Priority GetPriorityFromAttribute(MemberInfo member)
-        {
-            var priorityAttribute = member.GetCustomAttribute<DispatchingPriorityAttribute>(false);
-            return priorityAttribute.Priority;
         }
 
         private static MessageInvoker CreateInvoker(Type messageType, Type handlerType, MethodInfo action)

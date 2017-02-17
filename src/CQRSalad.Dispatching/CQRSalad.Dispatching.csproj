@@ -64,10 +64,9 @@
     <Compile Include="Core\IContextInterceptor.cs" />
     <Compile Include="Priority\Priority.cs" />
     <Compile Include="Priority\DispatchingPriorityAttribute.cs" />
-    <Compile Include="Subscriptions\DispatcherSubscription.cs" />
+    <Compile Include="Subscriptions\Subscription.cs" />
     <Compile Include="Subscriptions\DispatcherServiceController.cs" />
     <Compile Include="Subscriptions\SubscriptionsStore.cs" />
-    <Compile Include="Subscriptions\AssemblyTypesProvider.cs" />
     <Compile Include="Core\DispatcherHandlerAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

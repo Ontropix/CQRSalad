@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CQRSalad.Dispatching
 {
     public class Dispatcher
     {
+        private IDispatcherHandlersController HandlersController { get; }
         private IServiceProvider ServiceProvider { get; }
         private readonly IList<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }
-
-        private SubscriptionsStore Subscriptions { get; }
-
+        
         public static Dispatcher Create(DispatcherConfig config)
         {
             return new Dispatcher(
@@ -48,8 +46,8 @@ namespace CQRSalad.Dispatching
 
         public async Task PublishAsync<TMessage>(TMessage message)
         {
-            List<DispatcherSubscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
-            foreach (DispatcherSubscription subscription in subscriptions)
+            List<Subscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
+            foreach (Subscription subscription in subscriptions)
             {
                 await DispatchMessageAsync(message, subscription);
             }
@@ -57,7 +55,7 @@ namespace CQRSalad.Dispatching
 
         public async Task<object> SendAsync(object message)
         {
-            List<DispatcherSubscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
+            List<Subscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
             if (subscriptions.Count > 1 && ThrowIfMultipleSendingHandlersFound)
             {
                 throw new MultipleHandlersException(message);
@@ -66,7 +64,7 @@ namespace CQRSalad.Dispatching
             return await DispatchMessageAsync(message, subscriptions[0]);
         }
 
-        private async Task<object> DispatchMessageAsync(object message, DispatcherSubscription subscription)
+        private async Task<object> DispatchMessageAsync(object message, Subscription subscription)
         {
             object handler = ServiceProvider.GetMessageHandler(subscription.HandlerType);
             var context = new DispatchingContext(handler, message);
