@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CQRSalad.Dispatching
 {
@@ -20,13 +21,13 @@ namespace CQRSalad.Dispatching
             _store[subscription.MessageType].Add(subscription);
         }
 
-        public IEnumerable<Subscription> Get(Type messageType)
+        public IList<Subscription> Get(Type messageType)
         {
             if (!_store.ContainsKey(messageType))
             {
                 throw new HandlerNotFoundException(messageType);
             }
-            return _store[messageType];
+            return _store[messageType].ToList();
         }
     }
 }

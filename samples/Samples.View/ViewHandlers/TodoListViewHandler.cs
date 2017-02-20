@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using Kutcha.Core;
 using Samples.Domain.Model.TodoList;
-using Samples.View.Views;
-using TodoListItem = Samples.View.Views.TodoListItem;
+using Samples.ViewModel.Views;
+using TodoListItem = Samples.ViewModel.Views.TodoListItem;
 
-namespace Samples.View.ViewHandlers
+namespace Samples.ViewModel.ViewHandlers
 {
     [DispatcherHandler]
     [DispatchingPriority(Priority.High)]

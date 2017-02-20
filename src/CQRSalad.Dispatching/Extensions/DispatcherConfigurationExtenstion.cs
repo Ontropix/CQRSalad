@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace CQRSalad.Dispatching
 {
@@ -23,6 +25,18 @@ namespace CQRSalad.Dispatching
         public static DispatcherConfig AddInterceptor<TInterceptor>(this DispatcherConfig config)
         {
             config.Interceptors.Add(typeof(TInterceptor));
+            return config;
+        }
+
+        public static DispatcherConfig RegisterHandlers(this DispatcherConfig config, IEnumerable<Type> types)
+        {
+            config.TypesToRegister.AddRange(types);
+            return config;
+        }
+
+        public static DispatcherConfig RegisterHandlers(this DispatcherConfig config, Assembly assembly)
+        {
+            config.TypesToRegister.AddRange(assembly.GetExportedTypes());
             return config;
         }
     }

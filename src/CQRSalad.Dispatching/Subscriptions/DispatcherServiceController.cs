@@ -7,20 +7,18 @@ using System.Reflection;
 namespace CQRSalad.Dispatching
 {
     internal delegate object MessageInvoker(object handler, object message);
-
-    public interface IDispatcherHandlersController
-    {
-        void Init(IEnumerable<Type> typesToRegister);
-    }
-
-    public class DispatcherHandlersController : IDispatcherHandlersController
+    
+    public class DispatcherHandlersController
     {
         private readonly SubscriptionsStore _subscriptionsStore = new SubscriptionsStore();
         protected virtual Priority DefaultPriorty => Priority.Normal;
 
+        public Func<Type, bool> HandlersTypesResolver { get; set; }
+        public Func<MethodInfo, bool> HandlerActionsResolver { get; set; }
+
         //todo: Add validation
 
-        public void Init(IEnumerable<Type> typesToRegister)
+        public DispatcherHandlersController(IEnumerable<Type> typesToRegister)
         {
             IEnumerable<Type> handlerTypes = typesToRegister
                 .Distinct()
@@ -35,6 +33,11 @@ namespace CQRSalad.Dispatching
             {
                 RegisterHandler(handlerType);
             }
+        }
+
+        internal IList<Subscription> GetSubscriptionsFor(Type messageType)
+        {
+            return _subscriptionsStore.Get(messageType);
         }
 
         public virtual bool IsDispatcherHandler(Type type)

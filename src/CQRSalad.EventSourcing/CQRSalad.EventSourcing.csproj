@@ -45,7 +45,6 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
-    <Compile Include="Core\AggregateActivator.cs" />
     <Compile Include="Core\AggregateRoot.cs" />
     <Compile Include="Core\IAggregateRoot.cs" />
     <Compile Include="DelegateCaches\AggregatesStateMethodsCache.cs" />
@@ -62,13 +61,6 @@
     <Compile Include="Extensions\AggregateRootExtensions.cs" />
     <Compile Include="DelegateCaches\CommandsPropertyCache.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
-    <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
-    <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CodeGeneration\T4Extensions.cs" />
     <Compile Include="Messaging\ICommand.cs" />
     <Compile Include="Messaging\IQueryFor.cs" />
     <Compile Include="Specification\AggregateSpecification.cs" />
@@ -79,10 +71,6 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CodeGeneration\ApplicationServiceTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ApplicationServiceTemplate.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

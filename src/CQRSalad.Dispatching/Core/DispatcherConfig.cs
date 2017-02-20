@@ -7,7 +7,7 @@ namespace CQRSalad.Dispatching
     {
         public IServiceProvider ServiceProvider { get; set; }
 
-        public List<Type> AssembliesWithHandlers { get; set; }
+        public List<Type> TypesToRegister { get; set; }
 
         public List<Type> Interceptors { get; set; } = new List<Type>();
 

@@ -2,9 +2,9 @@
 using CQRSalad.Dispatching;
 using Kutcha.Core;
 using Samples.Domain.Model.TodoList;
-using Samples.View.Views;
+using Samples.ViewModel.Views;
 
-namespace Samples.View.Querying.QueryHandlers
+namespace Samples.ViewModel.QueryHandlers
 {
     [DispatcherHandler]
     public class TodoListQueryHandler

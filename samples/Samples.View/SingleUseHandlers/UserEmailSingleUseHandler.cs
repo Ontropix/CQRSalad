@@ -2,7 +2,7 @@
 using CQRSalad.Dispatching;
 using Samples.Domain.Model.User;
 
-namespace Samples.View.SingleUseHandlers
+namespace Samples.ViewModel.SingleUseHandlers
 {
     [DispatcherHandler]
     public sealed class UserEmailSingleUseHandler

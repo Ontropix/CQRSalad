@@ -1,6 +1,6 @@
 ﻿using Kutcha.Core;
 
-namespace Samples.View.Views
+namespace Samples.ViewModel.Views
 {
     public interface IView : IKutchaRoot
     {

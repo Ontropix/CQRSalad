@@ -12,29 +12,29 @@ namespace CQRSalad.Dispatching
             return task.GetType().GetProperty("Result")?.GetValue(task);
         }
 
-        public static object GetResult(this Task task)
-        {
-            try
-            {
-                task.Wait();
+        //public static object GetResult(this Task task)
+        //{
+        //    try
+        //    {
+        //        task.Wait();
 
-                Type taskType = task.GetType();
-                if (!taskType.IsGenericType || taskType.FullName.Contains("VoidTaskResult"))
-                {
-                    return null;
-                }
+        //        Type taskType = task.GetType();
+        //        if (!taskType.IsGenericType || taskType.FullName.Contains("VoidTaskResult"))
+        //        {
+        //            return null;
+        //        }
 
-                var fn = taskType.GetFastGetter("Result");
-                return fn?.Invoke(task);
-            }
-            catch (TypeAccessException)
-            {
-                return null; //return null for void Task's
-            }
-            catch (Exception ex)
-            {
-               // throw ex.UnwrapIfSingleException();
-            }
-        }
+        //        var fn = taskType.GetFastGetter("Result");
+        //        return fn?.Invoke(task);
+        //    }
+        //    catch (TypeAccessException)
+        //    {
+        //        return null; //return null for void Task's
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //       // throw ex.UnwrapIfSingleException();
+        //    }
+        //}
     }
 }

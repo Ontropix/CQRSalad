@@ -1,4 +1,4 @@
-﻿namespace Samples.View.Views
+﻿namespace Samples.ViewModel.Views
 {
     public sealed class UserView : IView
     {

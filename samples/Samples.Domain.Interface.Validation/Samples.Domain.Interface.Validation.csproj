@@ -49,7 +49,6 @@
     <Compile Include="TodoList\Queries\TodoListsByOwnerIdValidator.cs" />
     <Compile Include="User\Commands\CreateUserCommandValidator.cs" />
     <Compile Include="User\Queries\UserProfileByIdQueryValidator.cs" />
-    <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">

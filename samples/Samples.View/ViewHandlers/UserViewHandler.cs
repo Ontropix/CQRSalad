@@ -2,9 +2,9 @@
 using CQRSalad.Dispatching;
 using Kutcha.Core;
 using Samples.Domain.Model.User;
-using Samples.View.Views;
+using Samples.ViewModel.Views;
 
-namespace Samples.View.ViewHandlers
+namespace Samples.ViewModel.ViewHandlers
 {
     [DispatcherHandler]
     [DispatchingPriority(Priority.High)]

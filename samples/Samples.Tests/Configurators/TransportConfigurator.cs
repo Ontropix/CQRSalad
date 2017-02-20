@@ -5,9 +5,10 @@ using CQRSalad.Infrastructure;
 using CQRSalad.Infrastructure.Validation;
 using Kutcha.Core;
 using Kutcha.InMemory;
-using Samples.Domain.Model;
+using Samples.Domain.Interface.Validation.User.Commands;
 using Samples.Tests.Structuremap;
-using Samples.View.SingleUseHandlers;
+using Samples.ViewModel.SingleUseHandlers;
+using Samples.ViewModel.Views;
 using StructureMap;
 
 namespace Samples.Tests.Configurators
@@ -35,10 +36,7 @@ namespace Samples.Tests.Configurators
         public static IContainer UseFluentMessageValidator(this IContainer container)
         {
             var validatorsManager = new FluentValidatorsRegistry(new StructureMapServiceProvider(container));
-            validatorsManager.Register(
-                typeof(Samples.Domain.Interface._namespace).Assembly,
-                typeof(_namespace).Assembly
-                );
+            validatorsManager.Register(typeof(CreateUserCommandValidator).Assembly);
             container.Configure(expression => expression.For<FluentValidatorsRegistry>().Use(validatorsManager).Singleton());
             container.Configure(expression => expression.For<IMessageValidationFacade>().Use<FluentMessageValidationFacade>().Singleton());
             return container;
@@ -55,7 +53,7 @@ namespace Samples.Tests.Configurators
             container.Configure(config =>
                                     config.Scan(scan =>
                                     {
-                                        scan.Assembly(typeof(View._namespace).Assembly);
+                                        scan.Assembly(typeof(IView).Assembly);
                                         scan.WithDefaultConventions();
                                         scan.AddAllTypesOf(typeof(IKutchaRoot));
                                     })

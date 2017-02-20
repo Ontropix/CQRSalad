@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 
 namespace CQRSalad.Dispatching
 {
-    public class Dispatcher
+    public sealed class Dispatcher
     {
-        private IDispatcherHandlersController Controller { get; }
+        public DispatcherHandlersController Controller { get; }
+
         private IServiceProvider ServiceProvider { get; }
         private readonly IList<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }
@@ -14,14 +15,14 @@ namespace CQRSalad.Dispatching
         public static Dispatcher Create(DispatcherConfig config)
         {
             return new Dispatcher(
-                config.AssembliesWithHandlers,
+                new DispatcherHandlersController(config.TypesToRegister), 
                 config.ServiceProvider,
                 config.Interceptors,
                 config.ThrowIfMultipleSendingHandlersFound);
         }
 
         private Dispatcher(
-            IEnumerable<Type> typesToRegister,
+            DispatcherHandlersController controller,
             IServiceProvider serviceProvider,
             IList<Type> interceptorsTypes,
             bool throwIfMultipleSendingHandlersFound)
@@ -39,6 +40,7 @@ namespace CQRSalad.Dispatching
                 }
             }
 
+            Controller = controller;
             ServiceProvider = serviceProvider;
             _interceptorsTypes = interceptorsTypes;
             ThrowIfMultipleSendingHandlersFound = throwIfMultipleSendingHandlersFound;
@@ -46,7 +48,7 @@ namespace CQRSalad.Dispatching
 
         public async Task PublishAsync<TMessage>(TMessage message)
         {
-            List<Subscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
+            IList<Subscription> subscriptions = Controller.GetSubscriptionsFor(message.GetType());
             foreach (Subscription subscription in subscriptions)
             {
                 await DispatchMessageAsync(message, subscription);
@@ -55,7 +57,7 @@ namespace CQRSalad.Dispatching
 
         public async Task<object> SendAsync(object message)
         {
-            List<Subscription> subscriptions = Subscriptions.Get(message.GetType()).ToList();
+            IList<Subscription> subscriptions = Controller.GetSubscriptionsFor(message.GetType());
             if (subscriptions.Count > 1 && ThrowIfMultipleSendingHandlersFound)
             {
                 throw new MultipleHandlersException(message);

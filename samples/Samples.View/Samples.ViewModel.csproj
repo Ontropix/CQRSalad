@@ -7,8 +7,8 @@
     <ProjectGuid>{C3D87860-A5A5-44B8-BFBF-4D43CC515A5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Samples.View</RootNamespace>
-    <AssemblyName>Samples.View</AssemblyName>
+    <RootNamespace>Samples.ViewModel</RootNamespace>
+    <AssemblyName>Samples.ViewModel</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -35,14 +35,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ViewExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryHandlers\TodoListQueryHandler.cs" />
+    <Compile Include="QueryHandlers\UserQueryHandler.cs" />
     <Compile Include="SingleUseHandlers\UserEmailSingleUseHandler.cs" />
     <Compile Include="ViewHandlers\TodoListViewHandler.cs" />
     <Compile Include="ViewHandlers\UserViewHandler.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\TodoListView.cs" />
     <Compile Include="Views\UserView.cs" />
-    <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">

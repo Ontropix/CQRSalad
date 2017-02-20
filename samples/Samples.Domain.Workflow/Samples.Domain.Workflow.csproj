@@ -37,7 +37,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkflowServices\UserWorkflowService.cs" />
-    <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">

@@ -1,7 +1,7 @@
 ﻿using Samples.Domain.Model.User;
-using Samples.View.Views;
+using Samples.ViewModel.Views;
 
-namespace Samples.View.Querying
+namespace Samples.ViewModel
 {
     internal static class ViewExtensions
     {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using CQRSalad.Configuration;
 using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,6 +24,10 @@ namespace Samples.Tests
 
         public UnitTest1()
         {
+            var salad = new Salad()
+                .EnableEventSourcing()
+                .Use;
+
             container = new Container()
                 .UseGuidIdGenerator()
                 .UseInMemoryKutcha()

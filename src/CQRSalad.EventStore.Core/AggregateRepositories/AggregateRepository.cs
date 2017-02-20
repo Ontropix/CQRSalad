@@ -26,7 +26,7 @@ namespace CQRSalad.EventStore.Core
             //todo has state optimization?
             List<DomainEvent> stream = await _eventStore.GetStreamAsync(aggregateId);
 
-            var aggregate = new TAggregate() { Id =  aggregateId };
+            var aggregate = new TAggregate { Id =  aggregateId };
             aggregate.Reel(stream.Select(x => x.Body).Cast<IEvent>().ToList()); //todo
 
             return aggregate;

@@ -62,7 +62,6 @@
     <Compile Include="User\Events\UserCreated.cs" />
     <Compile Include="User\Models\UserProfile.cs" />
     <Compile Include="User\Queries\UserProfileById.cs" />
-    <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">

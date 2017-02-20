@@ -40,7 +40,6 @@
     <Compile Include="TodoList\TodoListState.cs" />
     <Compile Include="User\UserAggregate.cs" />
     <Compile Include="User\UserState.cs" />
-    <Compile Include="_namespace.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">

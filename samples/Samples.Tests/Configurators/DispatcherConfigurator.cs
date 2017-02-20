@@ -1,12 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using CQRSalad.EventSourcing;
+using CQRSalad.Infrastructure;
+using CQRSalad.Infrastructure.CodeGeneration;
 using CQRSalad.Infrastructure.Interceptors;
 using Newtonsoft.Json;
+using Samples.Domain.Interface.User;
 using Samples.Tests.Structuremap;
+using Samples.ViewModel.Views;
 using StructureMap;
 
 namespace Samples.Tests.Configurators
@@ -26,20 +28,17 @@ namespace Samples.Tests.Configurators
     {
         public static IContainer UseDispatcher(this IContainer container)
         {
-            Assembly applicationServices = ApplicationServiceGenerator.Generate(typeof(Domain.Model._namespace).Assembly);
-
-            var assemblies = new List<Assembly>
-            {
-                applicationServices,
-                typeof(Samples.Domain.Workflow._namespace).Assembly,
-                typeof(Samples.View._namespace).Assembly,
-                typeof(Samples.View.Querying._namespace).Assembly
-            };
+            Assembly applicationServices = ApplicationServiceGenerator.Generate(typeof(UserAggregate).Assembly);
 
             Dispatcher dispatcher = DispatcherExtensions.Create(configuration =>
             {
+                configuration.RegisterHandlers(applicationServices);
+                configuration.RegisterHandlers(typeof(WorkflowService).Assembly);
+                configuration.RegisterHandlers(typeof(IView).Assembly);
+
                 configuration.SetServiceProvider(new StructureMapServiceProvider(container));
                 configuration.AddInterceptor<ConsoleInterceptor>();
+                configuration.ThrowIfMultipleSendingHandlersFound = true;
             });
 
             container.Configure(expression => expression.For<Dispatcher>().Use(dispatcher).Singleton());

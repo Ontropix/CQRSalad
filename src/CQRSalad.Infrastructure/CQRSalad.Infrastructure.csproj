@@ -48,6 +48,12 @@
     <Compile Include="Buses\ICommandBus.cs" />
     <Compile Include="Buses\IDomainBus.cs" />
     <Compile Include="Buses\IQueryBus.cs" />
+    <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
+    <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
+      <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Exceptions\InvalidCommandException.cs" />
     <Compile Include="Exceptions\InvalidQueryException.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
@@ -88,7 +94,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="CodeGeneration\ApplicationServiceTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ApplicationServiceTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

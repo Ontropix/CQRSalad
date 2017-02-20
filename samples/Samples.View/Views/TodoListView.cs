@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Samples.Domain.Model.TodoList;
 
-namespace Samples.View.Views
+namespace Samples.ViewModel.Views
 {
     public sealed class TodoListView : IView
     {
