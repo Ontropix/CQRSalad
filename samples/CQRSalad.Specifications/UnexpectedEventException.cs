@@ -1,6 +1,6 @@
 using System;
 
-namespace CQRSalad.EventSourcing.Specification
+namespace CQRSalad.Specifications
 {
     public sealed class UnexpectedEventException : ApplicationException
     {

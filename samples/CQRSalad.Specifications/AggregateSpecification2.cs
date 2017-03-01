@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CQRSalad.EventSourcing;
 using Newtonsoft.Json;
 
-namespace CQRSalad.EventSourcing.Specification
+namespace CQRSalad.Specifications
 {
     public class AggregateSpecification2<TAggregate> where TAggregate : IAggregateRoot, new()
     {
@@ -27,7 +28,7 @@ namespace CQRSalad.EventSourcing.Specification
 
         public void When<TCommand>(TCommand command) where TCommand : class, ICommand
         {
-            Argument.IsNotNull(command, nameof(command));
+          //  Argument.IsNotNull(command, nameof(command));
 
             Aggregate.Perform(command);
             ObtainedEvents = Aggregate.Changes;

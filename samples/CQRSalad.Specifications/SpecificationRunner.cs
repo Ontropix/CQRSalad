@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using CQRSalad.EventSourcing;
 using Newtonsoft.Json;
 
-namespace CQRSalad.EventSourcing.Specification
+namespace CQRSalad.Specifications
 {
     public static class SpecificationRunner
     {

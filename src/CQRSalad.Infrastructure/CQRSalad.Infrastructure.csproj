@@ -47,7 +47,9 @@
     <Compile Include="AssemblyTypesProvider.cs" />
     <Compile Include="Buses\ICommandBus.cs" />
     <Compile Include="Buses\IDomainBus.cs" />
+    <Compile Include="Buses\IEventBus.cs" />
     <Compile Include="Buses\IQueryBus.cs" />
+    <Compile Include="Buses\IQueryFor.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
       <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>

@@ -1,5 +1,3 @@
-using System;
-
 namespace CQRSalad.EventSourcing
 {
     internal static class ICommandExtensions

@@ -22,8 +22,7 @@ namespace CQRSalad.EventStore.Core
         public virtual async Task<TAggregate> LoadById(string aggregateId)
         {
             Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
-
-            //todo has state optimization?
+            
             List<DomainEvent> stream = await _eventStore.GetStreamAsync(aggregateId);
 
             var aggregate = new TAggregate { Id =  aggregateId };

@@ -25,7 +25,7 @@ namespace CQRSalad.EventSourcing
 
             if (aggregate.Changes.Count < 1)
             {
-                throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' hasn't produced any events");
+                throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' produced no events");
             }
         }
     }

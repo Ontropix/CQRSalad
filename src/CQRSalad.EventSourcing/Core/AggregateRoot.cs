@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
@@ -10,7 +9,8 @@ namespace CQRSalad.EventSourcing
         int IAggregateRoot.Version { get { return Version; } set { Version = value; } }
         object IAggregateRoot.State { get { return State; } set { State = (TState) value; } }
         List<IEvent> IAggregateRoot.Changes => _changes;
-        
+
+        //todo State Null checking
         void IAggregateRoot.Reel(List<IEvent> events)
         {
             Version += events.Count;
@@ -42,13 +42,8 @@ namespace CQRSalad.EventSourcing
         
         private void ApplyOnState(object evnt)
         {
-            MethodInfo action = FindStateMethod(evnt);
-            action?.Invoke(State, new object[] { evnt }); //todo use cached expressions
-        }
-
-        private MethodInfo FindStateMethod(object evnt)
-        {
-            return typeof(TState).FindMethodBySinglePameter(evnt.GetType());
+            EventApplierSubscription subscription = AggregatesStateMethodsCache.GetEventApplier(typeof(TState), evnt.GetType());
+            subscription.Handler(State, evnt);
         }
     }
 }

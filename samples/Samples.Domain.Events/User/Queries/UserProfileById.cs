@@ -1,4 +1,5 @@
 ﻿using CQRSalad.EventSourcing;
+using CQRSalad.Infrastructure;
 
 namespace Samples.Domain.Model.User
 {

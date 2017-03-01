@@ -50,7 +50,6 @@
     <Compile Include="DelegateCaches\AggregatesStateMethodsCache.cs" />
     <Compile Include="DelegateCaches\AggregatesMethodsCache.cs" />
     <Compile Include="Core\IEvent.cs" />
-    <Compile Include="Core\IEventBus.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
     <Compile Include="Core\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
@@ -61,12 +60,7 @@
     <Compile Include="Extensions\AggregateRootExtensions.cs" />
     <Compile Include="DelegateCaches\CommandsPropertyCache.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
-    <Compile Include="Messaging\ICommand.cs" />
-    <Compile Include="Messaging\IQueryFor.cs" />
-    <Compile Include="Specification\AggregateSpecification.cs" />
-    <Compile Include="Specification\AggregateSpecification2.cs" />
-    <Compile Include="Specification\SpecificationRunner.cs" />
-    <Compile Include="Specification\UnexpectedEventException.cs" />
+    <Compile Include="Core\ICommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
   </ItemGroup>
@@ -76,7 +70,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messaging\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

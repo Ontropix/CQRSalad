@@ -18,7 +18,7 @@ namespace CQRSalad.EventSourcing
         // Event Type - Aggregate State method delegate
         private static readonly ConcurrentDictionary<Type, EventApplierSubscription> _cache = new ConcurrentDictionary<Type, EventApplierSubscription>();
 
-        internal static EventApplierSubscription GetCommandHandler(Type aggregateStateType, Type eventType)
+        internal static EventApplierSubscription GetEventApplier(Type aggregateStateType, Type eventType)
         {
             if (_cache.ContainsKey(eventType))
             {
@@ -28,10 +28,9 @@ namespace CQRSalad.EventSourcing
             MethodInfo action = aggregateStateType.FindMethodBySinglePameter(eventType);
             if (action == null)
             {
-                throw new CommandProcessingException("Aggregate doesn't handle command.");
+                return null;
             }
 
-            var ctor = action.GetCustomAttribute<AggregateCtorAttribute>(false);
             var handler = DelegateHelper.CreateMessageInvoker<EventApplier>(aggregateStateType, action, eventType);
 
             var subscription = new EventApplierSubscription
