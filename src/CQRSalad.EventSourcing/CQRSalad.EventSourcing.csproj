@@ -54,6 +54,7 @@
     <Compile Include="Core\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
     <Compile Include="DelegateCaches\DelegateHelper.cs" />
+    <Compile Include="DelegateCaches\StaticAccessors.cs" />
     <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
@@ -70,9 +71,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messaging\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

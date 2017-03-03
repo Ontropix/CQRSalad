@@ -29,7 +29,7 @@ namespace CQRSalad.EventSourcing
             MethodInfo action = aggregateType.FindMethodBySinglePameter(commandType);
             if (action == null)
             {
-                throw new CommandProcessingException("Aggregate doesn't handle command.");
+                return null;
             }
 
             var ctor = action.GetCustomAttribute<AggregateCtorAttribute>(false);
@@ -46,5 +46,10 @@ namespace CQRSalad.EventSourcing
             _cache.TryAdd(commandType, subscription);
             return subscription;
         }
+    }
+
+    internal class MethodsCache
+    {
+
     }
 }
