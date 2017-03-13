@@ -3,11 +3,6 @@ using System.Threading.Tasks;
 
 namespace CQRSalad.Dispatching
 {
-    internal interface IInterceptorsManager
-    {
-        void RegisterInterceptor(Type interceptorType);
-    }
-
     public interface IContextInterceptor
     {
         Task OnExecuting(DispatchingContext context);

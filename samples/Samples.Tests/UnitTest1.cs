@@ -24,10 +24,6 @@ namespace Samples.Tests
 
         public UnitTest1()
         {
-            var salad = new Salad()
-                .EnableEventSourcing()
-                .Use;
-
             container = new Container()
                 .UseGuidIdGenerator()
                 .UseInMemoryKutcha()

@@ -69,11 +69,13 @@ namespace CQRSalad.Dispatching
         private async Task<object> DispatchMessageAsync(object message, Subscription subscription)
         {
             object handler = ServiceProvider.GetMessageHandler(subscription.HandlerType);
-            var context = new DispatchingContext(handler, message);
+            List<IContextInterceptor> interceptors = ServiceProvider.GetInterceptors(_interceptorsTypes);
+
+            var context = new DispatchingContext(handler, message, subscription.Invoker, interceptors);
 
             var executor = new DispatcherContextExecutor(subscription.Invoker);
 
-            List<IContextInterceptor> interceptors = ServiceProvider.GetInterceptors(_interceptorsTypes);
+            
             interceptors.ForEach(async interceptor => await interceptor.OnExecuting(context));
 
             try
