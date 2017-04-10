@@ -32,7 +32,7 @@ namespace CQRSalad.Specifications
                 throw new InvalidOperationException("No command provided.");
             }
 
-            aggregate.Perform(command);
+            //aggregate.Perform(command);
             var obtainedEvents = aggregate.Changes;
 
             List<IEvent> expectedEvents = Expected().ToList();

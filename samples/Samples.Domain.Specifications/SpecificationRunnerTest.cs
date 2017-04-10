@@ -1,5 +1,5 @@
 ﻿using System;
-using CQRSalad.EventSourcing.Specification;
+using CQRSalad.Specifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Samples.Domain.Specifications

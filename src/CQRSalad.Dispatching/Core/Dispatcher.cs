@@ -71,10 +71,8 @@ namespace CQRSalad.Dispatching
             object handler = ServiceProvider.GetMessageHandler(subscription.HandlerType);
             List<IContextInterceptor> interceptors = ServiceProvider.GetInterceptors(_interceptorsTypes);
 
-            var context = new DispatchingContext(handler, message, subscription.Invoker, interceptors);
-
+            var context = new DispatchingContext(handler, message);
             var executor = new DispatcherContextExecutor(subscription.Invoker);
-
             
             interceptors.ForEach(async interceptor => await interceptor.OnExecuting(context));
 

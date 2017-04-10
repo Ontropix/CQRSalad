@@ -30,7 +30,7 @@ namespace CQRSalad.Specifications
         {
           //  Argument.IsNotNull(command, nameof(command));
 
-            Aggregate.Perform(command);
+           // Aggregate.Perform(command);
             ObtainedEvents = Aggregate.Changes;
         }
 

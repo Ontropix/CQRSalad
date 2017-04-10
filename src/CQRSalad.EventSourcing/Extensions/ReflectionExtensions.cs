@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
-    internal static class ReflectionExtensions
+    public static class ReflectionExtensions
     {
         internal static MethodInfo FindMethodBySinglePameter(this IReflect target, Type parameterType)
         {
@@ -13,7 +13,7 @@ namespace CQRSalad.EventSourcing
             return GetMethodsWithSingleParameter(target).FirstOrDefault(method => method.GetParameters()[0].ParameterType == parameterType);
         }
 
-        internal static IEnumerable<MethodInfo> GetMethodsWithSingleParameter(this IReflect target)
+        public static IEnumerable<MethodInfo> GetMethodsWithSingleParameter(this IReflect target)
         {
             IEnumerable<MethodInfo> actions = target.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Where(MethodsFilter);
             return actions;
