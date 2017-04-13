@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
+using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure;
 using CQRSalad.Infrastructure.CodeGeneration;
 using CQRSalad.Infrastructure.Interceptors;
@@ -30,15 +31,22 @@ namespace Samples.Tests.Configurators
         {
             Assembly applicationServices = ApplicationServiceGenerator.Generate(typeof(UserAggregate).Assembly);
 
-            Dispatcher dispatcher = DispatcherExtensions.Create(configuration =>
+            Dispatcher dispatcher = DispatcherExtensions.Create(config =>
             {
-                configuration.RegisterHandlers(applicationServices);
-                configuration.RegisterHandlers(typeof(WorkflowService).Assembly);
-                configuration.RegisterHandlers(typeof(IView).Assembly);
+                config.HandlersTypesResolver = type =>
+                {
+                    bool isDispatcherHandler = type.IsDefined(typeof(DispatcherHandlerAttribute));
+                    bool isApplicationService = type.BaseType != null && type.BaseType.IsGenericType && typeof(ApplicationService<>).IsAssignableFrom(type.BaseType?.GetGenericTypeDefinition());
+                    return isDispatcherHandler || isApplicationService;
+                };
 
-                configuration.SetServiceProvider(new StructureMapServiceProvider(container));
-                configuration.AddInterceptor<ConsoleInterceptor>();
-                configuration.ThrowIfMultipleSendingHandlersFound = true;
+                config.RegisterHandlers(applicationServices);
+                config.RegisterHandlers(typeof(WorkflowService).Assembly);
+                config.RegisterHandlers(typeof(IView).Assembly);
+
+                config.SetServiceProvider(new StructureMapServiceProvider(container));
+                config.AddInterceptor<ConsoleInterceptor>();
+                config.ThrowIfMultipleSendingHandlersFound = true;
             });
 
             container.Configure(expression => expression.For<Dispatcher>().Use(dispatcher).Singleton());

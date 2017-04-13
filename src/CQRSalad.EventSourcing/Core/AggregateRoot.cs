@@ -20,10 +20,10 @@ namespace CQRSalad.EventSourcing
             }
         }
 
-        internal string Id { get; set; }
-        internal int Version { get; private set; }
+        private string Id { get; set; }
+        private int Version { get; set; }
         private readonly List<IEvent> _changes = new List<IEvent>();
-        protected internal TState State { get; private set; } = new TState();
+        protected TState State { get; private set; } = new TState();
 
         protected void ProduceEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent
         {
@@ -43,7 +43,7 @@ namespace CQRSalad.EventSourcing
         private void ApplyOnState(object evnt)
         {
             EventApplierSubscription subscription = AggregatesStateMethodsCache.GetEventApplier(typeof(TState), evnt.GetType());
-            subscription.Handler(State, evnt);
+            subscription?.Handler(State, evnt);
         }
     }
 }

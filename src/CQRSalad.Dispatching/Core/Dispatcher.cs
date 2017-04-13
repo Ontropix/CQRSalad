@@ -6,27 +6,27 @@ namespace CQRSalad.Dispatching
 {
     public sealed class Dispatcher
     {
-        public DispatcherHandlersController Controller { get; }
-
+        private DispatcherHandlersController Controller { get; }
         private IServiceProvider ServiceProvider { get; }
         private readonly IList<Type> _interceptorsTypes;
         private bool ThrowIfMultipleSendingHandlersFound { get; }
-        
+
         public static Dispatcher Create(DispatcherConfig config)
         {
             return new Dispatcher(
-                new DispatcherHandlersController(config.TypesToRegister), 
+                new DispatcherHandlersController(config.TypesToRegister, config.HandlersTypesResolver),
                 config.ServiceProvider,
                 config.Interceptors,
                 config.ThrowIfMultipleSendingHandlersFound);
         }
 
         private Dispatcher(
-            DispatcherHandlersController controller,
+            DispatcherHandlersController handlersController,
             IServiceProvider serviceProvider,
             IList<Type> interceptorsTypes,
             bool throwIfMultipleSendingHandlersFound)
         {
+            Argument.IsNotNull(handlersController, nameof(handlersController));
             Argument.IsNotNull(serviceProvider, nameof(serviceProvider));
 
             if (interceptorsTypes != null && interceptorsTypes.Count > 0)
@@ -40,7 +40,7 @@ namespace CQRSalad.Dispatching
                 }
             }
 
-            Controller = controller;
+            Controller = handlersController;
             ServiceProvider = serviceProvider;
             _interceptorsTypes = interceptorsTypes;
             ThrowIfMultipleSendingHandlersFound = throwIfMultipleSendingHandlersFound;

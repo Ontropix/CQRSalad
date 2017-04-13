@@ -18,8 +18,8 @@ namespace CQRSalad.Dispatching
             await taskResult;
             context.Result = taskResult.GetTaskResult();
 
-            context.Result = _executor(context.HandlerInstance, context.MessageInstance);
-            await Task.CompletedTask;
+            //context.Result = _executor(context.HandlerInstance, context.MessageInstance);
+            //await Task.CompletedTask;
         }
 
         //public Task HandleResponse(object response, Func<object, Task> callback, Func<Exception, Task> errorCallback)

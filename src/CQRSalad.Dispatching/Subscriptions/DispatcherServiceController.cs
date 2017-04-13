@@ -7,18 +7,22 @@ using System.Reflection;
 namespace CQRSalad.Dispatching
 {
     internal delegate object MessageInvoker(object handler, object message);
-    
-    public class DispatcherHandlersController
+
+    internal class DispatcherHandlersController
     {
         private readonly SubscriptionsStore _subscriptionsStore = new SubscriptionsStore();
         protected virtual Priority DefaultPriorty => Priority.Normal;
 
-        public Func<Type, bool> HandlersTypesResolver { get; set; }
-        public Func<MethodInfo, bool> HandlerActionsResolver { get; set; }
+        private Func<Type, bool> HandlersTypesResolver { get; }
 
         //todo: Add validation
+        public DispatcherHandlersController(IEnumerable<Type> typesToRegister, Func<Type, bool> handlersResolver)
+        {
+            HandlersTypesResolver = handlersResolver ?? (type => type.IsDefined(typeof(DispatcherHandlerAttribute)));
+            Initialize(typesToRegister);
+        }
 
-        public DispatcherHandlersController(IEnumerable<Type> typesToRegister)
+        private void Initialize(IEnumerable<Type> typesToRegister)
         {
             IEnumerable<Type> handlerTypes = typesToRegister
                 .Distinct()
@@ -27,7 +31,7 @@ namespace CQRSalad.Dispatching
                                && !type.IsAbstract
                                && !type.IsGenericTypeDefinition
                                && !type.ContainsGenericParameters)
-                .Where(IsDispatcherHandler);
+                .Where(HandlersTypesResolver);
 
             foreach (Type handlerType in handlerTypes)
             {
@@ -38,11 +42,6 @@ namespace CQRSalad.Dispatching
         internal IList<Subscription> GetSubscriptionsFor(Type messageType)
         {
             return _subscriptionsStore.Get(messageType);
-        }
-
-        public virtual bool IsDispatcherHandler(Type type)
-        {
-            return type.IsDefined(typeof(DispatcherHandlerAttribute));
         }
 
         private void RegisterHandler(Type handlerType)
@@ -74,7 +73,7 @@ namespace CQRSalad.Dispatching
             return actions;
         }
 
-        public virtual bool IsHandlerAction(MethodInfo method)
+        protected virtual bool IsHandlerAction(MethodInfo method)
         {
             bool isDefinitionMatch = method.IsPublic &&
                                      method.GetParameters().Length == 1 &&
@@ -87,7 +86,7 @@ namespace CQRSalad.Dispatching
             return isDefinitionMatch;
         }
 
-        public virtual Priority GetDispatchingPriority(Type handlerType, MethodInfo action)
+        protected virtual Priority GetDispatchingPriority(Type handlerType, MethodInfo action)
         {
             Type attributeType = typeof(DispatchingPriorityAttribute);
 
