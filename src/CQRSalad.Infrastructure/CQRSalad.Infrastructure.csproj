@@ -56,6 +56,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Exceptions\InvalidCommandException.cs" />
     <Compile Include="Exceptions\InvalidQueryException.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />

@@ -54,7 +54,6 @@
     <Compile Include="Core\ApplicationService.cs" />
     <Compile Include="DelegateCaches\DelegateHelper.cs" />
     <Compile Include="DelegateCaches\StaticAccessors.cs" />
-    <Compile Include="Exceptions\CommandProcessingException.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
     <Compile Include="Extensions\AggregateRootExtensions.cs" />

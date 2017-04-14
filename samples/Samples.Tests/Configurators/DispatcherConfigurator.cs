@@ -1,12 +1,8 @@
 using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using CQRSalad.Dispatching;
 using CQRSalad.EventSourcing;
-using CQRSalad.Infrastructure;
 using CQRSalad.Infrastructure.CodeGeneration;
-using CQRSalad.Infrastructure.Interceptors;
-using Newtonsoft.Json;
 using Samples.Domain.Interface.User;
 using Samples.Tests.Structuremap;
 using Samples.ViewModel.Views;
@@ -41,7 +37,7 @@ namespace Samples.Tests.Configurators
                 };
 
                 config.RegisterHandlers(applicationServices);
-                config.RegisterHandlers(typeof(WorkflowService).Assembly);
+                //config.RegisterHandlers(typeof(WorkflowService).Assembly);
                 config.RegisterHandlers(typeof(IView).Assembly);
 
                 config.SetServiceProvider(new StructureMapServiceProvider(container));
@@ -52,52 +48,6 @@ namespace Samples.Tests.Configurators
             container.Configure(expression => expression.For<Dispatcher>().Use(dispatcher).Singleton());
 
             return container;
-        }
-
-        public class ConsoleQueriesInterceptor : QueriesInterceptor
-        {
-            public override async Task OnExecuting(DispatchingContext context)
-            {
-                await Task.CompletedTask;
-                Console.WriteLine($"MESSAGE TYPE     : {context.MessageInstance.GetType()}");
-                Console.WriteLine($"MESSAGE INSTANCE : {JsonConvert.SerializeObject(context.MessageInstance)}");
-                Console.WriteLine($"HANDLER TYPE     : {context.HandlerInstance.GetType()}");
-            }
-
-            public override async Task OnExecuted(DispatchingContext context)
-            {
-                await Task.CompletedTask;
-                Console.WriteLine($"RESULT: {JsonConvert.SerializeObject(context.Result)}");
-                Console.WriteLine();
-            }
-
-            public override async Task OnException(DispatchingContext context)
-            {
-                await Task.CompletedTask;
-            }
-        }
-
-        public class ConsoleInterceptor : IContextInterceptor
-        {
-            public async Task OnExecuting(DispatchingContext context)
-            {
-                await Task.CompletedTask;
-                Console.WriteLine($"MESSAGE TYPE     : {context.MessageInstance.GetType()}");
-                Console.WriteLine($"MESSAGE INSTANCE : {JsonConvert.SerializeObject(context.MessageInstance)}");
-                Console.WriteLine($"HANDLER TYPE     : {context.HandlerInstance.GetType()}");
-            }
-
-            public async Task OnExecuted(DispatchingContext context)
-            {
-                await Task.CompletedTask;
-                Console.WriteLine($"RESULT: {JsonConvert.SerializeObject(context.Result)}");
-                Console.WriteLine();
-            }
-
-            public async Task OnException(DispatchingContext context, Exception invocationException)
-            {
-                await Task.CompletedTask;
-            }
         }
     }
 }

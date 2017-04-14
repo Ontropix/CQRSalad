@@ -59,11 +59,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Interceptors\ConsoleInterceptor.cs" />
+    <Compile Include="Interceptors\ConsoleQueriesInterceptor.cs" />
     <Compile Include="Configurators\DispatcherConfigurator.cs" />
     <Compile Include="Configurators\EventSourcingConfigurator.cs" />
     <Compile Include="Configurators\TransportConfigurator.cs" />
     <Compile Include="Structuremap\StructureMapServiceProvider.cs" />
-    <Compile Include="Stuff\SamplesQuery.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,10 +93,6 @@
       <Project>{95E9561C-EC23-4E45-9DC2-786C7BD6C5F7}</Project>
       <Name>Kutcha.InMemory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQRSalad.Configuration\CQRSalad.Configuration.csproj">
-      <Project>{9CB54F48-0CA3-49FE-B1F3-B87D40F441E0}</Project>
-      <Name>CQRSalad.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Model.csproj">
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
       <Name>Samples.Domain.Model</Name>
@@ -103,10 +100,6 @@
     <ProjectReference Include="..\Samples.Domain.Interface.Validation\Samples.Domain.Interface.Validation.csproj">
       <Project>{239173EB-B7A9-47DC-9815-9D653979F057}</Project>
       <Name>Samples.Domain.Interface.Validation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samples.Domain.Workflow\Samples.Domain.Workflow.csproj">
-      <Project>{07c71680-a4e3-4ab6-9c5c-7cda39dda014}</Project>
-      <Name>Samples.Domain.Workflow</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
       <Project>{cc173585-7515-40ba-b6c1-142ea635e864}</Project>

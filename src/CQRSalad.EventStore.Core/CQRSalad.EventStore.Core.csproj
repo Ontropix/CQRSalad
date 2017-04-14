@@ -38,7 +38,7 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
-    <Compile Include="Interfaces\InMemoryEventStore.cs" />
+    <Compile Include="InMemoryEventStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
