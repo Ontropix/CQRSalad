@@ -2,32 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CQRSalad.EventSourcing;
 
-namespace CQRSalad.EventStore.Core
+namespace CQRSalad.EventSourcing
 {
     public class AggregateRepository<TAggregate> : IAggregateRepository<TAggregate>
         where TAggregate : class, IAggregateRoot, new()
     {
-        private readonly IEventStore _eventStore;
-        private readonly IIdGenerator _idGenerator;
+        private readonly IEventStoreAdapter _eventStore;
 
-        public AggregateRepository(IEventStore eventStore, IIdGenerator idGenerator)
+        public AggregateRepository(IEventStoreAdapter eventStore)
         {
             Argument.IsNotNull(eventStore, nameof(eventStore));
             _eventStore = eventStore;
-            _idGenerator = idGenerator;
         }
 
         public virtual async Task<TAggregate> LoadById(string aggregateId)
         {
             Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
             
-            List<DomainEvent> stream = await _eventStore.GetStreamAsync(aggregateId);
+            IEnumerable<IEvent> stream = await _eventStore.GetStreamAsync(aggregateId);
 
             var aggregate = new TAggregate { Id =  aggregateId };
-            aggregate.Reel(stream.Select(x => x.Body).Cast<IEvent>().ToList()); //todo
-
+            aggregate.Reel(stream.ToList()); //todo
             return aggregate;
         }
 
@@ -41,21 +37,16 @@ namespace CQRSalad.EventStore.Core
                 throw new InvalidOperationException("Attempting to save aggregate without changes.");
             }
 
-            //todo metadata
-            DateTime commitmentTime = DateTime.UtcNow;
-            var domainEvents = aggregate.Changes.Select(x => new DomainEvent
-            {
-                EventId = _idGenerator.Generate(),
-                Body = x,
-                Meta = new EventMetadata
+            await _eventStore.AppendEventsAsync(
+                aggregate.Id,
+                aggregate.Changes,
+                new EventMetadata
                 {
                     AggregateId = aggregate.Id,
-                    AggregateRoot = GetType().AssemblyQualifiedName,
-                    Timestamp = commitmentTime
+                    AggregateType = GetType().AssemblyQualifiedName,
+                    Timestamp = DateTime.UtcNow
                 }
-            }).ToList();
-
-            await _eventStore.AppendManyAsync(aggregate.Id, domainEvents);
+            );
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="IIdGenerator.cs" />
     <Compile Include="InMemory\InMemoryCommandBus.cs" />
     <Compile Include="InMemory\InMemoryDomainBus.cs" />
     <Compile Include="InMemory\InMemoryEventBus.cs" />

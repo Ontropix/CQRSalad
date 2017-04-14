@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CQRSalad.EventSourcing;
 using CQRSalad.EventStore.Core;
 using MongoDB.Driver;
 
 namespace CQRSalad.EventStore.MongoDB
 {
-    public class HeadBasedMongoEventStore : IEventStore
+    public class HeadBasedMongoEventStore : IEventStoreAdapter
     {
         public HeadBasedMongoEventStore(IMongoDatabase mongoDatabase, EventStoreSettings settings)
         {
@@ -19,27 +20,17 @@ namespace CQRSalad.EventStore.MongoDB
             //_updater = Builders<EventStream>.Update;
         }
 
-        public Task<List<DomainEvent>> GetStreamAsync(string streamId)
+        public Task<IEnumerable<IEvent>> GetStreamAsync(string streamId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<DomainEvent>> GetStreamPartAsync(string streamId, int fromVersion, int toVersion = -1)
+        public Task<IEnumerable<IEvent>> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
         {
             throw new NotImplementedException();
         }
 
-        public Task AppendAsync(string streamId, DomainEvent @event)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AppendManyAsync(string streamId, List<DomainEvent> events)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> CountStreamAsync(string streamId)
+        public Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, EventMetadata eventMetadata)
         {
             throw new NotImplementedException();
         }

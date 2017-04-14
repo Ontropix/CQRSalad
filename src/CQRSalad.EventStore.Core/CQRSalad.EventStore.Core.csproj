@@ -38,13 +38,7 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
-    <Compile Include="AggregateRepositories\AggregateRepository.cs" />
-    <Compile Include="IIdGenerator.cs" />
-    <Compile Include="Interfaces\IEventStore.cs" />
-    <Compile Include="InMemoryEventStore.cs" />
-    <Compile Include="Exceptions\InvalidEventException.cs" />
-    <Compile Include="Messaging\DomainEvent.cs" />
-    <Compile Include="Messaging\EventMetadata.cs" />
+    <Compile Include="Interfaces\InMemoryEventStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +51,7 @@
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

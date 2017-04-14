@@ -16,7 +16,7 @@ namespace Samples.Tests.Configurators
 
         public static IContainer UseInMemoryEventStore(this IContainer container)
         {
-            container.Configure(expression => expression.For(typeof(IEventStore)).Use(typeof(InMemoryEventStore)).Singleton());
+            container.Configure(expression => expression.For(typeof(IEventStoreAdapter)).Use(typeof(InMemoryEventStore)).Singleton());
             container.Configure(expression => expression.For(typeof(IEventBus)).Use(typeof(InMemoryEventBus)).Singleton());
             return container;
         }
@@ -25,7 +25,7 @@ namespace Samples.Tests.Configurators
         {
             //var mongoEvents = new MongoInstance(connectionString);
             //var eventStore = new StreamBasedEventStore(mongoEvents.GetDatabase(), EventStoreSettings.GetDefault());
-            //container.Configure(expression => expression.For<IEventStore>().Use(eventStore).Singleton());
+            //container.Configure(expression => expression.For<IEventStoreAdapter>().Use(eventStore).Singleton());
 
             //var snapshotsStore = new MongoSnapshotStore(mongoEvents.GetDatabase(), new MongoSnapshotsOptions() { CollectionName = "snapshots"});
             //container.Configure(expression => expression.For<ISnapshotStore>().Use(snapshotsStore).Singleton());

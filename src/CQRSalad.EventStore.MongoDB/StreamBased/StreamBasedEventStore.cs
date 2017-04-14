@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CQRSalad.EventSourcing;
 using CQRSalad.EventStore.Core;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -19,7 +20,7 @@ namespace CQRSalad.EventStore.MongoDB
         public BsonArray Events { get; set; }
     }
     
-    public class StreamBasedEventStore : IEventStore
+    public class StreamBasedEventStore : IEventStoreAdapter
     {
         private static readonly List<DomainEvent> EmtpyList = new List<DomainEvent>();
         private static readonly UpdateOptions MockUpsert = new UpdateOptions() { IsUpsert = true };
@@ -61,7 +62,7 @@ namespace CQRSalad.EventStore.MongoDB
 
         public async Task AppendAsync(string streamId, DomainEvent @event)
         {
-            var update = _updater.SetOnInsert(x => x.Root, @event.Meta.AggregateRoot)
+            var update = _updater.SetOnInsert(x => x.Root, @event.Meta.AggregateType)
                                  .Inc(x => x.Version, 1)
                                  .Push(x => x.Events, _eventSerializer.Serialize(@event));
 
@@ -70,7 +71,7 @@ namespace CQRSalad.EventStore.MongoDB
 
         public async Task AppendManyAsync(string streamId, List<DomainEvent> events)
         {
-            var update = _updater.SetOnInsert(x => x.Root, events.First().Meta.AggregateRoot)
+            var update = _updater.SetOnInsert(x => x.Root, events.First().Meta.AggregateType)
                                  .Inc(x => x.Version, events.Count)
                                  .PushEach(x => x.Events, _eventSerializer.SerializeMany(events));
 
@@ -80,6 +81,21 @@ namespace CQRSalad.EventStore.MongoDB
         public Task<int> CountStreamAsync(string aggregateId)
         {
             return Streams.Find(stream => stream.Id == aggregateId).Project(x => x.Version).FirstOrDefaultAsync();
+        }
+
+        Task<IEnumerable<IEvent>> IEventStoreAdapter.GetStreamAsync(string streamId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<IEvent>> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, EventMetadata eventMetadata)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

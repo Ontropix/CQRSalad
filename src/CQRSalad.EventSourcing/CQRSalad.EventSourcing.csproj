@@ -41,13 +41,16 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
+    <Compile Include="AggregateRepository\AggregateRepository.cs" />
+    <Compile Include="AggregateRepository\EventMetadata.cs" />
+    <Compile Include="AggregateRepository\IEventStoreAdapter.cs" />
     <Compile Include="Core\AggregateRoot.cs" />
     <Compile Include="Core\IAggregateRoot.cs" />
     <Compile Include="DelegateCaches\AggregatesStateMethodsCache.cs" />
     <Compile Include="DelegateCaches\AggregatesMethodsCache.cs" />
     <Compile Include="Core\IEvent.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
-    <Compile Include="Core\IAggregateRepository.cs" />
+    <Compile Include="AggregateRepository\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
     <Compile Include="DelegateCaches\DelegateHelper.cs" />
     <Compile Include="DelegateCaches\StaticAccessors.cs" />

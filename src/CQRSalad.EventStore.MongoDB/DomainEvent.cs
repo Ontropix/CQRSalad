@@ -1,3 +1,5 @@
+using CQRSalad.EventSourcing;
+
 namespace CQRSalad.EventStore.Core
 {
     /// <summary>

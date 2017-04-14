@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQRSalad.EventSourcing;
@@ -9,12 +8,12 @@ namespace CQRSalad.EventStore.Core
     public class ShapshotAggregateRepository<TAggregate> : AggregateRepository<TAggregate>
         where TAggregate : class, IAggregateRoot, new()
     {
-        private readonly IEventStore _eventStore;
+        private readonly IEventStoreAdapter _eventStore;
         private readonly ISnapshotStore _snapshotStore;
         private readonly int _makeSnapshotOnVersion;
 
-        public ShapshotAggregateRepository(IEventStore eventStore, ISnapshotStore snapshotStore, int makeSnapshotOnVersion, IIdGenerator idGenerator) 
-            : base(eventStore, idGenerator)
+        public ShapshotAggregateRepository(IEventStoreAdapter eventStore, ISnapshotStore snapshotStore, int makeSnapshotOnVersion) 
+            : base(eventStore)
         {
             Argument.IsNotNull(eventStore, nameof(eventStore));
             Argument.IsNotNull(snapshotStore, nameof(snapshotStore));
@@ -38,8 +37,8 @@ namespace CQRSalad.EventStore.Core
             var aggregate = new TAggregate();
             aggregate.Restore(snapshot);
             
-            List<DomainEvent> stream = await _eventStore.GetStreamPartAsync(aggregateId, snapshot.Version + 1);
-            aggregate.Reel(stream.Select(x => x.Body).Cast<IEvent>().ToList()); //todo cast
+            var stream = await _eventStore.GetStreamAsync(aggregateId, snapshot.Version + 1);
+            aggregate.Reel(stream.ToList());
             return aggregate;
         }
 

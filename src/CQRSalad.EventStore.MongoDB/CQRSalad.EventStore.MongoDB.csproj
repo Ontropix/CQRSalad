@@ -52,7 +52,9 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
+    <Compile Include="DomainEvent.cs" />
     <Compile Include="HeapBased\HeadBasedMongoEventStore.cs" />
+    <Compile Include="InvalidEventException.cs" />
     <Compile Include="Settings\EventStoreSettings.cs" />
     <Compile Include="Serializers\MongoDataSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using CQRSalad.EventSourcing;
 using CQRSalad.EventStore.Core;
 using CQRSalad.EventStore.MongoDB.Serializers;
 using MongoDB.Bson;
@@ -83,7 +84,7 @@ namespace CQRSalad.EventStore.MongoDB
                 Meta = new EventMetadata
                 {
                     AggregateId = "", //todo
-                    AggregateRoot = root,
+                    AggregateType = root,
                     Timestamp = bsonDocument[$"{MetaElement}"][$"{TimestampElement}"].ToUniversalTime(),
                     //SenderId = bsonDocument[$"{MetaElement}"][$"{SenderElement}"].AsString
                 }
