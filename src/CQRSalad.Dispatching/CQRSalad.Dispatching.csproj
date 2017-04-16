@@ -38,15 +38,6 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
-    <Compile Include="..\LinkedFiles\AsyncHelper.cs">
-      <Link>LinkedFiles\AsyncHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\LinkedFiles\Maybe.cs">
-      <Link>LinkedFiles\Maybe.cs</Link>
-    </Compile>
-    <Compile Include="..\LinkedFiles\SyntaxSugar.cs">
-      <Link>LinkedFiles\SyntaxSugar.cs</Link>
-    </Compile>
     <Compile Include="Subscriptions\DispatcherContextExecutor.cs" />
     <Compile Include="Core\DispatchingContext.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
@@ -55,7 +46,6 @@
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
     <Compile Include="Exceptions\MultipleHandlersException.cs" />
     <Compile Include="Exceptions\DispatcherConfigurationException.cs" />
-    <Compile Include="Exceptions\DispatchingException.cs" />
     <Compile Include="Exceptions\HandlerNotFoundException.cs" />
     <Compile Include="Exceptions\ServiceProviderException.cs" />
     <Compile Include="Extensions\DispatcherConfigurationExtenstion.cs" />

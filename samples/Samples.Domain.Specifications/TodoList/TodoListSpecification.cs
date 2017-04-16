@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CQRSalad.EventSourcing;
-using CQRSalad.Specifications;
+using CQRSalad.EventSourcing.Specifications;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Samples.Domain.Interface.TodoList;
 using Samples.Domain.Model.TodoList;

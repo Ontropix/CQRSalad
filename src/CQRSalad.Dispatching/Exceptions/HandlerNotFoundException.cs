@@ -2,7 +2,7 @@ using System;
 
 namespace CQRSalad.Dispatching
 {
-    public sealed class HandlerNotFoundException : DispatchingException
+    public sealed class HandlerNotFoundException : ApplicationException
     {
         public Type MessageType { get; private set; }
 

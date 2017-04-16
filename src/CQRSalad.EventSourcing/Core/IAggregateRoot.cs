@@ -10,8 +10,6 @@ namespace CQRSalad.EventSourcing
 
         List<IEvent> Changes { get; }
 
-        void Reel(List<IEvent> events);
-
         object State { get; set; }
     }
 }

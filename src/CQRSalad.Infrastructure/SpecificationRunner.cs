@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using CQRSalad.EventSourcing;
+using CQRSalad.EventSourcing.Specifications;
+using CQRSalad.Specifications;
 using Newtonsoft.Json;
 
-namespace CQRSalad.Specifications
+namespace CQRSalad.Infrastructure
 {
     public static class SpecificationRunner
     {

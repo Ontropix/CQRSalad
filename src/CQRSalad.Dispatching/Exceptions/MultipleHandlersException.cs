@@ -2,7 +2,7 @@ using System;
 
 namespace CQRSalad.Dispatching
 {
-    public sealed class MultipleHandlersException : DispatchingException
+    public sealed class MultipleHandlersException : ApplicationException
     {
         public object MessageObject { get; private set; }
 

@@ -46,13 +46,14 @@
     <Compile Include="AggregateRepository\IEventStoreAdapter.cs" />
     <Compile Include="Core\AggregateRoot.cs" />
     <Compile Include="Core\IAggregateRoot.cs" />
-    <Compile Include="DelegateCaches\AggregatesStateMethodsCache.cs" />
-    <Compile Include="DelegateCaches\AggregatesMethodsCache.cs" />
+    <Compile Include="DelegateCaches\AggregatesCache.cs" />
+    <Compile Include="DelegateCaches\StateOnMethod.cs" />
+    <Compile Include="DelegateCaches\WhenMethod.cs" />
     <Compile Include="Core\IEvent.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
     <Compile Include="AggregateRepository\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
-    <Compile Include="DelegateCaches\DelegateHelper.cs" />
+    <Compile Include="DelegateCaches\MessageInvokersCache.cs" />
     <Compile Include="DelegateCaches\StaticAccessors.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
@@ -62,6 +63,12 @@
     <Compile Include="Core\ICommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Snapshoting\AggregateSnapshot.cs" />
+    <Compile Include="Snapshoting\IAggregateRootExtensions.cs" />
+    <Compile Include="Snapshoting\ISnapshotStore.cs" />
+    <Compile Include="Snapshoting\ShapshotAggregateRepository.cs" />
+    <Compile Include="Specifications\AggregateSpecification.cs" />
+    <Compile Include="Specifications\UnexpectedEventException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

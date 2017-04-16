@@ -34,7 +34,7 @@ namespace CQRSalad.Infrastructure.CodeGeneration
             
             #line 11 "D:\projects\CQRSalad\src\CQRSalad.Infrastructure\CodeGeneration\ApplicationServiceTemplate.tt"
 
-List<Type> messageTypes = AggregateType.GetMethodsWithSingleParameter()
+List<Type> messageTypes = AggregateType.GetMethodsWithSingleArgument()
 				.Where(method => typeof (ICommand).IsAssignableFrom(method.GetParameters()[0].ParameterType))
 				.Select(method => method.GetParameters()[0].ParameterType)
 				.ToList();

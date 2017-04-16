@@ -7,13 +7,13 @@ namespace CQRSalad.EventSourcing
 {
     public static class ReflectionExtensions
     {
-        internal static MethodInfo FindMethodBySinglePameter(this IReflect target, Type parameterType)
+        internal static MethodInfo GetMethodWithSingleArgument(this IReflect target, Type argumentType)
         {
             //we can take First element, because we filter methods with definition: "public void ACTION_NAME (MESSAGE_TYPE message)"
-            return GetMethodsWithSingleParameter(target).FirstOrDefault(method => method.GetParameters()[0].ParameterType == parameterType);
+            return GetMethodsWithSingleArgument(target).FirstOrDefault(method => method.GetParameters()[0].ParameterType == argumentType);
         }
 
-        public static IEnumerable<MethodInfo> GetMethodsWithSingleParameter(this IReflect target)
+        public static IEnumerable<MethodInfo> GetMethodsWithSingleArgument(this IReflect target)
         {
             IEnumerable<MethodInfo> actions = target.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Where(MethodsFilter);
             return actions;

@@ -1,5 +1,5 @@
 ﻿using System;
-using CQRSalad.Specifications;
+using CQRSalad.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Samples.Domain.Specifications

@@ -63,9 +63,9 @@
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\CQRSalad.Specifications\CQRSalad.Specifications.csproj">
-      <Project>{666E1815-9C59-4124-978F-BB2C081A452D}</Project>
-      <Name>CQRSalad.Specifications</Name>
+    <ProjectReference Include="..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
+      <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
+      <Name>CQRSalad.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Model.csproj">
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>

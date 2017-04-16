@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace CQRSalad.EventSourcing
 {
@@ -9,7 +10,7 @@ namespace CQRSalad.EventSourcing
             Type aggregateType = aggregate.GetType();
             Type commandType = command.GetType();
 
-            var subscription = AggregatesMethodsCache.GetCommandHandler(aggregateType, commandType);
+            var subscription = AggregatesCache.GetWhenMethod(aggregateType, commandType);
             
             if (!subscription.IsCtor && aggregate.Version == 0)
             {
@@ -21,12 +22,31 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
             }
 
-            subscription.Handler(aggregate, command);
+            subscription.Invoker(aggregate, command);
 
             if (aggregate.Changes.Count < 1)
             {
                 throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' produced no events");
             }
+
+            aggregate.Version += aggregate.Changes.Count;//todo Version depends on Events Count??
+        }
+
+        //todo State Null checking
+        internal static void Reel(this IAggregateRoot root, List<IEvent> events)
+        {
+            foreach (var @event in events)
+            {
+                ApplyOnState(root, @event);
+            }
+
+            root.Version += events.Count;
+        }
+
+        internal static void ApplyOnState(this IAggregateRoot root, IEvent evnt)
+        {
+            StateOnMethod subscription = AggregatesCache.GetStateOnMethod(root.State.GetType(), evnt.GetType());
+            subscription?.Invoker(root.State, evnt);
         }
     }
 }

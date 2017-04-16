@@ -34,6 +34,10 @@
     <Reference Include="FluentValidation">
       <HintPath>..\..\samples\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\samples\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -70,6 +74,7 @@
     <Compile Include="Interceptors\QueriesInterceptor.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
     <Compile Include="Logging\IDispatcherContextLogger.cs" />
+    <Compile Include="SpecificationRunner.cs" />
     <Compile Include="Validation\FluentMessageValidationFacade.cs" />
     <Compile Include="Validation\IMessageValidationFacade.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

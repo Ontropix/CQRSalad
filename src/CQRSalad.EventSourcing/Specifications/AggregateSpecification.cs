@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CQRSalad.EventSourcing;
 
-namespace CQRSalad.Specifications
+namespace CQRSalad.EventSourcing.Specifications
 {
     public abstract class AggregateSpecification<TAggregate> where TAggregate : IAggregateRoot, new()
     {
@@ -23,7 +22,7 @@ namespace CQRSalad.Specifications
             List<IEvent> givenEvents = Given().ToList();
             if (givenEvents.Count > 0)
             {
-                aggregate.Reel(givenEvents);
+              //  aggregate.Reel(givenEvents);
             }
 
             ICommand command = When();

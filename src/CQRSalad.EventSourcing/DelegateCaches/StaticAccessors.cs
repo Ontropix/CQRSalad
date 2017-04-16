@@ -13,16 +13,20 @@ namespace CQRSalad.EventSourcing
 
         public static Func<object, object> GetFastGetter(this Type type, string propName)
         {
-            var key = $"{type.FullName}::{propName}";
+            string key = $"{type.FullName}::{propName}";
             Func<object, object> fn;
             if (getterFnCache.TryGetValue(key, out fn))
+            {
                 return fn;
+            }
 
-            var pi = type.GetProperty(propName);
-            if (pi == null)
+            PropertyInfo property = type.GetProperty(propName);
+            if (property == null)
+            {
                 return null;
+            }
 
-            fn = GetValueGetter(pi, type);
+            fn = GetValueGetter(property, type);
 
             Dictionary<string, Func<object, object>> snapshot, newCache;
             do
@@ -30,24 +34,27 @@ namespace CQRSalad.EventSourcing
                 snapshot = getterFnCache;
                 newCache = new Dictionary<string, Func<object, object>>(getterFnCache) { [key] = fn };
 
-            } while (!ReferenceEquals(
-                Interlocked.CompareExchange(ref getterFnCache, newCache, snapshot), snapshot));
+            } while (!ReferenceEquals(Interlocked.CompareExchange(ref getterFnCache, newCache, snapshot), snapshot));
 
             return fn;
         }
 
         public static Action<object, object> GetFastSetter(this Type type, string propName)
         {
-            var key = $"{type.FullName}::{propName}";
+            string key = $"{type.FullName}::{propName}";
             Action<object, object> fn;
             if (setterFnCache.TryGetValue(key, out fn))
+            {
                 return fn;
+            }
 
-            var pi = type.GetProperty(propName);
-            if (pi == null)
+            var property = type.GetProperty(propName);
+            if (property == null)
+            {
                 return null;
+            }
 
-            fn = GetValueSetter(pi);
+            fn = GetValueSetter(property, type);
 
             Dictionary<string, Action<object, object>> snapshot, newCache;
             do
@@ -78,21 +85,6 @@ namespace CQRSalad.EventSourcing
                 : Expression.Property(instance, propertyInfo);
             var convertProperty = Expression.TypeAs(property, typeof(object));
             return Expression.Lambda<Func<T, object>>(convertProperty, instance).Compile();
-        }
-
-        public static Func<T, object> GetValueGetter<T>(this FieldInfo fieldInfo)
-        {
-            var instance = Expression.Parameter(typeof(T), "i");
-            var field = typeof(T) != fieldInfo.DeclaringType
-                ? Expression.Field(Expression.TypeAs(instance, fieldInfo.DeclaringType), fieldInfo)
-                : Expression.Field(instance, fieldInfo);
-            var convertField = Expression.TypeAs(field, typeof(object));
-            return Expression.Lambda<Func<T, object>>(convertField, instance).Compile();
-        }
-
-        public static Action<object, object> GetValueSetter(this PropertyInfo propertyInfo)
-        {
-            return GetValueSetter(propertyInfo, propertyInfo.DeclaringType);
         }
 
         public static Action<object, object> GetValueSetter(this PropertyInfo propertyInfo, Type instanceType)
