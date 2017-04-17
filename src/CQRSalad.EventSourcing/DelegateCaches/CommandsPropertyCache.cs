@@ -16,16 +16,11 @@ namespace CQRSalad.EventSourcing
 
         public static AggregateIdPropertyHandler GetPropertyHandler(Type targetType)
         {
-            if (_cache.ContainsKey(targetType))
+            return _cache.GetOrAdd(targetType, key =>
             {
-                return _cache[targetType];
-            }
-
-            PropertyInfo property = ResolveProperty(targetType);
-            AggregateIdPropertyHandler resolver = BuildPropertyResolver(targetType, property);
-
-            _cache.TryAdd(targetType, resolver);
-            return resolver;
+                PropertyInfo property = ResolveProperty(targetType);
+                return BuildPropertyResolver(targetType, property);
+            });
         }
 
         private static PropertyInfo ResolveProperty(Type targetType)

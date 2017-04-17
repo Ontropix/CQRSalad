@@ -10,8 +10,12 @@ namespace CQRSalad.EventSourcing
             Type aggregateType = aggregate.GetType();
             Type commandType = command.GetType();
 
-            var subscription = AggregatesCache.GetWhenMethod(aggregateType, commandType);
-            
+            var subscription = AggregateInvokersCache.GetWhenMethod(aggregateType, commandType);
+            if (subscription == null)
+            {
+                throw new InvalidOperationException("Aggregate can't handle command.");
+            }
+
             if (!subscription.IsCtor && aggregate.Version == 0)
             {
                 throw new InvalidOperationException("Attempting to create an aggregate using non-constructor command.");
@@ -29,7 +33,7 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' produced no events");
             }
 
-            aggregate.Version += aggregate.Changes.Count;//todo Version depends on Events Count??
+            aggregate.Reel(aggregate.Changes);
         }
 
         //todo State Null checking
@@ -40,12 +44,12 @@ namespace CQRSalad.EventSourcing
                 ApplyOnState(root, @event);
             }
 
-            root.Version += events.Count;
+            root.Version += events.Count;//todo Version depends on Events Count??
         }
 
         internal static void ApplyOnState(this IAggregateRoot root, IEvent evnt)
         {
-            StateOnMethod subscription = AggregatesCache.GetStateOnMethod(root.State.GetType(), evnt.GetType());
+            StateOnMethod subscription = AggregateInvokersCache.GetStateOnMethod(root.State.GetType(), evnt.GetType());
             subscription?.Invoker(root.State, evnt);
         }
     }

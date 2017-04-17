@@ -18,6 +18,6 @@ namespace CQRSalad.EventSourcing
         /// <summary>
         /// Append several events to the stream
         /// </summary>
-        Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, EventMetadata eventMetadata);
+        Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, StreamMetadata streamMetadata);
     }
 }

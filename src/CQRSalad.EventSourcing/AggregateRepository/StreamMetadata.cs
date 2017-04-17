@@ -2,7 +2,7 @@
 
 namespace CQRSalad.EventSourcing
 {
-    public class EventMetadata
+    public class StreamMetadata
     {
         /// <summary>
         /// Aggregate Id

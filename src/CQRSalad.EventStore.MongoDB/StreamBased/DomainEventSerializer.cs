@@ -81,7 +81,7 @@ namespace CQRSalad.EventStore.MongoDB
             return new DomainEvent
             {
                 Body = _dataSerializer.Deserialize(bsonDocument[BodyElement].AsBsonDocument, eventType), //todo
-                Meta = new EventMetadata
+                Meta = new StreamMetadata
                 {
                     AggregateId = "", //todo
                     AggregateType = root,

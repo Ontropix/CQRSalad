@@ -42,18 +42,15 @@
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
     <Compile Include="AggregateRepository\AggregateRepository.cs" />
-    <Compile Include="AggregateRepository\EventMetadata.cs" />
+    <Compile Include="AggregateRepository\StreamMetadata.cs" />
     <Compile Include="AggregateRepository\IEventStoreAdapter.cs" />
     <Compile Include="Core\AggregateRoot.cs" />
     <Compile Include="Core\IAggregateRoot.cs" />
-    <Compile Include="DelegateCaches\AggregatesCache.cs" />
-    <Compile Include="DelegateCaches\StateOnMethod.cs" />
-    <Compile Include="DelegateCaches\WhenMethod.cs" />
+    <Compile Include="DelegateCaches\AggregateInvokersCache.cs" />
     <Compile Include="Core\IEvent.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
     <Compile Include="AggregateRepository\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
-    <Compile Include="DelegateCaches\MessageInvokersCache.cs" />
     <Compile Include="DelegateCaches\StaticAccessors.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />

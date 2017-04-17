@@ -10,7 +10,7 @@ namespace CQRSalad.EventSourcing.Specifications
         {
             return new IEvent[0];
         }
-        
+
         public abstract ICommand When();
 
         public abstract IEnumerable<IEvent> Expected();
@@ -22,7 +22,7 @@ namespace CQRSalad.EventSourcing.Specifications
             List<IEvent> givenEvents = Given().ToList();
             if (givenEvents.Count > 0)
             {
-              //  aggregate.Reel(givenEvents);
+                aggregate.Reel(givenEvents);
             }
 
             ICommand command = When();
@@ -31,7 +31,7 @@ namespace CQRSalad.EventSourcing.Specifications
                 throw new InvalidOperationException("No command provided.");
             }
 
-            //aggregate.Perform(command);
+            aggregate.Perform(command);
             var obtainedEvents = aggregate.Changes;
 
             List<IEvent> expectedEvents = Expected().ToList();

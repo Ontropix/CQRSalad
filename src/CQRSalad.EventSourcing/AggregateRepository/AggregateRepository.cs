@@ -40,7 +40,7 @@ namespace CQRSalad.EventSourcing
             await _eventStore.AppendEventsAsync(
                 aggregate.Id,
                 aggregate.Changes,
-                new EventMetadata
+                new StreamMetadata
                 {
                     AggregateId = aggregate.Id,
                     AggregateType = GetType().AssemblyQualifiedName,

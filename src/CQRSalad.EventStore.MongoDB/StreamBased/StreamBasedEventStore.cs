@@ -93,7 +93,7 @@ namespace CQRSalad.EventStore.MongoDB
             throw new System.NotImplementedException();
         }
 
-        public Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, EventMetadata eventMetadata)
+        public Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, StreamMetadata streamMetadata)
         {
             throw new System.NotImplementedException();
         }

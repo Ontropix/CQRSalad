@@ -20,6 +20,6 @@ namespace CQRSalad.EventStore.Core
         /// <summary>
         /// Metadata of event
         /// </summary>
-        public EventMetadata Meta { get; set; }
+        public StreamMetadata Meta { get; set; }
     }
 }

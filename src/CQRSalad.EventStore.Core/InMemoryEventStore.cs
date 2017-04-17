@@ -27,7 +27,7 @@ namespace CQRSalad.EventStore.Core
             return await Task.FromResult(streamPart);
         }
 
-        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, EventMetadata eventMetadata)
+        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, StreamMetadata streamMetadata)
         {
             Argument.ElementsNotNull(events);
             if (!_streams.ContainsKey(streamId))
