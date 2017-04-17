@@ -44,18 +44,23 @@
     <Compile Include="AggregateRepository\AggregateRepository.cs" />
     <Compile Include="AggregateRepository\StreamMetadata.cs" />
     <Compile Include="AggregateRepository\IEventStoreAdapter.cs" />
+    <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
+    <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
+      <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Core\AggregateRoot.cs" />
     <Compile Include="Core\IAggregateRoot.cs" />
-    <Compile Include="DelegateCaches\AggregateInvokersCache.cs" />
+    <Compile Include="Caches\AggregateInvokersCache.cs" />
     <Compile Include="Core\IEvent.cs" />
     <Compile Include="Attributes\AggregateIdAttribute.cs" />
     <Compile Include="AggregateRepository\IAggregateRepository.cs" />
     <Compile Include="Core\ApplicationService.cs" />
-    <Compile Include="DelegateCaches\StaticAccessors.cs" />
     <Compile Include="Attributes\AggregateCtorAttribute.cs" />
     <Compile Include="Exceptions\InvalidAggregateStateException.cs" />
     <Compile Include="Extensions\AggregateRootExtensions.cs" />
-    <Compile Include="DelegateCaches\CommandsPropertyCache.cs" />
+    <Compile Include="Caches\CommandsPropertyCache.cs" />
     <Compile Include="Extensions\ICommandExtensions.cs" />
     <Compile Include="Core\ICommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,7 +78,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="CodeGeneration\ApplicationServiceTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ApplicationServiceTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

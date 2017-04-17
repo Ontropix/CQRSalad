@@ -7,14 +7,13 @@ using System.Reflection;
 
 namespace CQRSalad.EventSourcing
 {
-    internal delegate string AggregateIdPropertyHandler(object command);
-
     internal static class CommandsPropertyCache
     {
         // CommandType - Property getter delegate
-        private static readonly ConcurrentDictionary<Type, AggregateIdPropertyHandler> _cache = new ConcurrentDictionary<Type, AggregateIdPropertyHandler>();
+        private static readonly ConcurrentDictionary<Type, Func<object, string>> _cache =
+            new ConcurrentDictionary<Type, Func<object, string>>();
 
-        public static AggregateIdPropertyHandler GetPropertyHandler(Type targetType)
+        internal static Func<object, string> GetAggregateIdProp(Type targetType)
         {
             return _cache.GetOrAdd(targetType, key =>
             {
@@ -50,12 +49,12 @@ namespace CQRSalad.EventSourcing
             return property;
         }
 
-        private static AggregateIdPropertyHandler BuildPropertyResolver(Type targetType, PropertyInfo property)
+        private static Func<object, string> BuildPropertyResolver(Type targetType, PropertyInfo property)
         {
             ParameterExpression parameter = Expression.Parameter(typeof(object), "target");
             UnaryExpression converted = Expression.Convert(parameter, targetType);
             MemberExpression expr = Expression.Property(converted, property);
-            return Expression.Lambda<AggregateIdPropertyHandler>(expr, parameter).Compile();
+            return Expression.Lambda<Func<object, string>>(expr, parameter).Compile();
         }
     }
 }

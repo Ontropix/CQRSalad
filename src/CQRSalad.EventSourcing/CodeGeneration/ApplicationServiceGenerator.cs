@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using CQRSalad.EventSourcing;
 using Microsoft.CSharp;
 
-namespace CQRSalad.Infrastructure.CodeGeneration
+namespace CQRSalad.EventSourcing.CodeGeneration
 {
     public static class ApplicationServiceGenerator
     {
@@ -53,9 +52,18 @@ namespace CQRSalad.Infrastructure.CodeGeneration
 
         private static string Generate(Type aggregateType)
         {
+            List<Type> messageTypes = aggregateType.GetMethodsWithSingleArgument()
+                .Where(method => typeof(ICommand).IsAssignableFrom(method.GetParameters()[0].ParameterType))
+                .Select(method => method.GetParameters()[0].ParameterType)
+                .ToList();
+
             var template = new ApplicationServiceTemplate
             {
-                Session = new Dictionary<string, object> {{"AggregateType", aggregateType}}
+                Session = new Dictionary<string, object>
+                {
+                    {"AggregateType", aggregateType},
+                    {"MessageTypes",  messageTypes}
+                }
             };
 
             template.Initialize();

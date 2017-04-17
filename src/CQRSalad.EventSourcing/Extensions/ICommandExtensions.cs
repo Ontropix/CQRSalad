@@ -4,7 +4,7 @@ namespace CQRSalad.EventSourcing
     {
         internal static string GetAggregateId(this ICommand command)
         {
-            var handler = CommandsPropertyCache.GetPropertyHandler(command.GetType());
+            var handler = CommandsPropertyCache.GetAggregateIdProp(command.GetType());
             return handler(command);
         }
     }

@@ -31,11 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentValidation">
-      <HintPath>..\..\samples\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+    <Reference Include="FluentValidation, Version=6.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\samples\packages\FluentValidation.6.4.1\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\samples\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\samples\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -54,26 +55,17 @@
     <Compile Include="Buses\IEventBus.cs" />
     <Compile Include="Buses\IQueryBus.cs" />
     <Compile Include="Buses\IQueryFor.cs" />
-    <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
-    <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">
-      <DependentUpon>ApplicationServiceTemplate.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Exceptions\CommandProcessingException.cs" />
-    <Compile Include="Exceptions\InvalidCommandException.cs" />
-    <Compile Include="Exceptions\InvalidQueryException.cs" />
-    <Compile Include="Extensions\ICommandExtensions.cs" />
-    <Compile Include="Extensions\LinqExtensions.cs" />
-    <Compile Include="Extensions\ReflectionExtensions.cs" />
+    <Compile Include="StaticAccessors.cs" />
+    <Compile Include="Validation\Exceptions\InvalidCommandException.cs" />
+    <Compile Include="Validation\Exceptions\InvalidQueryException.cs" />
+    <Compile Include="ValueInjection\Extensions\ICommandExtensions.cs" />
     <Compile Include="IIdGenerator.cs" />
-    <Compile Include="InMemory\InMemoryCommandBus.cs" />
-    <Compile Include="InMemory\InMemoryDomainBus.cs" />
-    <Compile Include="InMemory\InMemoryEventBus.cs" />
-    <Compile Include="InMemory\InMemoryQueryBus.cs" />
+    <Compile Include="Buses\InMemory\InMemoryCommandBus.cs" />
+    <Compile Include="Buses\InMemory\InMemoryDomainBus.cs" />
+    <Compile Include="Buses\InMemory\InMemoryEventBus.cs" />
+    <Compile Include="Buses\InMemory\InMemoryQueryBus.cs" />
     <Compile Include="Interceptors\QueriesInterceptor.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
-    <Compile Include="Logging\IDispatcherContextLogger.cs" />
     <Compile Include="SpecificationRunner.cs" />
     <Compile Include="Validation\FluentMessageValidationFacade.cs" />
     <Compile Include="Validation\IMessageValidationFacade.cs" />
@@ -102,12 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CodeGeneration\ApplicationServiceTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ApplicationServiceTemplate.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

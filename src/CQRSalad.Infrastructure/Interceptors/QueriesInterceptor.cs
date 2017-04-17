@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using CQRSalad.Dispatching;
-using CQRSalad.EventSourcing;
 
 namespace CQRSalad.Infrastructure.Interceptors
 {

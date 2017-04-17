@@ -40,7 +40,6 @@
     </Compile>
     <Compile Include="Subscriptions\DispatcherContextExecutor.cs" />
     <Compile Include="Core\DispatchingContext.cs" />
-    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Core\Dispatcher.cs" />
     <Compile Include="Core\DispatcherConfig.cs" />
     <Compile Include="Extensions\ServiceProviderExtensions.cs" />
