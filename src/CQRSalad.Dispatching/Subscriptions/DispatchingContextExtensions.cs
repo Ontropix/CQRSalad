@@ -1,13 +1,37 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CQRSalad.Dispatching
 {
     internal static class DispatchingContextExtensions
     {
+        private static readonly ConcurrentDictionary<Type, Func<object, object>> _gettersCache =
+            new ConcurrentDictionary<Type, Func<object, object>>();
+
+        private const string ResultPropName = "Result";
+
+        private static Func<object, object> GetTaskResultFunc(this Type taskType)
+        {
+            return _gettersCache.GetOrAdd(taskType, type =>
+            {
+                PropertyInfo property = taskType.GetProperty(ResultPropName);
+                return property == null ? null : GetValueGetter(property, type);
+            });
+        }
+
+        private static Func<object, object> GetValueGetter(this PropertyInfo propertyInfo, Type type)
+        {
+            var instance = Expression.Parameter(typeof(object), "instance");
+            var convertInstance = Expression.TypeAs(instance, type);
+            var property = Expression.Property(convertInstance, propertyInfo);
+            var convertProperty = Expression.TypeAs(property, typeof(object));
+            return Expression.Lambda<Func<object, object>>(convertProperty, instance).Compile();
+        }
+
         internal static Task Execute(this MessageInvoker invoker, DispatchingContext context)
         {
             var invocationResult = invoker(context.HandlerInstance, context.MessageInstance);
@@ -41,7 +65,8 @@ namespace CQRSalad.Dispatching
                     throw new InvalidOperationException("Unknown Task state");
                 }
 
-                var taskResult = task.GetType().GetProperty("Result").GetValue(task);
+                var resultAccessor = GetTaskResultFunc(awaitableResult.GetType());
+                var taskResult = resultAccessor?.Invoke(awaitableResult);
 
                 if (taskResult is Task || task is IEnumerable<Task>)
                 {
@@ -50,42 +75,6 @@ namespace CQRSalad.Dispatching
 
                 context.Result = taskResult;
             });
-        }
-
-        //public object GetResult(Task task)
-        //{
-        //    try
-        //    {
-        //        task.Wait();
-
-        //        Type taskType = task.GetType();
-        //        if (!taskType.IsGenericType || taskType.FullName.Contains("VoidTaskResult"))
-        //        {
-        //            return null;
-        //        }
-
-        //        var fn = taskType.GetFastGetter("Result");
-        //        return fn?.Invoke(task);
-        //    }
-        //    catch (TypeAccessException)
-        //    {
-        //        return null; //return null for void Task's
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // throw ex.UnwrapIfSingleException();
-        //    }
-        //}
-
-        internal static Type GetAsyncMethodTaskReturnType(MethodInfo method)
-        {
-            Type type = method.ReturnType;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Task<>))
-            {
-                return type.GetGenericArguments()[0];
-            }
-
-            return null;
         }
     }
 }

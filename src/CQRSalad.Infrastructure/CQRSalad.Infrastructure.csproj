@@ -55,7 +55,6 @@
     <Compile Include="Buses\IEventBus.cs" />
     <Compile Include="Buses\IQueryBus.cs" />
     <Compile Include="Buses\IQueryFor.cs" />
-    <Compile Include="StaticAccessors.cs" />
     <Compile Include="Validation\Exceptions\InvalidCommandException.cs" />
     <Compile Include="Validation\Exceptions\InvalidQueryException.cs" />
     <Compile Include="ValueInjection\Extensions\ICommandExtensions.cs" />

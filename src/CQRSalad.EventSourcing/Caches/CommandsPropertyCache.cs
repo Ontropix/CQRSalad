@@ -13,12 +13,12 @@ namespace CQRSalad.EventSourcing
         private static readonly ConcurrentDictionary<Type, Func<object, string>> _cache =
             new ConcurrentDictionary<Type, Func<object, string>>();
 
-        internal static Func<object, string> GetAggregateIdProp(Type targetType)
+        internal static Func<object, string> GetAggregateIdProp(Type commandType)
         {
-            return _cache.GetOrAdd(targetType, key =>
+            return _cache.GetOrAdd(commandType, key =>
             {
-                PropertyInfo property = ResolveProperty(targetType);
-                return BuildPropertyResolver(targetType, property);
+                PropertyInfo property = ResolveProperty(commandType);
+                return BuildPropertyResolver(commandType, property);
             });
         }
 

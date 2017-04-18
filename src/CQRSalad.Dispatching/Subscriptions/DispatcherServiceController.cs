@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,13 +11,14 @@ namespace CQRSalad.Dispatching
 
     internal class DispatcherHandlersController
     {
-        private readonly SubscriptionsStore _subscriptionsStore = new SubscriptionsStore();
+        //NOTE: <MessageType, Subscriptions>
+        private readonly ConcurrentDictionary<Type, SortedSet<Subscription>> _store = new ConcurrentDictionary<Type, SortedSet<Subscription>>();
         protected virtual Priority DefaultPriorty => Priority.Normal;
 
         private Func<Type, bool> HandlersTypesResolver { get; }
 
         //todo: Add validation
-        public DispatcherHandlersController(IEnumerable<Type> typesToRegister, Func<Type, bool> handlersResolver)
+        public DispatcherHandlersController(IEnumerable<Type> typesToRegister, Func<Type, bool> handlersResolver = null)
         {
             HandlersTypesResolver = handlersResolver ?? (type => type.IsDefined(typeof(DispatcherHandlerAttribute)));
             Initialize(typesToRegister);
@@ -41,7 +43,11 @@ namespace CQRSalad.Dispatching
 
         internal IList<Subscription> GetSubscriptionsFor(Type messageType)
         {
-            return _subscriptionsStore.Get(messageType);
+            if (!_store.ContainsKey(messageType))
+            {
+                throw new HandlerNotFoundException(messageType);
+            }
+            return _store[messageType].ToList();
         }
 
         private void RegisterHandler(Type handlerType)
@@ -60,7 +66,13 @@ namespace CQRSalad.Dispatching
                     Priority = GetDispatchingPriority(handlerType, action)
                 };
 
-                _subscriptionsStore.Add(subscription);
+                if (!_store.ContainsKey(subscription.MessageType))
+                {
+                    var comparer = Comparer<Subscription>.Create((d1, d2) => d1.Priority.CompareTo(d2.Priority));
+                    _store[subscription.MessageType] = new SortedSet<Subscription>(comparer);
+                }
+
+                _store[subscription.MessageType].Add(subscription);
             }
         }
 

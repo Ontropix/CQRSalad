@@ -30,7 +30,7 @@ namespace Samples.ViewModel.SingleUseHandlers
     {
         public async Task SendEmail(string email, string text)
         {
-            await Task.CompletedTask;
+            await Task.Delay(4000);
         }
     }
 }
