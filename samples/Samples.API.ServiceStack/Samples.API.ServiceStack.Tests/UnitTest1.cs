@@ -33,7 +33,7 @@ namespace Samples.API.ServiceStack.Tests
         [Test]
         public void TestMethod1()
         {
-            var service = appHost.Container.Resolve<TodoService>();
+//            var service = appHost.Container.Resolve<TodoService>();
 
             //var response = (CreateTodoListResponse)service.Any(new CreateTodoListRequest { Name = "World" });
 

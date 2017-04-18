@@ -72,13 +72,12 @@ namespace CQRSalad.Dispatching
             List<IContextInterceptor> interceptors = ServiceProvider.GetInterceptors(_interceptorsTypes);
 
             var context = new DispatchingContext(handler, message);
-            var executor = new DispatcherContextExecutor(subscription.Invoker);
             
             interceptors.ForEach(async interceptor => await interceptor.OnExecuting(context));
 
             try
             {
-                await executor.Execute(context);
+                await subscription.Invoker.Execute(context);
             }
             catch (Exception exception)
             {

@@ -1,74 +1,55 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CQRSalad.Dispatching
 {
-    internal class DispatcherContextExecutor
+    internal static class DispatchingContextExtensions
     {
-        private readonly MessageInvoker _executor;
-
-        public DispatcherContextExecutor(MessageInvoker executor)
+        internal static Task Execute(this MessageInvoker invoker, DispatchingContext context)
         {
-            _executor = executor;
-        }
+            var invocationResult = invoker(context.HandlerInstance, context.MessageInstance);
 
-        public async Task Execute(DispatchingContext context)
-        {
-            var result = _executor(context.HandlerInstance, context.MessageInstance);
-
-            var taskResult = result as Task;
-            if (taskResult == null)
+            var awaitableResult = invocationResult as Task;
+            if (awaitableResult == null) //if not task - just assign the result to context
             {
-                context.Result = result;
-                return;
+                context.Result = invocationResult;
+                return Task.CompletedTask;
             }
 
-            if (taskResult.Status == TaskStatus.Created)
+            if (awaitableResult.Status == TaskStatus.Created)
             {
-                taskResult.Start();
+                awaitableResult.Start();
             }
 
-            //if (taskResult.IsFaulted)
-            //{
-            //    return errorCallback(task.Exception.UnwrapIfSingleException());
-            //}
-
-            //if (taskResult.IsCanceled)
-            //{
-            //    return errorCallback(new OperationCanceledException("The async Task operation was cancelled"));
-            //}
-
-            if (!taskResult.IsCompleted)
+            return awaitableResult.ContinueWith(task =>
             {
-                //return errorCallback(new InvalidOperationException("Unknown Task state"));
-            }
+                if (task.IsFaulted)
+                {
+                    //throw taskResult.Exception;
+                }
 
-            //var taskResult = task.GetResult();
-            //if (taskResults == null)
-            //{
-            //    var subTask = taskResult as Task;
-            //    if (subTask != null)
-            //        taskResult = subTask.GetResult();
+                if (task.IsCanceled)
+                {
+                    throw new OperationCanceledException("The async Task operation was cancelled");
+                }
 
-            //    return callback(taskResult);
-            //}
+                if (!task.IsCompleted)
+                {
+                    throw new InvalidOperationException("Unknown Task state");
+                }
 
+                var taskResult = task.GetType().GetProperty("Result").GetValue(task);
 
-            //var taskResults = taskResult as Task[];
-            //if (taskResults.Length == 0)
-            //    return callback(TypeConstants.EmptyObjectArray);
+                if (taskResult is Task || task is IEnumerable<Task>)
+                {
+                    throw new InvalidOperationException();
+                }
 
-            //var firstResponse = taskResults[0].GetResult();
-            //var batchedResponses = firstResponse != null
-            //    ? (object[])Array.CreateInstance(firstResponse.GetType(), taskResults.Length)
-            //    : new object[taskResults.Length];
-            //batchedResponses[0] = firstResponse;
-            //for (var i = 1; i < taskResults.Length; i++)
-            //{
-            //    batchedResponses[i] = taskResults[i].GetResult();
-            //}
-            //return callback(batchedResponses);
+                context.Result = taskResult;
+            });
         }
 
         //public object GetResult(Task task)
