@@ -15,6 +15,7 @@ namespace Samples.Domain.TodoList
             ProduceEvent(command.MapToEvent<TodoListDeleted>());
         }
 
+
         public void When(AddListItem command)
         {
             if (State.ItemsIds.Contains(command.ItemId))
@@ -25,16 +26,6 @@ namespace Samples.Domain.TodoList
             ProduceEvent(command.MapToEvent<ListItemAdded>());
         }
 
-        public void When(RemoveListItem command)
-        {
-            if (!State.ItemsIds.Contains(command.ItemId))
-            {
-                ProduceError("Item not found.");
-            }
-
-            ProduceEvent(command.MapToEvent<ListItemRemoved>());
-        }
-
         public void When(CompleteListItem command)
         {
             if (!State.ItemsIds.Contains(command.ItemId))
@@ -43,6 +34,16 @@ namespace Samples.Domain.TodoList
             }
 
             ProduceEvent(command.MapToEvent<ListItemCompleted>());
+        }
+
+        public void When(RemoveListItem command)
+        {
+            if (!State.ItemsIds.Contains(command.ItemId))
+            {
+                ProduceError("Item not found.");
+            }
+
+            ProduceEvent(command.MapToEvent<ListItemRemoved>());
         }
     }
 }

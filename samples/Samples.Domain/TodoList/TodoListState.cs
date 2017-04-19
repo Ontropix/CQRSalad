@@ -2,11 +2,16 @@
 
 namespace Samples.Domain.TodoList
 {
-    public class TodoListState
+    public sealed class TodoListState
     {
-        internal bool IsDeleted { get; set; }
+        internal bool IsDeleted { get; private set; }
         internal HashSet<string> ItemsIds { get; set; } = new HashSet<string>();
 
+        public void On(TodoListDeleted evnt)
+        {
+            IsDeleted = true;
+        }
+        
         public void On(ListItemAdded evnt)
         {
             ItemsIds.Add(evnt.ItemId);

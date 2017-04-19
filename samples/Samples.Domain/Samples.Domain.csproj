@@ -36,16 +36,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TodoList\Commands\AddListItem.cs" />
-    <Compile Include="TodoList\Commands\CompleteListItem.cs" />
-    <Compile Include="TodoList\Commands\CreateTodoList.cs" />
-    <Compile Include="TodoList\Commands\DeleteTodoList.cs" />
-    <Compile Include="TodoList\Commands\RemoveListItem.cs" />
-    <Compile Include="TodoList\Events\TodoListCreated.cs" />
-    <Compile Include="TodoList\Events\TodoListDeleted.cs" />
-    <Compile Include="TodoList\Events\ListItemAdded.cs" />
-    <Compile Include="TodoList\Events\ListItemRemoved.cs" />
-    <Compile Include="TodoList\Events\ListItemCompleted.cs" />
+    <Compile Include="TodoList\Commands\ListItems\AddListItem.cs" />
+    <Compile Include="TodoList\Commands\ListItems\CompleteListItem.cs" />
+    <Compile Include="TodoList\Commands\List\CreateTodoList.cs" />
+    <Compile Include="TodoList\Commands\List\DeleteTodoList.cs" />
+    <Compile Include="TodoList\Commands\ListItems\RemoveListItem.cs" />
+    <Compile Include="TodoList\Events\List\TodoListCreated.cs" />
+    <Compile Include="TodoList\Events\List\TodoListDeleted.cs" />
+    <Compile Include="TodoList\Events\ListItems\ListItemAdded.cs" />
+    <Compile Include="TodoList\Events\ListItems\ListItemRemoved.cs" />
+    <Compile Include="TodoList\Events\ListItems\ListItemCompleted.cs" />
     <Compile Include="TodoList\Models\TodoItemStatus.cs" />
     <Compile Include="TodoList\Models\TodoList.cs" />
     <Compile Include="TodoList\Models\TodoListItem.cs" />

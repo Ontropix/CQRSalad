@@ -6,4 +6,9 @@ namespace CQRSalad.EventSourcing
     public class AggregateCtorAttribute : Attribute
     {
     }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public class AggregateDestructorAttribute : Attribute
+    {
+    }
 }
