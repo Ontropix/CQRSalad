@@ -84,21 +84,13 @@
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\CQRSalad.EventStore.Core\CQRSalad.EventStore.Core.csproj">
-      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
-      <Name>CQRSalad.EventStore.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
       <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
       <Name>CQRSalad.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Samples.Domain.Events\Samples.Domain.Model.csproj">
+    <ProjectReference Include="..\..\Samples.Domain\Samples.Domain.csproj">
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
-      <Name>Samples.Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Samples.Domain\Samples.Domain.Interface.csproj">
-      <Project>{CC173585-7515-40BA-B6C1-142EA635E864}</Project>
-      <Name>Samples.Domain.Interface</Name>
+      <Name>Samples.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.API.ServiceStack.ServiceModel\Samples.API.ServiceStack.ServiceModel.csproj">
       <Project>{8D6DE92C-637E-4433-9810-98D7FBCEA6BA}</Project>

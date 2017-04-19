@@ -49,7 +49,7 @@ namespace CQRSalad.EventSourcing.Specifications
         }
     }
 
-    public class SpecificationResult
+    public sealed class SpecificationResult
     {
         public List<IEvent> Given { get; set; }
         public List<IEvent> Expected { get; set; }

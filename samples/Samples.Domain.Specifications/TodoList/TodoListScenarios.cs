@@ -1,4 +1,4 @@
-using Samples.Domain.Model.User;
+using Samples.Domain.User;
 
 namespace Samples.Domain.Specifications
 {

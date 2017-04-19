@@ -3,7 +3,7 @@ using System.Reflection;
 using CQRSalad.Dispatching;
 using CQRSalad.EventSourcing;
 using CQRSalad.EventSourcing.CodeGeneration;
-using Samples.Domain.Interface.User;
+using Samples.Domain.User;
 using Samples.Tests.Structuremap;
 using Samples.ViewModel.Views;
 using StructureMap;

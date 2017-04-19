@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using CQRSalad.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Samples.Domain.Model.TodoList;
-using Samples.Domain.Model.User;
+using Samples.Domain.TodoList;
+using Samples.Domain.User;
 using Samples.Tests.Configurators;
 using StructureMap;
 

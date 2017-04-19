@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace CQRSalad.Dispatching
 {
+    // todo validate task result for another Task and more
+    // todo throw good exceptions
     internal static class DispatchingContextExtensions
     {
         private static readonly ConcurrentDictionary<Type, Func<object, object>> _gettersCache =
@@ -19,11 +21,11 @@ namespace CQRSalad.Dispatching
             return _gettersCache.GetOrAdd(taskType, type =>
             {
                 PropertyInfo property = taskType.GetProperty(ResultPropName);
-                return property == null ? null : GetValueGetter(property, type);
+                return property == null ? null : CompileValueGetter(property, type);
             });
         }
 
-        private static Func<object, object> GetValueGetter(this PropertyInfo propertyInfo, Type type)
+        private static Func<object, object> CompileValueGetter(PropertyInfo propertyInfo, Type type)
         {
             var instance = Expression.Parameter(typeof(object), "instance");
             var convertInstance = Expression.TypeAs(instance, type);
@@ -67,12 +69,6 @@ namespace CQRSalad.Dispatching
 
                 var resultAccessor = GetTaskResultFunc(awaitableResult.GetType());
                 var taskResult = resultAccessor?.Invoke(awaitableResult);
-
-                if (taskResult is Task || task is IEnumerable<Task>)
-                {
-                    throw new InvalidOperationException();
-                }
-
                 context.Result = taskResult;
             });
         }

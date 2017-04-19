@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Samples.Domain.Model.TodoList;
 
-namespace Samples.Domain.Interface.TodoList
+namespace Samples.Domain.TodoList
 {
     public class TodoListState
     {

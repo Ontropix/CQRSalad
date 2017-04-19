@@ -59,13 +59,9 @@
       <Project>{166F6EB2-5143-43DE-B578-1F0E31A596D5}</Project>
       <Name>Kutcha.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Model.csproj">
+    <ProjectReference Include="..\Samples.Domain\Samples.Domain.csproj">
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
-      <Name>Samples.Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
-      <Project>{CC173585-7515-40BA-B6C1-142EA635E864}</Project>
-      <Name>Samples.Domain.Interface</Name>
+      <Name>Samples.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

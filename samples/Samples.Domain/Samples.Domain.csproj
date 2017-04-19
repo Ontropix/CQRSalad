@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Samples.Domain</RootNamespace>
+    <AssemblyName>Samples.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TodoList\Commands\AddListItem.cs" />
+    <Compile Include="TodoList\Commands\CompleteListItem.cs" />
+    <Compile Include="TodoList\Commands\CreateTodoList.cs" />
+    <Compile Include="TodoList\Commands\DeleteTodoList.cs" />
+    <Compile Include="TodoList\Commands\RemoveListItem.cs" />
+    <Compile Include="TodoList\Events\TodoListCreated.cs" />
+    <Compile Include="TodoList\Events\TodoListDeleted.cs" />
+    <Compile Include="TodoList\Events\ListItemAdded.cs" />
+    <Compile Include="TodoList\Events\ListItemRemoved.cs" />
+    <Compile Include="TodoList\Events\ListItemCompleted.cs" />
+    <Compile Include="TodoList\Models\TodoItemStatus.cs" />
+    <Compile Include="TodoList\Models\TodoList.cs" />
+    <Compile Include="TodoList\Models\TodoListItem.cs" />
+    <Compile Include="TodoList\Models\TodoListSummary.cs" />
+    <Compile Include="TodoList\Queries\TodoListById.cs" />
+    <Compile Include="TodoList\Queries\TodoListsByOwnerId.cs" />
+    <Compile Include="TodoList\TodoListAggregate.cs" />
+    <Compile Include="TodoList\TodoListState.cs" />
+    <Compile Include="User\Commands\CreateUser.cs" />
+    <Compile Include="User\Commands\RemoveUser.cs" />
+    <Compile Include="User\Events\UserCreated.cs" />
+    <Compile Include="User\Events\UserRemoved.cs" />
+    <Compile Include="User\Models\UserProfile.cs" />
+    <Compile Include="User\Queries\UserProfileById.cs" />
+    <Compile Include="User\UserAggregate.cs" />
+    <Compile Include="User\UserState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CQRSalad.EventSourcing\CQRSalad.EventSourcing.csproj">
+      <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
+      <Name>CQRSalad.EventSourcing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
+      <Project>{9ecba7b7-4258-4df9-8623-4cf77dd0ccff}</Project>
+      <Name>CQRSalad.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

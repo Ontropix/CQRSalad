@@ -1,4 +1,4 @@
-﻿using Samples.Domain.Model.User;
+﻿using Samples.Domain.User;
 using Samples.ViewModel.Views;
 
 namespace Samples.ViewModel

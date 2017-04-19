@@ -3,7 +3,7 @@ using CQRSalad.EventStore.Core;
 using CQRSalad.Infrastructure;
 using ServiceStack;
 using Samples.API.ServiceStack.ServiceModel;
-using Samples.Domain.Model.TodoList;
+using Samples.Domain.TodoList;
 
 namespace Samples.API.ServiceStack.ServiceInterface
 {

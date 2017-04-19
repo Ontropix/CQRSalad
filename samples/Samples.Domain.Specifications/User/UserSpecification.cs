@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using CQRSalad.EventSourcing;
 using CQRSalad.EventSourcing.Specifications;
-using Samples.Domain.Interface.User;
-using Samples.Domain.Model.User;
+using Samples.Domain.User;
 
 namespace Samples.Domain.Specifications
 {

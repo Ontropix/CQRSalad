@@ -1,7 +1,6 @@
 ﻿using CQRSalad.EventSourcing;
-using Samples.Domain.Model.User;
 
-namespace Samples.Domain.Interface.User
+namespace Samples.Domain.User
 {
     public class UserAggregate : AggregateRoot<UserState>
     {
@@ -9,6 +8,11 @@ namespace Samples.Domain.Interface.User
         public void When(CreateUser command)
         {
             ProduceEvent(command.MapToEvent<UserCreated>());
+        }
+
+        public void When(RemoveUser command)
+        {
+            ProduceEvent(command.MapToEvent<UserRemoved>());
         }
     }
 }

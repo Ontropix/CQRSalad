@@ -57,7 +57,7 @@ namespace CQRSalad.Infrastructure
 
             output.AppendLine($"Specification: { specType.AssemblyQualifiedName }\n");
 
-            //output.DumpList("Given", result.Given);
+            output.DumpList("Given", result.Given);
             output.DumpList("Expected", result.Expected);
             output.DumpList("Obtained", result.Obtained);
 
@@ -83,6 +83,4 @@ namespace CQRSalad.Infrastructure
                    $"\t{json.Replace("\n", "\t")}";
         }
     }
-
-    
 }

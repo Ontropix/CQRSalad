@@ -36,12 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap, Version=4.4.1.451, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\StructureMap.4.4.1\lib\net45\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.5\lib\net45\StructureMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,6 +64,7 @@
     <Compile Include="Configurators\DispatcherConfigurator.cs" />
     <Compile Include="Configurators\EventSourcingConfigurator.cs" />
     <Compile Include="Configurators\TransportConfigurator.cs" />
+    <Compile Include="SpecificationRunnerTest.cs" />
     <Compile Include="Structuremap\StructureMapServiceProvider.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,10 +78,6 @@
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\CQRSalad.EventStore.Core\CQRSalad.EventStore.Core.csproj">
-      <Project>{54CA5DE2-D1EE-4316-8DB4-C272ABEFE001}</Project>
-      <Name>CQRSalad.EventStore.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\CQRSalad.Infrastructure\CQRSalad.Infrastructure.csproj">
       <Project>{9ECBA7B7-4258-4DF9-8623-4CF77DD0CCFF}</Project>
       <Name>CQRSalad.Infrastructure</Name>
@@ -93,17 +90,13 @@
       <Project>{95E9561C-EC23-4E45-9DC2-786C7BD6C5F7}</Project>
       <Name>Kutcha.InMemory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Samples.Domain.Events\Samples.Domain.Model.csproj">
+    <ProjectReference Include="..\Samples.Domain.Specifications\Samples.Domain.Specifications.csproj">
+      <Project>{6B04E5DB-C719-4930-AB28-99BB1F949834}</Project>
+      <Name>Samples.Domain.Specifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples.Domain\Samples.Domain.csproj">
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
-      <Name>Samples.Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samples.Domain.Interface.Validation\Samples.Domain.Interface.Validation.csproj">
-      <Project>{239173EB-B7A9-47DC-9815-9D653979F057}</Project>
-      <Name>Samples.Domain.Interface.Validation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Samples.Domain\Samples.Domain.Interface.csproj">
-      <Project>{cc173585-7515-40ba-b6c1-142ea635e864}</Project>
-      <Name>Samples.Domain.Interface</Name>
+      <Name>Samples.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Samples.View\Samples.ViewModel.csproj">
       <Project>{c3d87860-a5a5-44b8-bfbf-4d43cc515a5a}</Project>
