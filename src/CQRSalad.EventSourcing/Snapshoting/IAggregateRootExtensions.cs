@@ -1,7 +1,6 @@
 using System;
-using CQRSalad.EventSourcing;
 
-namespace CQRSalad.EventStore.Core
+namespace CQRSalad.EventSourcing
 {
     internal static class IAggregateRootExtensions
     {
@@ -13,13 +12,26 @@ namespace CQRSalad.EventStore.Core
                 AggregateType = aggregate.GetType(),
                 Version = aggregate.Version,
                 State = aggregate.State,
-                Timestamp = DateTime.UtcNow
             };
         }
 
         internal static void Restore(this IAggregateRoot aggregate, AggregateSnapshot snapshot)
         {
-            aggregate.Id = snapshot.AggregateId;
+            if (aggregate.Id != snapshot.AggregateId)
+            {
+                throw new InvalidOperationException("Invalid aggregateId in snapshopt.");
+            }
+
+            if (aggregate.GetType() != snapshot.AggregateType)
+            {
+                throw new InvalidOperationException("Trying to restore aggregate with wrong snapshot type.");
+            }
+
+            if (aggregate.State.GetType() != snapshot.State.GetType())
+            {
+                throw new InvalidOperationException("Trying to restore aggregate with wrong snapshot state type.");
+            }
+
             aggregate.State = snapshot.State;
             aggregate.Version = snapshot.Version;
         }

@@ -38,7 +38,7 @@ namespace CQRSalad.EventSourcing
                     return null;
                 }
 
-                var ctor = action.GetCustomAttribute<AggregateCtorAttribute>(false);
+                var ctor = action.GetCustomAttribute<AggregateConstructorAttribute>(false);
                 return new WhenMethod
                 {
                     AggregateType = aggregateType,

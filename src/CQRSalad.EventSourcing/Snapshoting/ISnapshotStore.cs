@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 
-namespace CQRSalad.EventStore.Core
+namespace CQRSalad.EventSourcing
 {
     public interface ISnapshotStore
     {
-        Task<AggregateSnapshot> LoadSnapshot(string aggregateId);
+        Task<AggregateSnapshot> GetSnapshot(string aggregateId);
         Task SaveSnapshot(AggregateSnapshot snapshot);
     }
 }

@@ -4,7 +4,7 @@ namespace Samples.Domain.TodoList
 {
     public class TodoListAggregate : AggregateRoot<TodoListState>
     {
-        [AggregateCtor]
+        [AggregateConstructor]
         public void When(CreateTodoList command)
         {
             ProduceEvent(command.MapToEvent<TodoListCreated>());

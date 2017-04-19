@@ -1,5 +1,4 @@
 ﻿using CQRSalad.EventSourcing;
-using CQRSalad.EventStore.Core;
 using CQRSalad.Infrastructure;
 using StructureMap;
 
@@ -9,8 +8,14 @@ namespace Samples.Tests.Configurators
     {
         public static IContainer UseCommandProcessorSingleton(this IContainer container)
         {
-            //container.Configure(expression => expression.For(typeof(IAggregateRepository<>)).Use(typeof(ShapshotAggregateRepository<>)).Ctor<int>().Is(2).Singleton());
-            container.Configure(expression => expression.For(typeof(IAggregateRepository<>)).Use(typeof(AggregateRepository<>)).Singleton());
+            container.Configure(cfg =>
+                cfg.For<ISnapshotStore>().Use<InMemorySnapshotStore>().Singleton());
+            container.Configure(cfg =>
+                cfg.For(typeof (IAggregateRepository<>))
+                    .Use(typeof (ShapshotAggregateRepository<>))
+                    .Ctor<int>().Is(2)
+                    .Singleton());
+            //container.Configure(expression => expression.For(typeof(IAggregateRepository<>)).Use(typeof(AggregateRepository<>)).Singleton());
             return container;
         }
 

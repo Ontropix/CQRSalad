@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using CQRSalad.EventStore.Core;
 using CQRSalad.Infrastructure;
 using ServiceStack;
 using Samples.API.ServiceStack.ServiceModel;

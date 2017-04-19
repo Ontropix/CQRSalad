@@ -4,7 +4,7 @@ namespace Samples.Domain.User
 {
     public class UserAggregate : AggregateRoot<UserState>
     {
-        [AggregateCtor]
+        [AggregateConstructor]
         public void When(CreateUser command)
         {
             ProduceEvent(command.MapToEvent<UserCreated>());

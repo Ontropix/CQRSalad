@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using CQRSalad.EventStore.Core;
 using CQRSalad.Infrastructure;
 using CQRSalad.Infrastructure.Validation;
 using Kutcha.Core;
