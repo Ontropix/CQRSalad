@@ -8,12 +8,12 @@ namespace CQRSalad.EventSourcing
         /// <summary>
         /// Gets the stream
         /// </summary>
-        Task<IEnumerable<IEvent>> GetStreamAsync(string streamId);
+        Task<EventStream> GetStreamAsync(string streamId);
 
         /// <summary>
         /// Gets the stream part
         /// </summary>
-        Task<IEnumerable<IEvent>> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1); //todo skip-take?
+        Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1); //todo skip-take?
 
         /// <summary>
         /// Append several events to the stream

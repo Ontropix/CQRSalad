@@ -20,10 +20,10 @@ namespace CQRSalad.EventSourcing
         {
             Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
             
-            IEnumerable<IEvent> stream = await _eventStore.GetStreamAsync(aggregateId);
+            var stream = await _eventStore.GetStreamAsync(aggregateId);
 
             var aggregate = new TAggregate { Id =  aggregateId };
-            aggregate.Reel(stream.ToList()); //todo
+            aggregate.Reel(stream); //todo
             return aggregate;
         }
 
@@ -43,8 +43,7 @@ namespace CQRSalad.EventSourcing
                 new StreamMetadata
                 {
                     AggregateId = aggregate.Id,
-                    AggregateType = GetType().AssemblyQualifiedName,
-                    Timestamp = DateTime.UtcNow
+                    AggregateType = aggregate.GetType(),
                 }
             );
         }

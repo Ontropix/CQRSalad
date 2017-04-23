@@ -1,7 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CQRSalad.EventSourcing
 {
+    public class EventStream
+    {
+        public string StreamId { get; set; }
+        public IEnumerable<IEvent> Events { get; } = new List<IEvent>();
+        public int Version { get; set; }
+        public StreamMetadata Meta { get; set; }
+    }
+
     public class StreamMetadata
     {
         /// <summary>
@@ -12,11 +21,6 @@ namespace CQRSalad.EventSourcing
         /// <summary>
         /// Aggregate that produced this event
         /// </summary>
-        public string AggregateType { get; set; }
-
-        /// <summary>
-        /// Time when event commited
-        /// </summary>
-        public DateTime Timestamp { get; set; }
+        public Type AggregateType { get; set; }
     }
 }

@@ -49,7 +49,6 @@
     <Compile Include="..\..\src\LinkedFiles\Maybe.cs">
       <Link>LinkedFiles\Maybe.cs</Link>
     </Compile>
-    <Compile Include="AssemblyTypesProvider.cs" />
     <Compile Include="Buses\ICommandBus.cs" />
     <Compile Include="Buses\IDomainBus.cs" />
     <Compile Include="Buses\IEventBus.cs" />
