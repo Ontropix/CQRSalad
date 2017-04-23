@@ -52,6 +52,8 @@
     <Compile Include="Buses\ICommandBus.cs" />
     <Compile Include="Buses\IDomainBus.cs" />
     <Compile Include="Buses\IEventBus.cs" />
+    <Compile Include="InMemory\InMemoryEventStore.cs" />
+    <Compile Include="InMemory\InMemorySnapshotStore.cs" />
     <Compile Include="Buses\IQueryBus.cs" />
     <Compile Include="Buses\IQueryFor.cs" />
     <Compile Include="UnexpectedEventException.cs" />
@@ -59,10 +61,10 @@
     <Compile Include="Validation\Exceptions\InvalidQueryException.cs" />
     <Compile Include="ValueInjection\Extensions\ICommandExtensions.cs" />
     <Compile Include="IIdGenerator.cs" />
-    <Compile Include="Buses\InMemory\InMemoryCommandBus.cs" />
-    <Compile Include="Buses\InMemory\InMemoryDomainBus.cs" />
-    <Compile Include="Buses\InMemory\InMemoryEventBus.cs" />
-    <Compile Include="Buses\InMemory\InMemoryQueryBus.cs" />
+    <Compile Include="InMemory\InMemoryCommandBus.cs" />
+    <Compile Include="InMemory\InMemoryDomainBus.cs" />
+    <Compile Include="InMemory\InMemoryEventBus.cs" />
+    <Compile Include="InMemory\InMemoryQueryBus.cs" />
     <Compile Include="Interceptors\QueriesInterceptor.cs" />
     <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
     <Compile Include="SpecificationRunner.cs" />

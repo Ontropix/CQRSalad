@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace CQRSalad.EventSourcing
             aggregate.Restore(snapshot);
             
             var stream = await _eventStore.GetStreamAsync(aggregateId, snapshot.Version + 1);
-            aggregate.Reel(stream.ToList());
+            aggregate.Restore(stream);
             return aggregate;
         }
 

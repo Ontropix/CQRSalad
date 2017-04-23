@@ -47,7 +47,6 @@
     </Compile>
     <Compile Include="Core\Attributes\AggregateDestructorAttribute.cs" />
     <Compile Include="Repository\AggregateRepository.cs" />
-    <Compile Include="Repository\InMemoryEventStore.cs" />
     <Compile Include="Repository\StreamMetadata.cs" />
     <Compile Include="Repository\IEventStoreAdapter.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Snapshoting\AggregateSnapshot.cs" />
     <Compile Include="Snapshoting\IAggregateRootExtensions.cs" />
-    <Compile Include="Snapshoting\InMemorySnapshotStore.cs" />
     <Compile Include="Snapshoting\ISnapshotStore.cs" />
     <Compile Include="Snapshoting\ShapshotAggregateRepository.cs" />
     <Compile Include="Specifications\AggregateSpecification.cs" />

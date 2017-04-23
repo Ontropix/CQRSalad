@@ -36,15 +36,29 @@ namespace CQRSalad.EventSourcing
             aggregate.Reel(aggregate.Changes);
         }
 
+        internal static void Restore(this IAggregateRoot aggregate, EventStream stream)
+        {
+            if (aggregate.Id != stream.Meta.AggregateId)
+            {
+                throw new InvalidOperationException("Invalid aggregateId in snapshopt.");
+            }
+
+            if (aggregate.GetType() != stream.Meta.AggregateType)
+            {
+                throw new InvalidOperationException("Trying to restore aggregate with wrong snapshot type.");
+            }
+
+            aggregate.Version = stream.Version;
+            aggregate.Reel(stream.Events);
+        }
+
         //todo State Null checking
-        internal static void Reel(this IAggregateRoot root, List<IEvent> events)
+        internal static void Reel(this IAggregateRoot root, IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
             {
                 ApplyOnState(root, @event);
             }
-
-            root.Version += events.Count;//todo Version depends on Events Count??
         }
 
         internal static void ApplyOnState(this IAggregateRoot root, IEvent evnt)
