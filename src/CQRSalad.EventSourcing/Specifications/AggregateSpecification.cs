@@ -22,6 +22,7 @@ namespace CQRSalad.EventSourcing.Specifications
             List<IEvent> givenEvents = Given().ToList();
             if (givenEvents.Count > 0)
             {
+                aggregate.Version = givenEvents.Count;
                 aggregate.Reel(givenEvents);
             }
 

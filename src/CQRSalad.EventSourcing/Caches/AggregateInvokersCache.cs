@@ -9,7 +9,8 @@ namespace CQRSalad.EventSourcing
     {
         public Type AggregateType { get; set; }
         public Type CommandType { get; set; }
-        public bool IsCtor { get; set; }
+        public bool IsConstructor { get; set; }
+        public bool IsDestructor { get; set; }
         public Action<object, object> Invoker { get; set; }
     }
 
@@ -38,13 +39,21 @@ namespace CQRSalad.EventSourcing
                     return null;
                 }
 
-                var ctor = action.GetCustomAttribute<AggregateConstructorAttribute>(false);
+                var constructor = action.GetCustomAttribute<AggregateConstructorAttribute>(false);
+                var destructor = action.GetCustomAttribute<AggregateDestructorAttribute>(false);
+
+                if (constructor != null && destructor != null)
+                {
+                    throw new InvalidOperationException("Aggregate action can't be constructor and destructor simultaneously.");
+                }
+
                 return new WhenMethod
                 {
                     AggregateType = aggregateType,
                     CommandType = commandType,
                     Invoker = CreateMessageInvoker(aggregateType, action, commandType),
-                    IsCtor = ctor != null
+                    IsConstructor = constructor != null,
+                    IsDestructor = destructor != null
                 };
             });
         }

@@ -16,14 +16,19 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Aggregate can't handle command.");
             }
 
-            if (!subscription.IsCtor && aggregate.Version == 0)
+            if (aggregate.Version == 0 && !subscription.IsConstructor)
             {
-                throw new InvalidOperationException("Attempting to create an aggregate using non-constructor command.");
+                throw new InvalidOperationException("Attempting to apply a command to non existed aggregate.");
             }
-
-            if (subscription.IsCtor && aggregate.Version > 0)
+            
+            if (aggregate.Version > 0 && subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
+            }
+
+            if (aggregate.IsFinalized && !subscription.IsDestructor)
+            {
+                throw new InvalidOperationException("Attempting to finalize already finalized aggregate.");
             }
 
             subscription.Invoker(aggregate, command);
@@ -38,17 +43,23 @@ namespace CQRSalad.EventSourcing
 
         internal static void Restore(this IAggregateRoot aggregate, EventStream stream)
         {
-            if (aggregate.Id != stream.Meta.AggregateId)
+            if (stream == null)
             {
-                throw new InvalidOperationException("Invalid aggregateId in snapshopt.");
+                return;
             }
 
-            if (aggregate.GetType() != stream.Meta.AggregateType)
-            {
-                throw new InvalidOperationException("Trying to restore aggregate with wrong snapshot type.");
-            }
+            //if (aggregate.Id != stream.Meta.AggregateId)
+            //{
+            //    throw new InvalidOperationException("Invalid aggregateId in snapshopt.");
+            //}
+
+            //if (aggregate.GetType() != stream.Meta.AggregateType)
+            //{
+            //    throw new InvalidOperationException("Trying to restore aggregate with wrong snapshot type.");
+            //}
 
             aggregate.Version = stream.Version;
+            aggregate.IsFinalized = stream.IsEnded;
             aggregate.Reel(stream.Events);
         }
 

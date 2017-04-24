@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CQRSalad.EventSourcing
@@ -20,8 +18,7 @@ namespace CQRSalad.EventSourcing
         {
             Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
             
-            var stream = await _eventStore.GetStreamAsync(aggregateId);
-
+            EventStream stream = await _eventStore.GetStreamAsync(aggregateId);
             var aggregate = new TAggregate { Id =  aggregateId };
             aggregate.Restore(stream); //todo
             return aggregate;
@@ -40,11 +37,7 @@ namespace CQRSalad.EventSourcing
             await _eventStore.AppendEventsAsync(
                 aggregate.Id,
                 aggregate.Changes,
-                new StreamMetadata
-                {
-                    AggregateId = aggregate.Id,
-                    AggregateType = aggregate.GetType()
-                }
+                aggregate.Version + 1 //todo
             );
         }
     }

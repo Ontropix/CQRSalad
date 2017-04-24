@@ -8,36 +8,57 @@ namespace CQRSalad.EventSourcing
 {
     public class InMemoryEventStore : IEventStoreAdapter
     {
-        private readonly ConcurrentDictionary<string, List<IEvent>> _streams = new ConcurrentDictionary<string, List<IEvent>>();
-        private static readonly List<IEvent> EmptyList = new List<IEvent>();
+        private readonly ConcurrentDictionary<string, EventStream> _streams = new ConcurrentDictionary<string, EventStream>();
         
-        public async Task<IEnumerable<IEvent>> GetStreamAsync(string streamId)
+        public async Task<EventStream> GetStreamAsync(string streamId)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
-            return await Task.FromResult(SafePick(streamId));
+
+            var stream = _streams.GetOrAdd(streamId, GetEmptyStream);
+            return await Task.FromResult(stream);
         }
 
-        public async Task<IEnumerable<IEvent>> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
+        public async Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
             Argument.NotNegative(fromVersion, nameof(fromVersion));
 
-            int takeCount = toVersion > 0 ? toVersion : _streams[streamId].Count;
-            List<IEvent> streamPart = SafePick(streamId).Skip(fromVersion - 1).Take(takeCount).ToList();
-            return await Task.FromResult(streamPart);
+            EventStream stream;
+            bool isStreamExists = _streams.TryGetValue(streamId, out stream);
+            if (!isStreamExists || stream == null)
+            {
+                return null;
+            }
+
+            int takeCount = toVersion > 0 ? toVersion : stream.Events.Count();
+            List<IEvent> part = stream.Events.Skip(fromVersion - 1).Take(takeCount).ToList();
+            stream.Events = part;
+            return await Task.FromResult(stream);
         }
 
-        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, StreamMetadata streamMetadata)
+        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion, bool isFinalized = false)
         {
+            Argument.IsNotNull(streamId, nameof(streamId));
             Argument.ElementsNotNull(events);
-            var stream = _streams.GetOrAdd(streamId, key => new List<IEvent>());
-            stream.AddRange(events);
+
+            var stream = _streams.GetOrAdd(streamId, GetEmptyStream);
+
+            stream.Events.ToList().AddRange(events);
+            stream.Version++;
+            stream.IsEnded = isFinalized;
+
             await Task.CompletedTask;
         }
 
-        private IEnumerable<IEvent> SafePick(string streamId)
+        private static EventStream GetEmptyStream(string key)
         {
-            return _streams.ContainsKey(streamId) ? _streams[streamId] : EmptyList;
+            return new EventStream
+            {
+                StreamId = key,
+                Version = 0,
+                IsEnded = false,
+                Events = new List<IEvent>()
+            };
         }
     }
 }

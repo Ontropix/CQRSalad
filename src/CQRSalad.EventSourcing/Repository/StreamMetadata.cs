@@ -6,10 +6,12 @@ namespace CQRSalad.EventSourcing
     public class EventStream
     {
         public string StreamId { get; set; }
-        public IEnumerable<IEvent> Events { get; } = new List<IEvent>();
         public int Version { get; set; }
-        public bool IsFinalized { get; set; }
-        public StreamMetadata Meta { get; set; }
+        public bool IsEnded { get; set; }
+
+        public IEnumerable<IEvent> Events { get; set; } = new List<IEvent>();
+
+       // public StreamMetadata Meta { get; set; }
     }
 
     public class StreamMetadata
