@@ -10,6 +10,7 @@ namespace Samples.Domain.TodoList
             ProduceEvent(command.MapToEvent<TodoListCreated>());
         }
         
+        [AggregateDestructor]
         public void When(DeleteTodoList command)
         {
             ProduceEvent(command.MapToEvent<TodoListDeleted>());

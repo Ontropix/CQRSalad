@@ -26,9 +26,9 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
             }
 
-            if (aggregate.IsFinalized && !subscription.IsDestructor)
+            if (aggregate.IsFinalized)
             {
-                throw new InvalidOperationException("Attempting to finalize already finalized aggregate.");
+                throw new InvalidOperationException("Aggregate is finalized.");
             }
 
             subscription.Invoker(aggregate, command);
@@ -36,6 +36,11 @@ namespace CQRSalad.EventSourcing
             if (aggregate.Changes.Count < 1)
             {
                 throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' produced no events");
+            }
+
+            if (subscription.IsDestructor)
+            {
+                aggregate.IsFinalized = true;
             }
 
             aggregate.Reel(aggregate.Changes);

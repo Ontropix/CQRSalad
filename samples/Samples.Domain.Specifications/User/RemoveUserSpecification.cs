@@ -16,8 +16,11 @@ namespace Samples.Domain.Specifications
 
         public override IEnumerable<IEvent> Given()
         {
-            yield return new UserRemoved();
-            //yield return UserScenarios.UserCreatedEvent(_userId, "testuser@mail.com");
+            yield return UserScenarios.UserCreatedEvent(_userId, "testuser@mail.com");
+            yield return new UserRemoved
+            {
+                UserId = _userId
+            };
         }
 
         public override ICommand When()

@@ -10,6 +10,7 @@ namespace Samples.Domain.User
             ProduceEvent(command.MapToEvent<UserCreated>());
         }
 
+        [AggregateDestructor]
         public void When(RemoveUser command)
         {
             ProduceEvent(command.MapToEvent<UserRemoved>());

@@ -72,6 +72,8 @@ namespace Samples.Tests
                 Description = "Meat"
             }, "test");
 
+            await bus.CommandAsync(new DeleteTodoList() { ListId = listId}, "test");
+
             await bus.CommandAsync(new RemoveListItem
             {
                 ListId = listId,
