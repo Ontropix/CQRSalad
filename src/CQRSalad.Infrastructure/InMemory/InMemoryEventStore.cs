@@ -36,7 +36,7 @@ namespace CQRSalad.EventSourcing
             return await Task.FromResult(stream);
         }
 
-        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion, bool isFinalized = false)
+        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion, bool isEndOfStream = false)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
             Argument.ElementsNotNull(events);
@@ -45,7 +45,7 @@ namespace CQRSalad.EventSourcing
 
             stream.Events.ToList().AddRange(events);
             stream.Version++;
-            stream.IsEnded = isFinalized;
+            stream.IsEnded = isEndOfStream;
 
             await Task.CompletedTask;
         }

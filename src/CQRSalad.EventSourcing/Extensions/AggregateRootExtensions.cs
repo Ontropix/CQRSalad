@@ -53,16 +53,6 @@ namespace CQRSalad.EventSourcing
                 return;
             }
 
-            //if (aggregate.Id != stream.Meta.AggregateId)
-            //{
-            //    throw new InvalidOperationException("Invalid aggregateId in snapshopt.");
-            //}
-
-            //if (aggregate.GetType() != stream.Meta.AggregateType)
-            //{
-            //    throw new InvalidOperationException("Trying to restore aggregate with wrong snapshot type.");
-            //}
-
             aggregate.Version = stream.Version;
             aggregate.IsFinalized = stream.IsEnded;
             aggregate.Reel(stream.Events);

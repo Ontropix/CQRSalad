@@ -47,7 +47,7 @@
     </Compile>
     <Compile Include="Core\Attributes\AggregateDestructorAttribute.cs" />
     <Compile Include="Repository\AggregateRepository.cs" />
-    <Compile Include="Repository\StreamMetadata.cs" />
+    <Compile Include="Repository\EventStream.cs" />
     <Compile Include="Repository\IEventStoreAdapter.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceGenerator.cs" />
     <Compile Include="CodeGeneration\ApplicationServiceTemplate.cs">

@@ -37,7 +37,7 @@ namespace CQRSalad.EventSourcing
             await _eventStore.AppendEventsAsync(
                 aggregate.Id,
                 aggregate.Changes,
-                aggregate.Version + 1, //todo
+                aggregate.Version,
                 aggregate.IsFinalized
             );
         }
