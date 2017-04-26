@@ -54,6 +54,7 @@ namespace CQRSalad.Dispatching
             {
                 if (task.IsFaulted)
                 {
+                    //TODO throw appropriate exception!
                     //throw taskResult.Exception;
                 }
 
