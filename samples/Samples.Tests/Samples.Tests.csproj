@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=6.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentValidation.6.4.1\lib\Net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -59,15 +63,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FluentValidatorRuleExtensions.cs" />
     <Compile Include="Interceptors\ConsoleInterceptor.cs" />
     <Compile Include="Interceptors\ConsoleQueriesInterceptor.cs" />
     <Compile Include="Configurators\DispatcherConfigurator.cs" />
     <Compile Include="Configurators\EventSourcingConfigurator.cs" />
     <Compile Include="Configurators\TransportConfigurator.cs" />
+    <Compile Include="NotFutureDateTimeValidator.cs" />
     <Compile Include="SpecificationRunnerTest.cs" />
     <Compile Include="Structuremap\StructureMapServiceProvider.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UriStringValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">

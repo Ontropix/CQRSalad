@@ -4,6 +4,7 @@ using CQRSalad.Infrastructure;
 using CQRSalad.Infrastructure.Validation;
 using Kutcha.Core;
 using Kutcha.InMemory;
+using Samples.Domain.TodoList;
 using Samples.Tests.Structuremap;
 using Samples.ViewModel.SingleUseHandlers;
 using Samples.ViewModel.Views;
@@ -33,10 +34,9 @@ namespace Samples.Tests.Configurators
 
         public static IContainer UseFluentMessageValidator(this IContainer container)
         {
-            var validatorsManager = new FluentValidatorsRegistry(new StructureMapServiceProvider(container));
-            //validatorsManager.Register(typeof(CreateUserCommandValidator).Assembly);
-            container.Configure(expression => expression.For<FluentValidatorsRegistry>().Use(validatorsManager).Singleton());
-            container.Configure(expression => expression.For<IMessageValidationFacade>().Use<FluentMessageValidationFacade>().Singleton());
+            var controller = new ValidationController(new StructureMapServiceProvider(container));
+            controller.RegisterFromAssemblies(typeof(CreateTodoListValidator).Assembly);
+            container.Configure(expression => expression.For<ValidationController>().Use(controller).Singleton());
             return container;
         }
 

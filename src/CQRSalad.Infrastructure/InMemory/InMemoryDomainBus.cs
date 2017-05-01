@@ -8,13 +8,13 @@ namespace CQRSalad.Infrastructure
     {
         private readonly ICommandBus _commandBus;
         private readonly IQueryBus _queryBus;
-        private readonly IMessageValidationFacade _validationFacade;
+        private readonly ValidationController _validationController;
 
-        public InMemoryDomainBus(ICommandBus commandBus, IQueryBus queryBus, IMessageValidationFacade validationFacade)
+        public InMemoryDomainBus(ICommandBus commandBus, IQueryBus queryBus, ValidationController validationController)
         {
             _commandBus = commandBus;
             _queryBus = queryBus;
-            _validationFacade = validationFacade;
+            _validationController = validationController;
         }
 
         public async Task CommandAsync<TCommand>(TCommand command, string senderId) where TCommand : class, ICommand
@@ -31,7 +31,7 @@ namespace CQRSalad.Infrastructure
 
         protected void ValidateMessage<TMessage>(TMessage message) where TMessage : class
         {
-            _validationFacade.Validate(message);
+            _validationController.Validate(message);
         }
     }
 }

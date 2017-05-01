@@ -55,7 +55,7 @@ namespace Samples.Tests
             {
                 ListId = listId,
                 OwnerId = userId,
-                Title = "Buy in the shop"
+                Title = "Supermarket"
             }, "test");
 
             await bus.CommandAsync(new AddListItem
@@ -71,8 +71,6 @@ namespace Samples.Tests
                 ItemId = "2",
                 Description = "Meat"
             }, "test");
-
-            await bus.CommandAsync(new DeleteTodoList() { ListId = listId}, "test");
 
             await bus.CommandAsync(new RemoveListItem
             {
