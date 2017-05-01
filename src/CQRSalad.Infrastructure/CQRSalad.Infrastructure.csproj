@@ -75,10 +75,6 @@
       <Project>{099A8DEA-F66F-4584-978D-6C1C0CE78360}</Project>
       <Name>CQRSalad.EventSourcing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\submodules\kutcha\src\Kutcha.Core\Kutcha.Core.csproj">
-      <Project>{166f6eb2-5143-43de-b578-1f0e31a596d5}</Project>
-      <Name>Kutcha.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
