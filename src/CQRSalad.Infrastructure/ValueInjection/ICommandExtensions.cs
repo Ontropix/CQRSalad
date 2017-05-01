@@ -8,7 +8,7 @@ namespace CQRSalad.EventSourcing
         public static TEvent MapToEvent<TEvent>(this ICommand command) where TEvent : class, IEvent, new()
         {
             TEvent evnt = new TEvent();
-            ValueInjecter.Inject(target: evnt, source: command);
+            ValueInjecter.Inject(command, evnt);
             return evnt;
         }
     }

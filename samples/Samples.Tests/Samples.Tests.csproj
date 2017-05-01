@@ -70,6 +70,8 @@
     <Compile Include="Configurators\DispatcherConfigurator.cs" />
     <Compile Include="Configurators\EventSourcingConfigurator.cs" />
     <Compile Include="Configurators\TransportConfigurator.cs" />
+    <Compile Include="Interceptors\QueriesInterceptor.cs" />
+    <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
     <Compile Include="NotFutureDateTimeValidator.cs" />
     <Compile Include="SpecificationRunnerTest.cs" />
     <Compile Include="Structuremap\StructureMapServiceProvider.cs" />

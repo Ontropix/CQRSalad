@@ -1,36 +1,40 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace CQRSalad.Infrastructure.ValueInjection
 {
     internal static class ValueInjecter
     {
-        private static readonly ConcurrentDictionary<Type, PropertyInfo[]> _cache =
-            new ConcurrentDictionary<Type, PropertyInfo[]>();
+        private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> _cache =
+            new ConcurrentDictionary<Type, List<PropertyInfo>>();
 
-        private static PropertyInfo[] GetProperties(object obj)
+        private static List<PropertyInfo> GetProperties(object obj)
         {
-            return _cache.GetOrAdd(obj.GetType(), key => key.GetProperties());
+            return _cache.GetOrAdd(obj.GetType(), key => key.GetProperties().OrderBy(x => x.Name).ToList());
         }
         
-        private static bool Match(PropertyInfo one, PropertyInfo two)
+        private static bool MatchProps(PropertyInfo one, PropertyInfo two)
         {
             return one.Name == two.Name && one.PropertyType == two.PropertyType;
         }
 
-        public static void Inject(object target, object source)
+        // TODO bad performance. Need to replace it with Delegates/Reflection Emit
+        public static void Inject(object source, object target)
         {
-            PropertyInfo[] sourceProps = GetProperties(source);
-            PropertyInfo[] targetProps = GetProperties(target);
+            var sourceProps = GetProperties(source);
+            var targetProps = GetProperties(target);
 
-            foreach (PropertyInfo sourceProp in sourceProps)
+            foreach (var sourceProp in sourceProps)
             {
-                foreach (PropertyInfo targetProp in targetProps)
+                foreach (var targetProp in targetProps)
                 {
-                    if (Match(sourceProp, targetProp))
+                    if (MatchProps(sourceProp, targetProp))
                     {
                         targetProp.SetValue(target, sourceProp.GetValue(source));
+                        break;
                     }
                 }
             }

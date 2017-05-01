@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using CQRSalad.EventSourcing;
 using CQRSalad.EventSourcing.Specifications;
-using CQRSalad.Specifications;
 using Newtonsoft.Json;
 
 namespace CQRSalad.Infrastructure

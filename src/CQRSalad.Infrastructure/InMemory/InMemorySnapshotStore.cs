@@ -1,7 +1,8 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using CQRSalad.EventSourcing;
 
-namespace CQRSalad.EventSourcing
+namespace CQRSalad.Infrastructure
 {
     public class InMemorySnapshotStore : ISnapshotStore
     {

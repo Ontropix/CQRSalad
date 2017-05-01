@@ -53,20 +53,18 @@
     <Compile Include="InMemory\InMemorySnapshotStore.cs" />
     <Compile Include="Buses\IQueryBus.cs" />
     <Compile Include="Buses\IQueryFor.cs" />
-    <Compile Include="UnexpectedEventException.cs" />
+    <Compile Include="Specs\UnexpectedEventException.cs" />
     <Compile Include="Validation\InvalidMessageException.cs" />
     <Compile Include="ValueInjection\ICommandExtensions.cs" />
     <Compile Include="InMemory\InMemoryCommandBus.cs" />
     <Compile Include="InMemory\InMemoryDomainBus.cs" />
     <Compile Include="InMemory\InMemoryEventBus.cs" />
     <Compile Include="InMemory\InMemoryQueryBus.cs" />
-    <Compile Include="Interceptors\QueriesInterceptor.cs" />
-    <Compile Include="Interceptors\SpecificMessageInterceptor.cs" />
-    <Compile Include="SpecificationRunner.cs" />
+    <Compile Include="Specs\SpecificationRunner.cs" />
     <Compile Include="Validation\ValidationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueInjection\ValueInjecter.cs" />
-    <Compile Include="WorkflowService.cs" />
+    <Compile Include="Buses\WorkflowService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CQRSalad.Dispatching\CQRSalad.Dispatching.csproj">
