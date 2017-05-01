@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FluentValidatorRuleExtensions.cs" />
+    <Compile Include="IIdGenerator.cs" />
     <Compile Include="Interceptors\ConsoleInterceptor.cs" />
     <Compile Include="Interceptors\ConsoleQueriesInterceptor.cs" />
     <Compile Include="Configurators\DispatcherConfigurator.cs" />

@@ -92,6 +92,10 @@
       <Project>{E340AE40-B7B1-4DE4-8341-B318ABBA6C97}</Project>
       <Name>Samples.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Samples.Tests\Samples.Tests.csproj">
+      <Project>{6B31C824-D84B-4B80-8540-C46B22A702E2}</Project>
+      <Name>Samples.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Samples.API.ServiceStack.ServiceModel\Samples.API.ServiceStack.ServiceModel.csproj">
       <Project>{8D6DE92C-637E-4433-9810-98D7FBCEA6BA}</Project>
       <Name>Samples.API.ServiceStack.ServiceModel</Name>
