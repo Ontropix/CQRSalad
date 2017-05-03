@@ -19,6 +19,12 @@ namespace CQRSalad.Infrastructure
             return await Task.FromResult(stream);
         }
 
+        public async Task CreateStreamAsync(string streamId, EventStreamMetadata meta)
+        {
+            var stream = _streams.TryAdd(streamId, GetEmptyStream(streamId));
+            await Task.FromResult(stream);
+        }
+
         public async Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
@@ -37,7 +43,7 @@ namespace CQRSalad.Infrastructure
             return await Task.FromResult(stream);
         }
 
-        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion, bool isEndOfStream = false)
+        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
             Argument.ElementsNotNull(events);
@@ -46,8 +52,25 @@ namespace CQRSalad.Infrastructure
 
             stream.Events.ToList().AddRange(events);
             stream.Version++;
-            stream.IsEnded = isEndOfStream;
 
+            await Task.CompletedTask;
+        }
+        
+        public async Task MarkStreamAsEnded(string streamId)
+        {
+            EventStream stream;
+            if (_streams.TryGetValue(streamId, out stream))
+            {
+                stream.IsEnded = true;
+            }
+
+            await Task.CompletedTask;
+        }
+
+        public async Task DeleteStreamAsync(string streamId)
+        {
+            EventStream stream;
+            _streams.TryRemove(streamId, out stream);
             await Task.CompletedTask;
         }
 

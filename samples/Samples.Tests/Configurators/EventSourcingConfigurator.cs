@@ -1,5 +1,7 @@
-﻿using CQRSalad.EventSourcing;
+﻿using System.Net;
+using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure;
+using Samples.Tests.EventStore;
 using StructureMap;
 
 namespace Samples.Tests.Configurators
@@ -21,7 +23,13 @@ namespace Samples.Tests.Configurators
 
         public static IContainer UseInMemoryEventStore(this IContainer container)
         {
-            container.Configure(expression => expression.For(typeof(IEventStoreAdapter)).Use(typeof(InMemoryEventStore)).Singleton());
+            container
+                .Configure(expression => expression.For(typeof(IEventStoreAdapter))
+                .Use(typeof(SelfHostedEventStoreAdapter))
+                .Ctor<IPAddress>().Is(IPAddress.Loopback)
+                .Ctor<int>().Is(1113)
+                .Singleton());
+
             container.Configure(expression => expression.For(typeof(IEventBus)).Use(typeof(InMemoryEventBus)).Singleton());
             return container;
         }

@@ -34,12 +34,28 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Attempting to save aggregate without changes.");
             }
 
+            if (aggregate.Version < 1)
+            {
+                await _eventStore.CreateStreamAsync(
+                    aggregate.Id,
+                    new EventStreamMetadata
+                    {
+                        AggregateRootType = typeof(TAggregate),
+                        StartedOn = DateTime.UtcNow
+                    }
+                );
+            }
+
             await _eventStore.AppendEventsAsync(
                 aggregate.Id,
                 aggregate.Changes,
-                aggregate.Version,
-                aggregate.IsFinalized
+                aggregate.Version
             );
+
+            if (aggregate.IsFinalized)
+            {
+                await _eventStore.MarkStreamAsEnded(aggregate.Id);
+            }
         }
     }
 }

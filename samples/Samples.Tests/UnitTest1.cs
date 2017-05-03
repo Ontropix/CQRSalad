@@ -1,9 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using CQRSalad.EventSourcing;
 using CQRSalad.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Samples.Domain.TodoList;
 using Samples.Domain.User;
 using Samples.Tests.Configurators;
+using Samples.Tests.EventStore;
 using StructureMap;
 
 namespace Samples.Tests
@@ -29,67 +33,66 @@ namespace Samples.Tests
         [TestMethod]
         public async Task TestMethod1()
         {
-            string userId = "1";
+            string user1Id = Guid.NewGuid().ToString();
+            string todoList1Id = Guid.NewGuid().ToString();
+            
+            var eventStore = container.GetInstance<IEventStoreAdapter>();
 
             var bus = container.GetInstance<IDomainBus>();
-
             await bus.CommandAsync(new CreateUser
             {
-                UserId = userId,
+                UserId = user1Id,
                 Email = "first@gmail.com",
-            }, "test");
-
-            await bus.CommandAsync(new CreateUser
-            {
-                UserId = "2",
-                Email = "second@gmail.com",
             }, "test");
 
             var result = await bus.QueryAsync(new UserProfileById
             {
-                UserId = userId
+                UserId = user1Id
             }, "test");
 
-            string listId = "list1";
+            
             await bus.CommandAsync(new CreateTodoList
             {
-                ListId = listId,
-                OwnerId = userId,
+                ListId = todoList1Id,
+                OwnerId = user1Id,
                 Title = "Supermarket"
             }, "test");
 
             await bus.CommandAsync(new AddListItem
             {
-                ListId = listId,
+                ListId = todoList1Id,
                 ItemId = "1",
                 Description = "Milk"
             }, "test");
 
             await bus.CommandAsync(new AddListItem
             {
-                ListId = listId,
+                ListId = todoList1Id,
                 ItemId = "2",
                 Description = "Meat"
             }, "test");
 
             await bus.CommandAsync(new RemoveListItem
             {
-                ListId = listId,
+                ListId = todoList1Id,
                 ItemId = "2"
             }, "test");
 
             await bus.CommandAsync(new AddListItem
             {
-                ListId = listId,
+                ListId = todoList1Id,
                 ItemId = "3",
                 Description = "Bread"
             }, "test");
 
             await bus.CommandAsync(new CompleteListItem
             {
-                ListId = listId,
+                ListId = todoList1Id,
                 ItemId = "3"
             }, "test");
+
+            await eventStore.DeleteStreamAsync(user1Id);
+            await eventStore.DeleteStreamAsync(todoList1Id);
         }
     }
 }

@@ -11,4 +11,10 @@ namespace CQRSalad.EventSourcing
 
         public IEnumerable<IEvent> Events { get; set; } = new List<IEvent>();
     }
+
+    public class EventStreamMetadata
+    {
+        public Type AggregateRootType { get; set; }
+        public DateTime StartedOn { get; set; }
+    }
 }

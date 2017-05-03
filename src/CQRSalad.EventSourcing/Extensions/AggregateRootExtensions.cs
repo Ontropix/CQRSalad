@@ -53,7 +53,7 @@ namespace CQRSalad.EventSourcing
                 return;
             }
 
-            aggregate.Version = stream.Version;
+            aggregate.Version = stream.Version; //todo version check =>0
             aggregate.IsFinalized = stream.IsEnded;
             aggregate.Reel(stream.Events);
         }
