@@ -10,7 +10,9 @@ namespace CQRSalad.Infrastructure
     public class InMemoryEventStore : IEventStoreAdapter
     {
         private readonly ConcurrentDictionary<string, EventStream> _streams = new ConcurrentDictionary<string, EventStream>();
-        
+
+        public int FirstEventIndex => 1;
+
         public async Task<EventStream> GetStreamAsync(string streamId)
         {
             Argument.IsNotNull(streamId, nameof(streamId));

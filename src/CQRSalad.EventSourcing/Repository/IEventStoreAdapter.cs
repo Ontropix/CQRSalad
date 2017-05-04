@@ -5,6 +5,8 @@ namespace CQRSalad.EventSourcing
 {
     public interface IEventStoreAdapter
     {
+        int FirstEventIndex { get; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -24,7 +26,6 @@ namespace CQRSalad.EventSourcing
         /// Append several events to the stream
         /// </summary>
         Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion);
-
 
         /// <summary>
         /// 

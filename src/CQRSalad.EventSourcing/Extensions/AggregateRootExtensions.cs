@@ -5,6 +5,13 @@ namespace CQRSalad.EventSourcing
 {
     internal static class AggregateRootExtensions
     {
+        internal const int EmptyAggregateVersion = 0;
+
+        internal static bool IsNew(this IAggregateRoot aggregate)
+        {
+            return aggregate.Version <= EmptyAggregateVersion;
+        }
+
         internal static void Perform<TCommand>(this IAggregateRoot aggregate, TCommand command)
         {
             Type aggregateType = aggregate.GetType();
@@ -16,12 +23,12 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Aggregate can't handle command.");
             }
 
-            if (aggregate.Version == 0 && !subscription.IsConstructor)
+            if (aggregate.IsNew() && !subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to apply a command to non existed aggregate.");
             }
             
-            if (aggregate.Version > 0 && subscription.IsConstructor)
+            if (!aggregate.IsNew() && subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
             }
@@ -53,7 +60,7 @@ namespace CQRSalad.EventSourcing
                 return;
             }
 
-            aggregate.Version = stream.Version; //todo version check =>0
+            aggregate.Version = stream.Version;
             aggregate.IsFinalized = stream.IsEnded;
             aggregate.Reel(stream.Events);
         }

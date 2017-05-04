@@ -4,7 +4,7 @@ using Samples.Domain.User;
 
 namespace Samples.ViewModel.SingleUseHandlers
 {
-    [DispatcherHandler]
+    //[DispatcherHandler]
     public sealed class UserEmailSingleUseHandler
     {
         private readonly IEmailSender _emailSender;

@@ -34,6 +34,8 @@ namespace Samples.Tests.EventStore
                 .Build();
         }
 
+        public int FirstEventIndex => 0;
+
         public async Task CreateStreamAsync(string streamId, EventStreamMetadata meta)
         {
             using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
@@ -42,10 +44,11 @@ namespace Samples.Tests.EventStore
 
                 var metadata = StreamMetadata
                         .Build()
-                        .SetMaxAge(TimeSpan.MaxValue)
+                        //.SetMaxAge(TimeSpan.MaxValue)
                         .SetCustomProperty("AggregateRoot", meta.AggregateRootType.AssemblyQualifiedName)
-                        .SetCustomProperty("StartedOn", meta.StartedOn.ToString("G"));
-                var result = await connection.SetStreamMetadataAsync(streamId, ExpectedVersion.EmptyStream, metadata);
+                        //.SetCustomProperty("StartedOn", meta.StartedOn.ToString("G"))
+                        ;
+                var result = await connection.SetStreamMetadataAsync(streamId, ExpectedVersion.NoStream, metadata);
             }
         }
 
@@ -60,7 +63,7 @@ namespace Samples.Tests.EventStore
                 return new EventStream
                 {
                     StreamId = streamId,
-                    Version = (int) (stream.LastEventNumber < 0 ? 0 : stream.LastEventNumber),//todo
+                    Version = (int) (stream.LastEventNumber < 0 ? 0 : stream.LastEventNumber + 1),//todo
                     IsEnded = stream.Status == SliceReadStatus.StreamDeleted,
                     Events = stream.Events.Select(x => DeserializeEvent(x.Event)).ToList()
                 };
@@ -90,16 +93,23 @@ namespace Samples.Tests.EventStore
             using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
             {
                 await connection.ConnectAsync();
+
+                var eventData = events.Select(x => new EventData(
+                    eventId: Guid.NewGuid(),
+                    type: x.GetType().AssemblyQualifiedName,
+                    isJson: true,
+                    data: SerializeEvent(x),
+                    metadata: SerializeMeta(x)
+                ));
+
+                //since changes in EventStore v4 - we can't use ExpectedVersion.EmptyStream, it = -1 instead of 0
+                expectedVersion = expectedVersion == 0 ? ExpectedVersion.NoStream : expectedVersion;
+
                 var result = await connection.AppendToStreamAsync(
                     streamId,
                     expectedVersion,
-                    events.Select(x => new EventData(
-                        eventId: Guid.NewGuid(),
-                        type: x.GetType().AssemblyQualifiedName,
-                        isJson: true,
-                        data: SerializeEvent(x),
-                        metadata: SerializeMeta(x)
-                    )));
+                    eventData
+                    );
             }
         }
 
@@ -121,7 +131,7 @@ namespace Samples.Tests.EventStore
             using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
             {
                 await connection.ConnectAsync();
-                var result = await connection.DeleteStreamAsync(streamId, ExpectedVersion.Any, true);
+                var result = await connection.DeleteStreamAsync(streamId, ExpectedVersion.StreamExists, true);
             }
         }
 
@@ -151,11 +161,11 @@ namespace Samples.Tests.EventStore
 
             return Encoding.UTF8.GetBytes(json);
         }
-    }
 
-    public class EventMetadata
-    {
-        [JsonProperty("CLR_Type")]
-        public string EventType { get; set; }
+        private class EventMetadata
+        {
+            [JsonProperty("CLR_Type")]
+            public string EventType { get; set; }
+        }
     }
 }

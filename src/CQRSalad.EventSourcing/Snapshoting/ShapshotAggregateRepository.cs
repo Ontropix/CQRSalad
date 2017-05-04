@@ -35,7 +35,7 @@ namespace CQRSalad.EventSourcing
             var aggregate = new TAggregate { Id = aggregateId};
             aggregate.Restore(snapshot);
             
-            var stream = await _eventStore.GetStreamAsync(aggregateId, snapshot.Version + 1);
+            var stream = await _eventStore.GetStreamAsync(aggregateId, snapshot.Version + 1); //todo
             aggregate.Restore(stream);
             return aggregate;
         }

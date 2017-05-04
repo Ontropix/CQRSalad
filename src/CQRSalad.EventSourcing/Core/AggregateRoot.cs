@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CQRSalad.EventSourcing
 {
+    [DebuggerDisplay("Type={GetType().Name}, Version={((IAggregateRoot)this).Version}")]
     public abstract class AggregateRoot<TState> : IAggregateRoot where TState : class, new()
     {
         string IAggregateRoot.Id { get; set; }

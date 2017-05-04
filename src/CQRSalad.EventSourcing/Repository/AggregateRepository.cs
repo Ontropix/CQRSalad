@@ -20,7 +20,7 @@ namespace CQRSalad.EventSourcing
             
             EventStream stream = await _eventStore.GetStreamAsync(aggregateId);
             var aggregate = new TAggregate { Id =  aggregateId };
-            aggregate.Restore(stream); //todo
+            aggregate.Restore(stream);
             return aggregate;
         }
 
@@ -29,12 +29,7 @@ namespace CQRSalad.EventSourcing
             Argument.IsNotNull(aggregate, nameof(aggregate));
             Argument.StringNotEmpty(aggregate.Id, nameof(aggregate.Id));
 
-            if (aggregate.Changes.Count < 1)
-            {
-                throw new InvalidOperationException("Attempting to save aggregate without changes.");
-            }
-
-            if (aggregate.Version < 1)
+            if (aggregate.IsNew())
             {
                 await _eventStore.CreateStreamAsync(
                     aggregate.Id,
