@@ -5,35 +5,25 @@ namespace CQRSalad.EventSourcing
 {
     internal static class AggregateRootExtensions
     {
-        internal const int EmptyAggregateVersion = 0;
-
-        internal static bool IsNew(this IAggregateRoot aggregate)
-        {
-            return aggregate.Version <= EmptyAggregateVersion;
-        }
-
         internal static void Perform<TCommand>(this IAggregateRoot aggregate, TCommand command)
         {
-            Type aggregateType = aggregate.GetType();
-            Type commandType = command.GetType();
-
-            var subscription = AggregateInvokersCache.GetWhenMethod(aggregateType, commandType);
+            var subscription = AggregateInvokersCache.GetWhenMethod(aggregate.GetType(), command.GetType());
             if (subscription == null)
             {
                 throw new InvalidOperationException("Aggregate can't handle command.");
             }
 
-            if (aggregate.IsNew() && !subscription.IsConstructor)
+            if (aggregate.Status == AggregateStatus.New && !subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to apply a command to non existed aggregate.");
             }
             
-            if (!aggregate.IsNew() && subscription.IsConstructor)
+            if (aggregate.Status != AggregateStatus.New && subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
             }
 
-            if (aggregate.IsFinalized)
+            if (aggregate.Status == AggregateStatus.Finalized)
             {
                 throw new InvalidOperationException("Aggregate is finalized.");
             }
@@ -47,22 +37,27 @@ namespace CQRSalad.EventSourcing
 
             if (subscription.IsDestructor)
             {
-                aggregate.IsFinalized = true;
+                aggregate.Status = AggregateStatus.Finalized;
             }
 
             aggregate.Reel(aggregate.Changes);
         }
 
-        internal static void Restore(this IAggregateRoot aggregate, EventStream stream)
+        internal static void Restore(this IAggregateRoot root, EventStream stream)
         {
             if (stream == null)
             {
+                // if no stream = empty aggregate
+                root.Status = AggregateStatus.New;
+                root.Version = -1;
                 return;
             }
 
-            aggregate.Version = stream.Version;
-            aggregate.IsFinalized = stream.IsEnded;
-            aggregate.Reel(stream.Events);
+            root.Id = stream.StreamId;
+            root.Status = stream.Metadata.AggregateStatus;
+            root.Version = stream.Version;
+
+            root.Reel(stream.Events);
         }
 
         //todo State Null checking

@@ -19,7 +19,7 @@ namespace CQRSalad.EventSourcing
             Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
             
             EventStream stream = await _eventStore.GetStreamAsync(aggregateId);
-            var aggregate = new TAggregate { Id =  aggregateId };
+            var aggregate  = new TAggregate { Id = aggregateId };
             aggregate.Restore(stream);
             return aggregate;
         }
@@ -29,7 +29,7 @@ namespace CQRSalad.EventSourcing
             Argument.IsNotNull(aggregate, nameof(aggregate));
             Argument.StringNotEmpty(aggregate.Id, nameof(aggregate.Id));
 
-            if (aggregate.IsNew())
+            if (aggregate.Status == AggregateStatus.New)
             {
                 await _eventStore.CreateStreamAsync(
                     aggregate.Id,
@@ -47,7 +47,7 @@ namespace CQRSalad.EventSourcing
                 aggregate.Version
             );
 
-            if (aggregate.IsFinalized)
+            if (aggregate.Status == AggregateStatus.Finalized)
             {
                 await _eventStore.MarkStreamAsEnded(aggregate.Id);
             }

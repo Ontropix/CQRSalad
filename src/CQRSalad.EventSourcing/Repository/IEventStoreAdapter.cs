@@ -5,8 +5,6 @@ namespace CQRSalad.EventSourcing
 {
     public interface IEventStoreAdapter
     {
-        int FirstEventIndex { get; }
-
         /// <summary>
         /// 
         /// </summary>

@@ -44,9 +44,8 @@ namespace Samples.Tests.EventStore
 
                 var metadata = StreamMetadata
                         .Build()
-                        //.SetMaxAge(TimeSpan.MaxValue)
                         .SetCustomProperty("AggregateRoot", meta.AggregateRootType.AssemblyQualifiedName)
-                        //.SetCustomProperty("StartedOn", meta.StartedOn.ToString("G"))
+                        //.SetCustomProperty("StartedOn", meta.StartedOn)
                         ;
                 var result = await connection.SetStreamMetadataAsync(streamId, ExpectedVersion.NoStream, metadata);
             }
@@ -57,16 +56,24 @@ namespace Samples.Tests.EventStore
             using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
             {
                 await connection.ConnectAsync();
-                var stream  = await connection.ReadStreamEventsForwardAsync(streamId, StreamStartIndex, StreamSliceSize, false);
-                //var meta = await conn.GetStreamMetadataAsync(streamId);
 
-                return new EventStream
+                var meta = await connection.GetStreamMetadataAsync(streamId);
+                bool isEndOfStream;
+                meta.StreamMetadata.TryGetValue("IsEnded", out isEndOfStream);
+
+                var firstSlice = await connection.ReadStreamEventsForwardAsync(streamId, StreamStartIndex, StreamSliceSize, false);
+                var stream = new EventStream
                 {
                     StreamId = streamId,
-                    Version = (int) (stream.LastEventNumber < 0 ? 0 : stream.LastEventNumber + 1),//todo
-                    IsEnded = stream.Status == SliceReadStatus.StreamDeleted,
-                    Events = stream.Events.Select(x => DeserializeEvent(x.Event)).ToList()
+                    Version = (int)firstSlice.LastEventNumber, //todo
+                    Events = firstSlice.Events.Select(x => DeserializeEvent(x.Event)).ToList(),
+                    Metadata = new EventStreamMetadata
+                    {
+                        AggregateStatus = GetStatus(firstSlice.LastEventNumber, isEndOfStream)
+                    }
                 };
+
+                return stream;
             }
         }
 
@@ -76,16 +83,42 @@ namespace Samples.Tests.EventStore
             {
                 await connection.ConnectAsync();
                 var stream = await connection.ReadStreamEventsForwardAsync(streamId, fromVersion, toVersion == -1 ? StreamSliceSize : toVersion, false);
-                //var meta = await conn.GetStreamMetadataAsync(streamId);
+                var meta = await connection.GetStreamMetadataAsync(streamId);
+
+                bool isEndOfStream;
+                meta.StreamMetadata.TryGetValue("IsEnded", out isEndOfStream);
 
                 return new EventStream
                 {
                     StreamId = streamId,
-                    Version = (int)(stream.LastEventNumber < 0 ? 0 : stream.LastEventNumber),//todo
-                    IsEnded = stream.Status == SliceReadStatus.StreamDeleted,
-                    Events = stream.Events.Select(x => DeserializeEvent(x.Event)).ToList()
+                    Version = (int)stream.LastEventNumber,//todo
+                    Events = stream.Events.Select(x => DeserializeEvent(x.Event)).ToList(),
+                    Metadata = new EventStreamMetadata
+                    {
+                        AggregateStatus = GetStatus(stream.LastEventNumber, isEndOfStream)
+                    }
                 };
             }
+        }
+
+        private AggregateStatus GetStatus(long streamVersion, bool isEnded)
+        {
+            if (streamVersion >= StreamStartIndex && !isEnded)
+            {
+                return AggregateStatus.Alive;
+            }
+
+            if (streamVersion >= StreamStartIndex && isEnded)
+            {
+                return AggregateStatus.Finalized;
+            }
+
+            if (streamVersion < StreamStartIndex && !isEnded)
+            {
+                return AggregateStatus.New;
+            }
+
+            throw new InvalidOperationException("Status!");
         }
 
         public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion)
@@ -95,16 +128,13 @@ namespace Samples.Tests.EventStore
                 await connection.ConnectAsync();
 
                 var eventData = events.Select(x => new EventData(
-                    eventId: Guid.NewGuid(),
+                    eventId: GenerateId(),
                     type: x.GetType().AssemblyQualifiedName,
                     isJson: true,
                     data: SerializeEvent(x),
-                    metadata: SerializeMeta(x)
+                    metadata: null
                 ));
-
-                //since changes in EventStore v4 - we can't use ExpectedVersion.EmptyStream, it = -1 instead of 0
-                expectedVersion = expectedVersion == 0 ? ExpectedVersion.NoStream : expectedVersion;
-
+                
                 var result = await connection.AppendToStreamAsync(
                     streamId,
                     expectedVersion,
@@ -137,10 +167,7 @@ namespace Samples.Tests.EventStore
 
         private IEvent DeserializeEvent(RecordedEvent recoredEvent)
         {
-            string metaJson = Encoding.UTF8.GetString(recoredEvent.Metadata);
-            EventMetadata meta = JsonConvert.DeserializeObject<EventMetadata>(metaJson);
-            Type eventType = Type.GetType(meta.EventType);
-
+            Type eventType = Type.GetType(recoredEvent.EventType);
             string dataJson = Encoding.UTF8.GetString(recoredEvent.Data);
             return (IEvent)JsonConvert.DeserializeObject(dataJson, eventType);
         }
@@ -151,21 +178,9 @@ namespace Samples.Tests.EventStore
             return Encoding.UTF8.GetBytes(json);
         }
 
-        private byte[] SerializeMeta(IEvent evnt)
+        private Guid GenerateId()
         {
-            string json = JsonConvert.SerializeObject(
-                new EventMetadata
-                {
-                    EventType = evnt.GetType().AssemblyQualifiedName
-                });
-
-            return Encoding.UTF8.GetBytes(json);
-        }
-
-        private class EventMetadata
-        {
-            [JsonProperty("CLR_Type")]
-            public string EventType { get; set; }
+            return Guid.NewGuid();
         }
     }
 }

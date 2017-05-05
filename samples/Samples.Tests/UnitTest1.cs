@@ -91,8 +91,10 @@ namespace Samples.Tests
                 ItemId = "3"
             }, "test");
 
-            await eventStore.DeleteStreamAsync(user1Id);
-            await eventStore.DeleteStreamAsync(todoList1Id);
+            await bus.CommandAsync(new DeleteTodoList
+            {
+                ListId = todoList1Id
+            }, "test");
         }
     }
 }
