@@ -6,16 +6,6 @@ namespace CQRSalad.EventSourcing
     public interface IEventStoreAdapter
     {
         /// <summary>
-        /// 
-        /// </summary>
-        Task CreateStreamAsync(string streamId, EventStreamMetadata meta);
-
-        /// <summary>
-        /// Gets the stream
-        /// </summary>
-        Task<EventStream> GetStreamAsync(string streamId);
-
-        /// <summary>
         /// Gets the stream part
         /// </summary>
         Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1); //todo skip-take?
@@ -24,15 +14,5 @@ namespace CQRSalad.EventSourcing
         /// Append several events to the stream
         /// </summary>
         Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Task MarkStreamAsEnded(string streamId);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Task DeleteStreamAsync(string streamId);
     }
 }

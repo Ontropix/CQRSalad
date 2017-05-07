@@ -29,28 +29,11 @@ namespace CQRSalad.EventSourcing
             Argument.IsNotNull(aggregate, nameof(aggregate));
             Argument.StringNotEmpty(aggregate.Id, nameof(aggregate.Id));
 
-            if (aggregate.Status == AggregateStatus.New)
-            {
-                await _eventStore.CreateStreamAsync(
-                    aggregate.Id,
-                    new EventStreamMetadata
-                    {
-                        AggregateRootType = typeof(TAggregate),
-                        StartedOn = DateTime.UtcNow
-                    }
-                );
-            }
-
             await _eventStore.AppendEventsAsync(
                 aggregate.Id,
                 aggregate.Changes,
                 aggregate.Version
             );
-
-            if (aggregate.Status == AggregateStatus.Finalized)
-            {
-                await _eventStore.MarkStreamAsEnded(aggregate.Id);
-            }
         }
     }
 }

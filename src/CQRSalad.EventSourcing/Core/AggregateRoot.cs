@@ -10,7 +10,6 @@ namespace CQRSalad.EventSourcing
         string IAggregateRoot.Id { get; set; }
         int IAggregateRoot.Version { get; set; }
         AggregateStatus IAggregateRoot.Status { get; set; }
-        //bool IAggregateRoot.IsFinalized { get; set; }
         object IAggregateRoot.State { get { return State; } set { State = (TState) value; } }
         List<IEvent> IAggregateRoot.Changes => _changes;
         

@@ -67,10 +67,7 @@ namespace Samples.Tests.EventStore
                     StreamId = streamId,
                     Version = (int)firstSlice.LastEventNumber, //todo
                     Events = firstSlice.Events.Select(x => DeserializeEvent(x.Event)).ToList(),
-                    Metadata = new EventStreamMetadata
-                    {
-                        AggregateStatus = GetStatus(firstSlice.LastEventNumber, isEndOfStream)
-                    }
+                    RootStatus = GetStatus(firstSlice.LastEventNumber, isEndOfStream)
                 };
 
                 return stream;
@@ -79,6 +76,18 @@ namespace Samples.Tests.EventStore
 
         public async Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
         {
+            if (aggregate.Status == AggregateStatus.New)
+            {
+                await _eventStore.CreateStreamAsync(
+                    aggregate.Id,
+                    new EventStreamMetadata
+                    {
+                        AggregateRootType = typeof(TAggregate),
+                        StartedOn = DateTime.UtcNow
+                    }
+                );
+            }
+
             using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
             {
                 await connection.ConnectAsync();
@@ -93,11 +102,18 @@ namespace Samples.Tests.EventStore
                     StreamId = streamId,
                     Version = (int)stream.LastEventNumber,//todo
                     Events = stream.Events.Select(x => DeserializeEvent(x.Event)).ToList(),
-                    Metadata = new EventStreamMetadata
-                    {
-                        AggregateStatus = GetStatus(stream.LastEventNumber, isEndOfStream)
-                    }
+                    RootStatus = GetStatus(stream.LastEventNumber, isEndOfStream)
                 };
+            }
+
+            if (aggregate.Status == AggregateStatus.Archived)
+            {
+                await _eventStore.MarkStreamAsEnded(aggregate.Id);
+
+                var metadata = StreamMetadata
+                    .Build()
+                    .SetCustomProperty("IsEnded", true);
+                var result = await connection.SetStreamMetadataAsync(streamId, ExpectedVersion.StreamExists, metadata);
             }
         }
 
@@ -110,7 +126,7 @@ namespace Samples.Tests.EventStore
 
             if (streamVersion >= StreamStartIndex && isEnded)
             {
-                return AggregateStatus.Finalized;
+                return AggregateStatus.Archived;
             }
 
             if (streamVersion < StreamStartIndex && !isEnded)
@@ -118,7 +134,7 @@ namespace Samples.Tests.EventStore
                 return AggregateStatus.New;
             }
 
-            throw new InvalidOperationException("Status!");
+            throw new InvalidOperationException("RootStatus!");
         }
 
         public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion)
@@ -142,29 +158,7 @@ namespace Samples.Tests.EventStore
                     );
             }
         }
-
-        public async Task MarkStreamAsEnded(string streamId)
-        {
-            using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
-            {
-                await connection.ConnectAsync();
-
-                var metadata = StreamMetadata
-                    .Build()
-                    .SetCustomProperty("IsEnded", true);
-                var result = await connection.SetStreamMetadataAsync(streamId, ExpectedVersion.StreamExists, metadata);
-            }
-        }
-
-        public async Task DeleteStreamAsync(string streamId)
-        {
-            using (var connection = EventStoreConnection.Create(_connectionSettings, new IPEndPoint(_address, _portNumber)))
-            {
-                await connection.ConnectAsync();
-                var result = await connection.DeleteStreamAsync(streamId, ExpectedVersion.StreamExists, true);
-            }
-        }
-
+        
         private IEvent DeserializeEvent(RecordedEvent recoredEvent)
         {
             Type eventType = Type.GetType(recoredEvent.EventType);

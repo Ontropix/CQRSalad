@@ -63,7 +63,7 @@ namespace CQRSalad.Infrastructure
             EventStream stream;
             if (_streams.TryGetValue(streamId, out stream))
             {
-                stream.Metadata.AggregateStatus = AggregateStatus.Finalized;
+                stream.RootStatus = AggregateStatus.Archived;
             }
 
             await Task.CompletedTask;
@@ -83,10 +83,7 @@ namespace CQRSalad.Infrastructure
                 StreamId = key,
                 Version = 0,
                 Events = new List<IEvent>(),
-                Metadata = new EventStreamMetadata
-                {
-                    AggregateStatus = AggregateStatus.New
-                }
+                RootStatus = AggregateStatus.New,
             };
         }
     }

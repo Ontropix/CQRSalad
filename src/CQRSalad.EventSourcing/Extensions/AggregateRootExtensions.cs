@@ -23,9 +23,9 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
             }
 
-            if (aggregate.Status == AggregateStatus.Finalized)
+            if (aggregate.Status == AggregateStatus.Archived)
             {
-                throw new InvalidOperationException("Aggregate is finalized.");
+                throw new InvalidOperationException("Aggregate is archived.");
             }
 
             subscription.Invoker(aggregate, command);
@@ -35,12 +35,12 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' produced no events");
             }
 
+            aggregate.Reel(aggregate.Changes);
+
             if (subscription.IsDestructor)
             {
-                aggregate.Status = AggregateStatus.Finalized;
+                aggregate.Status = AggregateStatus.Archived;
             }
-
-            aggregate.Reel(aggregate.Changes);
         }
 
         internal static void Restore(this IAggregateRoot root, EventStream stream)
@@ -54,14 +54,14 @@ namespace CQRSalad.EventSourcing
             }
 
             root.Id = stream.StreamId;
-            root.Status = stream.Metadata.AggregateStatus;
+            root.Status = stream.RootStatus;
             root.Version = stream.Version;
 
             root.Reel(stream.Events);
         }
 
         //todo State Null checking
-        internal static void Reel(this IAggregateRoot root, IEnumerable<IEvent> events)
+        internal static void Reel(this IAggregateRoot root, IEnumerable<object> events)
         {
             foreach (var @event in events)
             {
@@ -69,7 +69,7 @@ namespace CQRSalad.EventSourcing
             }
         }
 
-        internal static void ApplyOnState(this IAggregateRoot root, IEvent evnt)
+        private static void ApplyOnState(this IAggregateRoot root, object evnt)
         {
             StateOnMethod subscription = AggregateInvokersCache.GetStateOnMethod(root.State.GetType(), evnt.GetType());
             subscription?.Invoker(root.State, evnt);

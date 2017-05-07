@@ -6,7 +6,7 @@ namespace CQRSalad.EventSourcing
     {
         New = 0,
         Alive = 3,
-        Finalized = 10
+        Archived = 10
     }
 
     public interface IAggregateRoot
