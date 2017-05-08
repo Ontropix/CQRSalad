@@ -13,19 +13,19 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException("Aggregate can't handle command.");
             }
 
-            if (aggregate.Status == AggregateStatus.New && !subscription.IsConstructor)
+            if (aggregate.Status == RootStatus.New && !subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to apply a command to non existed aggregate.");
             }
             
-            if (aggregate.Status != AggregateStatus.New && subscription.IsConstructor)
+            if (aggregate.Status != RootStatus.New && subscription.IsConstructor)
             {
                 throw new InvalidOperationException("Attempting to create existed aggregate.");
             }
 
-            if (aggregate.Status == AggregateStatus.Finalized)
+            if (aggregate.Status == RootStatus.Archived)
             {
-                throw new InvalidOperationException("Aggregate is finalized.");
+                throw new InvalidOperationException("Aggregate is archived.");
             }
 
             subscription.Invoker(aggregate, command);
@@ -35,33 +35,39 @@ namespace CQRSalad.EventSourcing
                 throw new InvalidOperationException($"Command '{command.GetType().AssemblyQualifiedName}' produced no events");
             }
 
+            aggregate.Status = RootStatus.Alive;
+            aggregate.Reel(aggregate.Changes);
+
             if (subscription.IsDestructor)
             {
-                aggregate.Status = AggregateStatus.Finalized;
+                aggregate.Status = RootStatus.Archived;
             }
-
-            aggregate.Reel(aggregate.Changes);
         }
-
-        internal static void Restore(this IAggregateRoot root, EventStream stream)
+        
+        internal static void SetStatus(this IAggregateRoot root, int streamStartIndex, bool isEnded)
         {
-            if (stream == null)
+            if (root.Version >= streamStartIndex && !isEnded)
             {
-                // if no stream = empty aggregate
-                root.Status = AggregateStatus.New;
-                root.Version = -1;
+                root.Status = RootStatus.Alive;
                 return;
             }
 
-            root.Id = stream.StreamId;
-            root.Status = stream.Metadata.AggregateStatus;
-            root.Version = stream.Version;
+            if (root.Version >= streamStartIndex && isEnded)
+            {
+                root.Status = RootStatus.Archived;
+                return;
+            }
 
-            root.Reel(stream.Events);
+            if (root.Version < streamStartIndex && !isEnded)
+            {
+                root.Status = RootStatus.New;
+                return;
+            }
+
+            throw new InvalidOperationException("Status is unknown!");
         }
 
-        //todo State Null checking
-        internal static void Reel(this IAggregateRoot root, IEnumerable<IEvent> events)
+        internal static void Reel(this IAggregateRoot root, IEnumerable<object> events)
         {
             foreach (var @event in events)
             {
@@ -69,7 +75,7 @@ namespace CQRSalad.EventSourcing
             }
         }
 
-        internal static void ApplyOnState(this IAggregateRoot root, IEvent evnt)
+        private static void ApplyOnState(this IAggregateRoot root, object evnt)
         {
             StateOnMethod subscription = AggregateInvokersCache.GetStateOnMethod(root.State.GetType(), evnt.GetType());
             subscription?.Invoker(root.State, evnt);

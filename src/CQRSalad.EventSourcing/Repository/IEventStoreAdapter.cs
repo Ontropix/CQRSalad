@@ -6,9 +6,9 @@ namespace CQRSalad.EventSourcing
     public interface IEventStoreAdapter
     {
         /// <summary>
-        /// 
+        /// Gets first event position in the stream
         /// </summary>
-        Task CreateStreamAsync(string streamId, EventStreamMetadata meta);
+        int FirstEventIndex { get; }
 
         /// <summary>
         /// Gets the stream
@@ -16,23 +16,13 @@ namespace CQRSalad.EventSourcing
         Task<EventStream> GetStreamAsync(string streamId);
 
         /// <summary>
-        /// Gets the stream part
+        /// Gets the stream slice
         /// </summary>
-        Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1); //todo skip-take?
+        Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1);
 
         /// <summary>
         /// Append several events to the stream
         /// </summary>
-        Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Task MarkStreamAsEnded(string streamId);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        Task DeleteStreamAsync(string streamId);
+        Task AppendEventsAsync(string streamId, IEnumerable<object> events, int expectedVersion, bool isEndOfStream);
     }
 }
