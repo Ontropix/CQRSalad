@@ -34,7 +34,6 @@ namespace Samples.Tests
         public async Task TestMethod1()
         {
             string user1Id = Guid.NewGuid().ToString();
-            string todoList1Id = Guid.NewGuid().ToString();
             
             var eventStore = container.GetInstance<IEventStoreAdapter>();
 
@@ -42,7 +41,7 @@ namespace Samples.Tests
             await bus.CommandAsync(new CreateUser
             {
                 UserId = user1Id,
-                Email = "first@gmail.com",
+                Email = $"user_{user1Id}@gmail.com",
             }, "test");
 
             var result = await bus.QueryAsync(new UserProfileById
@@ -50,7 +49,8 @@ namespace Samples.Tests
                 UserId = user1Id
             }, "test");
 
-            
+
+            string todoList1Id = Guid.NewGuid().ToString();
             await bus.CommandAsync(new CreateTodoList
             {
                 ListId = todoList1Id,
@@ -58,37 +58,42 @@ namespace Samples.Tests
                 Title = "Supermarket"
             }, "test");
 
+
+            string todoListItem1Id = Guid.NewGuid().ToString();
             await bus.CommandAsync(new AddListItem
             {
                 ListId = todoList1Id,
-                ItemId = "1",
+                ItemId = todoListItem1Id,
                 Description = "Milk"
             }, "test");
 
+
+            string todoListItem2Id = Guid.NewGuid().ToString();
             await bus.CommandAsync(new AddListItem
             {
                 ListId = todoList1Id,
-                ItemId = "2",
+                ItemId = todoListItem2Id,
                 Description = "Meat"
             }, "test");
 
             await bus.CommandAsync(new RemoveListItem
             {
                 ListId = todoList1Id,
-                ItemId = "2"
+                ItemId = todoListItem2Id
             }, "test");
 
+            string todoListItem3Id = Guid.NewGuid().ToString();
             await bus.CommandAsync(new AddListItem
             {
                 ListId = todoList1Id,
-                ItemId = "3",
+                ItemId = todoListItem3Id,
                 Description = "Bread"
             }, "test");
 
             await bus.CommandAsync(new CompleteListItem
             {
                 ListId = todoList1Id,
-                ItemId = "3"
+                ItemId = todoListItem3Id
             }, "test");
 
             await bus.CommandAsync(new DeleteTodoList
