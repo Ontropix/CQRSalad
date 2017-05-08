@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace CQRSalad.EventSourcing
 {
+    //todo validate snapshot <--> event stream 
     public class ShapshotAggregateRepository<TAggregate> : AggregateRepository<TAggregate>
         where TAggregate : class, IAggregateRoot, new()
     {
@@ -36,7 +37,11 @@ namespace CQRSalad.EventSourcing
             aggregate.Restore(snapshot);
             
             var stream = await _eventStore.GetStreamAsync(aggregateId, snapshot.Version + 1); //todo
-            aggregate.Restore(stream);
+
+            aggregate.Version = stream.Version;
+            aggregate.Reel(stream.Events);
+            aggregate.SetStatus(_eventStore.FirstEventIndex, stream.IsClosed);
+
             return aggregate;
         }
 

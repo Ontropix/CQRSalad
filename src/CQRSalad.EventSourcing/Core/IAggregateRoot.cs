@@ -2,7 +2,7 @@
 
 namespace CQRSalad.EventSourcing
 {
-    public enum AggregateStatus
+    public enum RootStatus
     {
         New = 0,
         Alive = 3,
@@ -15,7 +15,7 @@ namespace CQRSalad.EventSourcing
 
         int Version { get; set; }
 
-        AggregateStatus Status { get; set; }
+        RootStatus Status { get; set; }
 
         List<IEvent> Changes { get; }
 

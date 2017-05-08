@@ -10,9 +10,7 @@ namespace CQRSalad.Infrastructure
     public class InMemoryEventStore : IEventStoreAdapter
     {
         private readonly ConcurrentDictionary<string, EventStream> _streams = new ConcurrentDictionary<string, EventStream>();
-
-        public int FirstEventIndex => 1;
-
+        
         public async Task<EventStream> GetStreamAsync(string streamId)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
@@ -21,31 +19,28 @@ namespace CQRSalad.Infrastructure
             return await Task.FromResult(stream);
         }
 
-        public async Task CreateStreamAsync(string streamId, EventStreamMetadata meta)
-        {
-            var stream = _streams.TryAdd(streamId, GetEmptyStream(streamId));
-            await Task.FromResult(stream);
-        }
+        public int FirstEventIndex => 1;
 
         public async Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
             Argument.NotNegative(fromVersion, nameof(fromVersion));
 
-            EventStream stream;
-            bool isStreamExists = _streams.TryGetValue(streamId, out stream);
-            if (!isStreamExists || stream == null)
-            {
-                return null;
-            }
+            var stream = _streams.GetOrAdd(streamId, GetEmptyStream);
 
-            int takeCount = toVersion > 0 ? toVersion : stream.Events.Count();
-            List<IEvent> part = stream.Events.Skip(fromVersion - 1).Take(takeCount).ToList();
-            stream.Events = part;
-            return await Task.FromResult(stream);
+            int takeCount = toVersion >= FirstEventIndex ? toVersion : stream.Events.Count();
+            var slice = stream.Events.Skip(fromVersion - FirstEventIndex).Take(takeCount).ToList();
+            
+            return await Task.FromResult(new EventStream
+            {
+                StreamId = streamId,
+                Version = stream.Version,
+                Events = slice,
+                IsClosed = stream.IsClosed
+            });
         }
 
-        public async Task AppendEventsAsync(string streamId, IEnumerable<IEvent> events, int expectedVersion)
+        public async Task AppendEventsAsync(string streamId, IEnumerable<object> events, int expectedVersion, bool isEndOfStream)
         {
             Argument.IsNotNull(streamId, nameof(streamId));
             Argument.ElementsNotNull(events);
@@ -54,25 +49,8 @@ namespace CQRSalad.Infrastructure
 
             stream.Events.ToList().AddRange(events);
             stream.Version++;
+            stream.IsClosed = isEndOfStream;
 
-            await Task.CompletedTask;
-        }
-        
-        public async Task MarkStreamAsEnded(string streamId)
-        {
-            EventStream stream;
-            if (_streams.TryGetValue(streamId, out stream))
-            {
-                stream.RootStatus = AggregateStatus.Archived;
-            }
-
-            await Task.CompletedTask;
-        }
-
-        public async Task DeleteStreamAsync(string streamId)
-        {
-            EventStream stream;
-            _streams.TryRemove(streamId, out stream);
             await Task.CompletedTask;
         }
 
@@ -82,8 +60,8 @@ namespace CQRSalad.Infrastructure
             {
                 StreamId = key,
                 Version = 0,
-                Events = new List<IEvent>(),
-                RootStatus = AggregateStatus.New,
+                Events = new List<object>(),
+                IsClosed = false
             };
         }
     }

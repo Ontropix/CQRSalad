@@ -19,8 +19,15 @@ namespace CQRSalad.EventSourcing
             Argument.StringNotEmpty(aggregateId, nameof(aggregateId));
             
             EventStream stream = await _eventStore.GetStreamAsync(aggregateId);
-            var aggregate  = new TAggregate { Id = aggregateId };
-            aggregate.Restore(stream);
+
+            var aggregate = new TAggregate
+            {
+                Id = aggregateId,
+                Version = stream.Version
+            };
+            aggregate.Reel(stream.Events);
+            aggregate.SetStatus(_eventStore.FirstEventIndex, stream.IsClosed);
+
             return aggregate;
         }
 
@@ -32,7 +39,8 @@ namespace CQRSalad.EventSourcing
             await _eventStore.AppendEventsAsync(
                 aggregate.Id,
                 aggregate.Changes,
-                aggregate.Version
+                aggregate.Version,
+                aggregate.Status == RootStatus.Archived
             );
         }
     }

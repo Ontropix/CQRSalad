@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CQRSalad.EventSourcing
 {
@@ -8,8 +7,6 @@ namespace CQRSalad.EventSourcing
         public string StreamId { get; set; }
         public int Version { get; set; }
         public IEnumerable<object> Events { get; set; } = new List<object>();
-
-        public Type RootType { get; set; }
-        public AggregateStatus RootStatus { get; set; }
+        public bool IsClosed { get; set; }
     }
 }

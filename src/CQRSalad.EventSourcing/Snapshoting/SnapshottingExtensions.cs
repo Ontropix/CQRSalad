@@ -2,7 +2,7 @@ using System;
 
 namespace CQRSalad.EventSourcing
 {
-    internal static class IAggregateRootExtensions
+    internal static class SnapshottingExtensions
     {
         internal static AggregateSnapshot MakeSnapshot(this IAggregateRoot aggregate)
         {
