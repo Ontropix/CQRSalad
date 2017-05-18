@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -14,32 +13,12 @@ namespace CQRSalad.Dispatching
         private static readonly ConcurrentDictionary<Type, Func<object, object>> _gettersCache =
             new ConcurrentDictionary<Type, Func<object, object>>();
 
-        private const string ResultPropName = "Result";
-
-        private static Func<object, object> GetTaskResultFunc(this Type taskType)
-        {
-            return _gettersCache.GetOrAdd(taskType, type =>
-            {
-                PropertyInfo property = taskType.GetProperty(ResultPropName);
-                return property == null ? null : CompileValueGetter(property, type);
-            });
-        }
-
-        private static Func<object, object> CompileValueGetter(PropertyInfo propertyInfo, Type type)
-        {
-            var instance = Expression.Parameter(typeof(object), "instance");
-            var convertInstance = Expression.TypeAs(instance, type);
-            var property = Expression.Property(convertInstance, propertyInfo);
-            var convertProperty = Expression.TypeAs(property, typeof(object));
-            return Expression.Lambda<Func<object, object>>(convertProperty, instance).Compile();
-        }
-
         internal static Task Execute(this MessageInvoker invoker, DispatchingContext context)
         {
             var invocationResult = invoker(context.HandlerInstance, context.MessageInstance);
 
             var awaitableResult = invocationResult as Task;
-            if (awaitableResult == null) //if not task - just assign the result to context
+            if (awaitableResult == null)
             {
                 context.Result = invocationResult;
                 return Task.CompletedTask;
@@ -68,10 +47,33 @@ namespace CQRSalad.Dispatching
                     throw new InvalidOperationException("Unknown Task state");
                 }
 
-                var resultAccessor = GetTaskResultFunc(awaitableResult.GetType());
-                var taskResult = resultAccessor?.Invoke(awaitableResult);
-                context.Result = taskResult;
+                context.Result = task.GetResult();
             });
+        }
+
+        private static object GetResult(this Task task)
+        {
+            var resultResolver = TaskResultResolver(task.GetType());
+            var taskResult = resultResolver?.Invoke(task);
+            return taskResult;
+        }
+
+        private static Func<object, object> TaskResultResolver(this Type taskType)
+        {
+            return _gettersCache.GetOrAdd(taskType, type =>
+            {
+                PropertyInfo property = taskType.GetProperty("Result");
+                return property?.ValueGetterExpression(type).Compile();
+            });
+        }
+
+        private static Expression<Func<object, object>> ValueGetterExpression(this PropertyInfo propertyInfo, Type type)
+        {
+            var instance = Expression.Parameter(typeof(object), "instance");
+            var convertInstance = Expression.TypeAs(instance, type);
+            var property = Expression.Property(convertInstance, propertyInfo);
+            var convertProperty = Expression.TypeAs(property, typeof(object));
+            return Expression.Lambda<Func<object, object>>(convertProperty, instance);
         }
     }
 }

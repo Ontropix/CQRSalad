@@ -38,7 +38,7 @@
     <Compile Include="..\LinkedFiles\Argument.cs">
       <Link>LinkedFiles\Argument.cs</Link>
     </Compile>
-    <Compile Include="Subscriptions\DispatchingContextExtensions.cs" />
+    <Compile Include="Extensions\DispatchingContextExtensions.cs" />
     <Compile Include="Core\DispatchingContext.cs" />
     <Compile Include="Core\Dispatcher.cs" />
     <Compile Include="Core\DispatcherConfig.cs" />
@@ -51,8 +51,8 @@
     <Compile Include="Core\IContextInterceptor.cs" />
     <Compile Include="Priority\Priority.cs" />
     <Compile Include="Priority\DispatchingPriorityAttribute.cs" />
-    <Compile Include="Subscriptions\Subscription.cs" />
-    <Compile Include="Subscriptions\DispatcherServiceController.cs" />
+    <Compile Include="Core\Subscription.cs" />
+    <Compile Include="Core\DispatcherServiceController.cs" />
     <Compile Include="Core\DispatcherHandlerAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
