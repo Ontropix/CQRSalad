@@ -43,7 +43,15 @@ namespace CQRSalad.EventSourcing
                 aggregate.Status = RootStatus.Archived;
             }
         }
-        
+
+        internal static void Reel(this IAggregateRoot root, EventStream stream)
+        {
+            root.Id = stream.StreamId;
+            root.Version = stream.Version;
+            root.Reel(stream.Events);
+            root.SetStatus(_eventStore.FirstEventIndex, stream.IsClosed);
+        }
+
         internal static void SetStatus(this IAggregateRoot root, int streamStartIndex, bool isEnded)
         {
             if (root.Version >= streamStartIndex && !isEnded)

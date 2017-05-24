@@ -7,6 +7,5 @@ namespace CQRSalad.EventSourcing
         public string StreamId { get; set; }
         public int Version { get; set; }
         public IEnumerable<object> Events { get; set; } = new List<object>();
-        public bool IsClosed { get; set; }
     }
 }

@@ -36,12 +36,7 @@ namespace CQRSalad.EventSourcing
             Argument.IsNotNull(aggregate, nameof(aggregate));
             Argument.StringNotEmpty(aggregate.Id, nameof(aggregate.Id));
 
-            await _eventStore.AppendEventsAsync(
-                aggregate.Id,
-                aggregate.Changes,
-                aggregate.Version,
-                aggregate.Status == RootStatus.Archived
-            );
+            await _eventStore.AppendEventsAsync(aggregate.Id, aggregate.Changes, aggregate.Version);
         }
     }
 }
