@@ -52,7 +52,7 @@ namespace CQRSalad.EventSourcing
             root.SetStatus(_eventStore.FirstEventIndex, stream.IsClosed);
         }
 
-        internal static void SetStatus(this IAggregateRoot root, int streamStartIndex, bool isEnded)
+        internal static void SetStatus(this IAggregateRoot root, EventStream stream, bool isEnded)
         {
             if (root.Version >= streamStartIndex && !isEnded)
             {
