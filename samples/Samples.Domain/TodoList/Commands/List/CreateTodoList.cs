@@ -1,5 +1,4 @@
 ﻿using CQRSalad.EventSourcing;
-using CQRSalad.Infrastructure.Validation;
 using FluentValidation;
 
 namespace Samples.Domain.TodoList

@@ -24,8 +24,8 @@ namespace Samples.API.ServiceStack.Tests
             .Init();
         }
 
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
             appHost.Dispose();
         }
