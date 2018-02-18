@@ -33,7 +33,7 @@ namespace CQRSalad.Infrastructure
             
             return await Task.FromResult(new EventStream
             {
-                StreamId = streamId,
+                Id = streamId,
                 Version = stream.Version,
                 Events = slice,
                 IsClosed = stream.IsClosed
@@ -58,7 +58,7 @@ namespace CQRSalad.Infrastructure
         {
             return new EventStream
             {
-                StreamId = key,
+                Id = key,
                 Version = 0,
                 Events = new List<object>(),
                 IsClosed = false

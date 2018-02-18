@@ -10,7 +10,7 @@ namespace CQRSalad.EventSourcing
             var subscription = AggregateInvokersCache.GetWhenMethod(aggregate.GetType(), command.GetType());
             if (subscription == null)
             {
-                throw new InvalidOperationException("Aggregate can't handle command.");
+                throw new InvalidOperationException("Aggregate can't perform command.");
             }
 
             if (aggregate.Status == RootStatus.New && !subscription.IsConstructor)

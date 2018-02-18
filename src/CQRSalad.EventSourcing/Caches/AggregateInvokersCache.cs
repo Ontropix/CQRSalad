@@ -39,8 +39,8 @@ namespace CQRSalad.EventSourcing
                     return null;
                 }
 
-                var constructor = action.GetCustomAttribute<AggregateConstructorAttribute>(false);
-                var destructor = action.GetCustomAttribute<AggregateDestructorAttribute>(false);
+                var constructor = action.GetCustomAttribute<AggregateConstructorAttribute>(false); 
+                var destructor = action.GetCustomAttribute<AggregateDestructorAttribute>(false); //todo throw exception if both
 
                 if (constructor != null && destructor != null)
                 {

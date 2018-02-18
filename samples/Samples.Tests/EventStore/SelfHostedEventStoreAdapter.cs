@@ -54,12 +54,11 @@ namespace Samples.Tests.EventStore
                 var stream = await connection.ReadStreamEventsForwardAsync(streamId, fromVersion, toVersion == -1 ? StreamSliceSize : toVersion, false);
 
                 var meta = await connection.GetStreamMetadataAsync(streamId);
-                bool isStreamClosed;
-                meta.StreamMetadata.TryGetValue(IsStreamClosedKey, out isStreamClosed);
+                meta.StreamMetadata.TryGetValue(IsStreamClosedKey, out bool isStreamClosed);
                 
                 return new EventStream
                 {
-                    StreamId = streamId,
+                    Id = streamId,
                     Version = Convert.ToInt32(stream.LastEventNumber),
                     Events = stream.Events.Select(x => DeserializeEvent(x.Event)).ToList(),
                     IsClosed = isStreamClosed
@@ -75,7 +74,7 @@ namespace Samples.Tests.EventStore
                 
                 var eventData = events.Select(x =>
                     new EventData(
-                        eventId: Guid.NewGuid(),
+                        eventId: Guid.NewGuid(), //todo to method
                         type: x.GetType().AssemblyQualifiedName,
                         isJson: true,
                         data: SerializeEvent(x),
