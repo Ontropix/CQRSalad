@@ -19,7 +19,6 @@ namespace Samples.Tests.EventStore
         private readonly IPAddress _address;
         private readonly int _portNumber;
         private readonly ConnectionSettings _connectionSettings;
-        private const int StreamStartIndex = 0;
         private const int StreamSliceSize = 4096;
         private const string IsStreamClosedKey = "IsStreamClosed";
 
@@ -36,11 +35,11 @@ namespace Samples.Tests.EventStore
                 .Build();
         }
 
-        public int FirstEventIndex => StreamStartIndex;
+        public int FirstEventIndex => 0;
 
         public async Task<EventStream> GetStreamAsync(string streamId)
         {
-            return await GetStreamAsync(streamId, StreamStartIndex);
+            return await GetStreamAsync(streamId, FirstEventIndex);
         }
 
         public async Task<EventStream> GetStreamAsync(string streamId, int fromVersion, int toVersion = -1)
